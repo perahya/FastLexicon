@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+        <title>My Lexicon</title>
+
+        <!--<link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css" />
+        <link rel="stylesheet" href="./css_tst/jquery.mobile-1.3.0.css"/>-->
+        <link rel="stylesheet" href="./css_tst2/jquery.mobile-1.4.2.min.css"/>
+        <link rel="stylesheet" href="./css/mystyle.css"/>
+
+        <!--<script type="text/javascript" src="js/libs/jquery-1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/libs/jquery-1.8.3.js"></script>-->
+        <!--<script type="text/javascript" src="js/libs/jquery-1.11.0.min.js"></script>-->
+        <script type="text/javascript" src="js/libs/jquery-2.0.0.min.js"></script>
+        <script>
+            $(document).bind("mobileinit", function() {
+                $.mobile.defaultPageTransition = 'none';
+                $.mobile.defaultDialogTransition = 'none';
+                $.mobile.useFastClick = true;
+            });
+        </script>
+        <!--<script type="text/javascript" src="js/libs/jquery-mobile-1.0.1/jquery.mobile.min.js"></script>
+        <script type="text/javascript" src="js/libs/jquery.mobile-1.3.0.js"></script>-->
+        <script type="text/javascript" src="js/libs/jquery.mobile-1.4.2.min.js"></script>
+        <script type="text/javascript" src="rte/cordova.js"></script>        
+        <script type="text/javascript" src="js/hashtable.js"></script>
+        
+        <!--<script type="text/javascript" src="js/Blob.js"></script>
+        <script type="text/javascript" src="js/FileSaver.js"></script>-->
+        <!--<script src="node_modules/xlsx/jszip.js"></script>
+        <script src="node_modules/xlsx/xlsx.js"></script>-->
+                
+        <script type="text/javascript" src="js/all_hebrew_words.js"></script>
+        <script type="text/javascript" src="js/datamodel.js"></script>
+        <script type="text/javascript" src="js/lexiconstorage.js"></script>
+        <script type="text/javascript" src="js/wordslist.js"></script>
+        <script type="text/javascript" src="js/parse_myexcel.js"></script>
+        <script type="text/javascript" src="js/myengine.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>        
+    </head> 
+    <body> 
+        <div data-dom-cache="false" data-role="page" id="index" >
+            <div data-role="header" data-theme="d">
+
+                <h1>My Lexicon</h1>
+            </div>
+            <div data-role="content"  style="padding:0.5em;">
+                <ul data-role="listview" data-divider-theme="d" data-inset="true">
+                    <li data-theme="d">
+                        <a href="#mywords">
+                            Administration
+                        </a>
+                    </li>
+                    <li data-theme="d">
+                        <a href="#testme">
+                            Training
+                        </a>
+                    </li>                    
+                    <!--<li data-theme="d">
+                        <a href="#check_from_all_hebrew_words">
+                            Dictionary Revision
+                        </a>
+                    </li>-->
+                    <li data-theme="d">
+                        <a href="#mysearch">
+                            Search in dictionary
+                        </a>
+                    </li>                                        
+                    <!--<li data-theme="d">
+                        <a href="#excelsheet">
+                            Load Words List
+                        </a>
+                    </li>-->
+                    <li data-theme="c">
+                        <a href="#about">
+                            About
+                        </a>
+                    </li>
+                </ul>
+
+
+            </div>
+            <div data-role="footer" data-theme="d" data-position="fixed">     
+                <div style="padding:0px 10px;">  
+                <div data-role="popup" id="exportPopup" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+			<div style="padding:10px 20px;">
+                            <pre id="out_export"></pre>
+			</div>                    
+                </div>    
+                <!--<input id="mainsearchfield" type="search" name="search-mini" value="" data-mini="true" />-->
+                <!--<label for="select-choice-share">Share</label>-->
+                   <!-- <select name="select-choice-share" id="select-choice-share" data-icon="forward" data-mini="true" data-iconpos="left" onchange="handleSocialShare()">
+                        <option value="no">Share it</option>
+                        <!--<option value="facebook">Post this on Facebook</option>
+                        <option value="twitter">Tweet this</option>-->
+               <!--         <option value="email">Email this</option>
+                    </select> -->
+               
+              <!--<a href="#" onclick="save(this, 'test.txt', 'Hello World!');">download</a>-->
+              <!--<a data-role="button" href="#" data-icon="save" data-iconpos="left" onclick="save(this, 'test.txt', 'Hello World!');">Export</a>-->
+                <!--<form id="exportform">		
+		<input type="submit" value="Export"/>
+                </form>-->
+
+                <!-- <a href="data:application/csv;charset=utf-8,Col1%2CCol2%2CCol3%0AVal1%2CVal2%2CVal3%0AVal11%2CVal22%2CVal33%0AVal111%2CVal222%2CVal333" download="somedata.csv">Example</a> -->
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- My Words Page -->
+        <div data-dom-cache="false" data-role="page" id="mywords">
+            <div data-role="header" data-theme="d">
+                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
+                   class="ui-btn-right">
+                    Home
+                </a>
+                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
+                   data-iconpos="left" class="ui-btn-left">
+                    Back
+                </a>
+                <h1 id="header">Administration</h1>
+            </div>
+            <div data-role="content" id="wordsResultsList">                
+                <!-- popup add word -->
+                <div data-role="popup" id="popupAddWord" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+                    <form action="#mywords">
+			<div style="padding:10px 20px;">
+                            <h3>Please enter the new word information</h3>
+                            <label for="referenceId" class="ui-hidden-accessible">Reference:</label>
+                            <input type="text" name="reference" id="referenceId" value="" placeholder="Reference" data-theme="d" />
+
+                            <label for="translationId" class="ui-hidden-accessible">Translation:</label>
+                            <input type="text" name="translation" id="translationId" value="" placeholder="Translation" data-theme="d" />
+                            
+                            <label for="pronunciationId" class="ui-hidden-accessible">Pronunciation:</label>
+                            <input type="text" name="pronunciation" id="pronunciationId" value="" placeholder="Pronunciation" data-theme="d" />
+                            
+                            <!--<button data-theme="d" data-rel="back" onclick="addWord($('#referenceId').val(),$('#translationId').val(),$('#pronunciationId').val());">Save</button>-->
+                            <a href="#" data-rel="back" data-icon="check" data-theme="d" data-role="button" onclick="addWord($('#referenceId').val(),$('#translationId').val(),$('#pronunciationId').val());">Save</a>
+			</div>
+                    </form>
+                </div>
+                
+                <!-- popup edit word -->
+                <div data-role="popup" id="popupEditWord" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+                    <form action="#mywords">
+			<div style="padding:10px 20px;">
+                            <h3>Edit Word Information</h3>
+                            <label for="modifiedReferenceId" class="ui-hidden-accessible">Reference:</label>
+                            <input type="text" name="reference" id="modifiedReferenceId" value="" placeholder="Reference" data-theme="d" />
+
+                            <label for="modifiedTranslationId" class="ui-hidden-accessible">Translation:</label>
+                            <input type="text" name="translation" id="modifiedTranslationId" value="" placeholder="Translation" data-theme="d" />
+                            
+                            <label for="modifiedPronunciationId" class="ui-hidden-accessible">Pronunciation:</label>
+                            <input type="text" name="pronunciation" id="modifiedPronunciationId" value="" placeholder="Pronunciation" data-theme="d" />
+                            <input type="hidden" name="existingReference" id="existingReferenceId" value=""/>
+                                                        
+                            <a href="#" data-rel="back" data-icon="check" data-theme="d" data-role="button" onclick="editWord($('#existingReferenceId').val(),$('#modifiedReferenceId').val(),$('#modifiedTranslationId').val(),$('#modifiedPronunciationId').val());">Save</a>
+			</div>
+                    </form>
+                </div>
+                
+                <!-- popup message -->
+                <div data-role="popup" id="popupAdministrationDisplayMessage" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+			<div style="padding:10px 20px;">
+                            <pre id="out_administration"></pre>
+			</div>                    
+                </div>
+                
+                <div id="nbWordsDiv"><h4>Computing words list...</h4></div>
+                <ul id="wordslist" style="padding:0px 16px;" data-role="listview" class="ui-listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search words...">
+                </ul>
+            </div>              
+            <!--<div data-role="footer" data-theme="a" data-position="fixed" >       
+                <a href="#popupAddWord" style="padding:10px 20px;" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Add Word</a>
+            </div>-->
+            <div data-role="footer" data-theme="a" class="ui-bar" data-position="fixed">
+                <a href="#popupAddWord" data-role="button" data-icon="plus" data-rel="popup" data-position-to="window" data-inline="true" class="mybuttonadd_ref">Add Word</a>
+            </div>
+        </div>                
+
+        <!-- Revision Page -->
+        <div data-dom-cache="false" data-role="page" id="testme">
+            <div data-role="header" data-theme="d">
+                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
+                   class="ui-btn-right">
+                    Home
+                </a>
+                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
+                   data-iconpos="left" class="ui-btn-left">
+                    Back
+                </a>
+                <h1 id="header">Training</h1>
+            </div>
+            <div data-role="content" id="assessmentContent">
+                <!-- popup display statistics -->
+                <div data-role="popup" id="popupDisplayMyLexiconStatistics" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>                    
+			<div style="padding:10px 20px;">
+                            <h3>Knowledge Statistics</h3>
+                            <pre id="out_stats_mylexicon"></pre>
+			</div>                    
+                </div>
+                
+                <p>You can check your knowledge on this words selection. They have been selected based on your knowledge and their last access date.</p>
+                <br>
+                <ul id="assessmentWordsList" style="padding:0px 16px;" data-role="listview" class="ui-listview">
+                </ul>
+            </div>
+            <!--<div data-role="footer" data-theme="a" data-position="fixed" >       
+                <a href="index.html" style="padding:10px 20px;" data-position-to="window" data-role="button" data-icon="check" data-iconpos="left"
+                   class="ui-btn-left">End Quiz</a>                
+            </div>-->
+            <div data-role="footer" data-theme="a" class="ui-bar" data-position="fixed">
+                <!--<a href="index.html" data-role="button" data-icon="check">End Quiz</a>-->
+                <a href="#popupDisplayMyLexiconStatistics" data-role="button" data-icon="check" data-rel="popup" data-position-to="window" data-inline="true" class="mybutton_display_mylexicon_stats">Statistics</a>
+            </div>
+        </div>
+        
+        <!-- check my knowledge using words from the global hebrew word list -->
+        <!--<div data-dom-cache="false" data-role="page" id="check_from_all_hebrew_words">
+            <div data-role="header" data-theme="d">
+                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
+                   class="ui-btn-right">
+                    Home
+                </a>
+                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
+                   data-iconpos="left" class="ui-btn-left">
+                    Back
+                </a>
+                <h1 id="header">Dictionary Revision</h1>
+            </div>
+            <div data-role="content" id="globalCheckContent">                
+                <div data-role="popup" id="popupDisplayStatistics" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>                    
+			<div style="padding:10px 20px;">
+                            <h3>Knowledge Statistics</h3>
+                            <pre id="out_stats"></pre>
+			</div>                    
+                </div>
+                
+                <p>You can check your knowledge on this words selection. They have been selected from a global list of 10 000 words. They have been selected based on your knowledge, their rank, and their last access date.</p>
+                <br>
+                <ul id="globalCheckWordsList" style="padding:0px 16px;" data-role="listview" class="ui-listview">
+                </ul>
+            </div>            
+            <div data-role="footer" data-theme="a" class="ui-bar" data-position="fixed">
+                <a href="#popupDisplayStatistics" data-role="button" data-icon="check" data-rel="popup" data-position-to="window" data-inline="true" class="mybutton_display_stats">Statistics</a>
+            </div>
+        </div>-->
+        
+        <!-- excel sheet Page -->
+        <!--<div data-dom-cache="false" data-role="page" id="excelsheet">
+            <div data-role="header" data-theme="d">
+                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
+                   class="ui-btn-right">
+                    Home
+                </a>
+                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
+                   data-iconpos="left" class="ui-btn-left">
+                    Back
+                </a>
+                <h1 id="header">Feed Words List</h1>
+            </div>
+            <div data-role="content" id="assessmentContent">                                
+                <p>You can paste your words list from excel and feed your lexicon.</p>
+                <br>                
+                <span class="ui-btn fileinput-button">
+                    <input id="uploadInput" type="file" name="excel-file" data-role="none"/>
+                </span>        
+                <p><input type="button" value="Load in database" onclick="readSelectedFile();"/></p>
+                <pre id="out"></pre>
+            </div>
+        </div>-->
+        
+        
+        <!-- Search Page -->
+        <div data-dom-cache="false" data-role="page" id="mysearch">
+            <div data-role="header" data-theme="d">
+                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
+                   class="ui-btn-right">
+                    Home
+                </a>
+                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
+                   data-iconpos="left" class="ui-btn-left">
+                    Back
+                </a>
+                <h1 id="header">Search Words</h1>
+            </div>
+            <div data-role="content" id="searchWordsResultsList">     
+                <!-- popup edit word -->
+                <!--<div data-role="popup" id="popupEditWord" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+                    <form action="#mysearch">
+			<div style="padding:10px 20px;">
+                            <h3>Edit Word Information</h3>
+                            <label for="modifiedReferenceId" class="ui-hidden-accessible">Reference:</label>
+                            <input type="text" name="reference" id="modifiedReferenceId" value="" placeholder="Reference" data-theme="d" />
+
+                            <label for="modifiedTranslationId" class="ui-hidden-accessible">Translation:</label>
+                            <input type="text" name="translation" id="modifiedTranslationId" value="" placeholder="Translation" data-theme="d" />
+                            
+                            <label for="modifiedPronunciationId" class="ui-hidden-accessible">Pronunciation:</label>
+                            <input type="text" name="pronunciation" id="modifiedPronunciationId" value="" placeholder="Pronunciation" data-theme="d" />
+                            <input type="hidden" name="existingReference" id="existingReferenceId" value=""/>
+                                                        
+                            <a href="#" data-rel="back" data-icon="check" data-theme="d" data-role="button" onclick="editWord($('#existingReferenceId').val(),$('#modifiedReferenceId').val(),$('#modifiedTranslationId').val(),$('#modifiedPronunciationId').val());">Save</a>
+			</div>
+                    </form>
+                </div>-->
+                <!-- popup message -->
+                <div data-role="popup" id="popupDictionaryDisplayMessage" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+			<div style="padding:10px 20px;">
+                            <pre id="out_dictionary"></pre>
+			</div>                    
+                </div>
+                <input id="mysearchfield" type="search" value="" />
+                <br>
+                <ul id="searchwordslist" style="padding:0px 16px;" data-role="listview" class="ui-listview" data-filter="false" data-filter-reveal="true" data-filter-placeholder="Search words...">
+                </ul>
+            </div>                      
+            <div data-role="footer" data-theme="a" class="ui-bar" data-position="fixed">                
+            </div>
+        </div>
+      
+      
+        <div data-dom-cache="false" data-role="page" id="about">
+            <div data-role="header" data-theme="d">
+                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
+                   class="ui-btn-right">
+                    Home
+                </a>
+                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
+                   data-iconpos="left" class="ui-btn-left">
+                    Back
+                </a>
+                <h1 >About</h1></div>
+            <div data-role="content" id="aboutContent">
+                Personal lexicon
+            </div>             
+        </div>                
+        <!--<script type="application/ecmascript" src="js/myexport.js"></script>-->        
+    </body>
+</html>

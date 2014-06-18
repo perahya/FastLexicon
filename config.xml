@@ -6,6 +6,7 @@
     <access origin="*"/>
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
     <content src="index.html"/>
     <gap:plugin name="org.apache.cordova.file" version="1.0.1" />    
 </widget>

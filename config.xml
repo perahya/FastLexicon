@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.bpa.FastLexicon" version="0.1.0">
+    <name>FastLexicon</name>
+    <description>Personal lexicon helping to learn quickly hebrew words.</description>
+    <author email="perahya@hotmail.com" href="">BPA</author>
+    <access origin="*"/>
+    <preference name="fullscreen" value="true"/>
+    <preference name="webviewbounce" value="true"/>
+    <content src="index.html"/>
+    <plugin name="File" value="org.apache.cordova.FileUtils" />
+    <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer" />    
+</widget>

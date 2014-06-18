@@ -7,6 +7,5 @@
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>
     <content src="index.html"/>
-    <plugin name="File" value="org.apache.cordova.FileUtils" />
-    <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer" />    
+    <gap:plugin name="org.apache.cordova.file" version="1.0.1" />    
 </widget>

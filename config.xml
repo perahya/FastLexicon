@@ -8,5 +8,6 @@
     <preference name="webviewbounce" value="true"/>
     <preference name="AndroidPersistentFileLocation" value="Internal"/>
     <content src="index.html"/>
-    <plugin name="org.apache.cordova.file" version="1.0.1"/>    
+    <plugin name="File" value="org.apache.cordova.FileUtils" />
+    <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer" />   
 </widget>

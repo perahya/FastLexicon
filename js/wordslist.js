@@ -614,7 +614,7 @@ function editWord(existingReference, modifiedReference, modifiedTranslation, mod
                     }
                 }
                 buttonKnown.setAttribute('ref', w.getReferenceValue());
-                var t = document.createTextNode("I know it!");
+                var t = document.createTextNode("I knew it!");
                 buttonKnown.appendChild(t);
                                 
                 var buttonUnknown = document.createElement("button");                

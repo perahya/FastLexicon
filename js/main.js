@@ -5,34 +5,6 @@ $(document).ready(function() {
     onDeviceReady();
 });
 
-/*this.mywords = function() {        
-        $("#wordsResultsList").html("");
-        
-        var words = window.myEngine._lexicon.getWords();
-        var htmlStr = "<div id=\"nbWordsDiv\"><h4>There are " + words.length + " words in my lexicon.</h4></div>\n";
-        
-        htmlStr += "<p>List of words I am currently learning.\n";
-        htmlStr += "<input type=\"button\" value=\"Switch Langages\" onclick=\"switchLangages();\"/></p>\n";
-        
-        htmlStr += "<ul id=\"wordslist\" data-role=\"listview\" class=\"ui-listview-outer\" data-filter=\"true\" data-filter-reveal=\"true\" data-filter-placeholder=\"Search words...\">\n";
-        for (var i = 0, c = words.length; i < c; i++) {            
-            htmlStr += renderWordStr(words[i], false);
-        }       
-        htmlStr += "</ul>\n";
-        
-        $("#wordsResultsList").append(htmlStr);
-        
-        var wordListJQObj = $("#mywords");                    
-        
-        //wordListJQObj.trigger('refresh');
-        
-        if (wordListJQObj.hasClass('ui-listview')) {
-            wordListJQObj.listview('refresh');
-        } else {
-            wordListJQObj.trigger('create');                        
-        }
-        //$('#mywords').trigger('create');
-    };*/
 
 function onDeviceReady() {
 

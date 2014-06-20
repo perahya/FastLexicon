@@ -31,23 +31,21 @@ function onDeviceReady() {
     
     window.myEngine = new MainEngine();
     window.myEngine.init(function() {
-        console.log('My Engine Init 1 Ended');
-       
+        
+        // administration page listing all the words contained into the lexicon
         var wordspage = $("#mywords");       
         wordspage.on('pagebeforeshow', function() {
             if (_wordsInited == false)
                 {
-                    //wordListRetrieved(window.myEngine._lexicon.getOrderedWords());
-                    displayWordsList(window.myEngine._lexicon.getOrderedWords());
+                    displayWordsList(window.myEngine.getMyLexicon().getOrderedWords());
                     _wordsInited = true;
                 }
             
         });
-        
-               
-        //testpage.on('pageshow', function() {        
+           
+        // revision page
         $("#testme").on('pagebeforeshow', function() {
-            myWordsRevision(window.myEngine._lexicon.getExamWordsList(-1, 40));                                       
+            myWordsRevision(window.myEngine.getMyLexicon().getExamWordsList(-1, 40));                                       
         });    
         
         $("#mysearch").on('pagebeforeshow', function() {
@@ -68,33 +66,7 @@ function onDeviceReady() {
                     }
                 }               
             });        
-        });
-        
-        
-        
-        
-        $('#mainsearchfield').keyup(function(event) {
-            var searchStr = $('#mainsearchfield').val();
-            console.log('KEYUP: ' + searchStr);
-            
-            _searchResult = window.myEngine._all_hebrew_words_lexicon.searchWords(searchStr);
-            
-            if (_searchResult != null && typeof(_searchResult) != 'undefined' && _searchResult.length > 0){                
-                /*for (var i = 0, c = searchResult.length; i < c; i++) {  
-                    var w = searchResult[i];
-                    console.log(w._translation);
-                }*/                
-               // $("#mywords").show();
-                //displayWordsList(searchResult);
-            }
-        });
-    }, 
-    function() {
-        console.log('My Engine Init 2 Ended');              
-        
-        $("#check_from_all_hebrew_words").on('pagebeforeshow', function() {            
-            checkKnowledgeFromHugeDictionnary(window.myEngine._all_hebrew_words_lexicon.getExamWordsList(-1, 40));                                       
-        });                       
+        });                                        
     });              
 }
 

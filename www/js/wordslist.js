@@ -3,8 +3,8 @@ months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jull
 var _wordsInited = false;           
 
 var setAnswerByRef= function(word_reference, isCorrect, isReference){
-    window.myEngine._lexicon.updateWordKnowledgeByReference(word_reference, isCorrect, isReference);
-    window.myEngine._localStorageEngine.saveLexicon(window.myEngine._lexicon, function(){                    
+    window.myEngine.getMyLexicon().updateWordKnowledgeByReference(word_reference, isCorrect, isReference);
+    window.myEngine._localStorageEngine.saveLexicon(window.myEngine.getMyLexicon(), function(){                    
         console.log('Lexicon saved');
     });
 };    
@@ -15,55 +15,7 @@ var setAnswerByRefToGlobalLexicon= function(word_reference, isCorrect, isReferen
         console.log('Lexicon saved');
     });
 };     
-
             
-/*var wordListRetrieved = function(words){                
-    console.log('wordListRetrieved - nb words:' + words.length);
-                
-    var divNbWordsDom = document.getElementById("nbWordsDiv");    
-    divNbWordsDom.innerHTML = "<h4>There are " + words.length + " words in my lexicon.</h4>";
-                                
-    var wordListDom = document.getElementById("wordslist");    
-    var wordListJQObj = $("#wordslist");
-    wordListJQObj.empty();
-    wordListDom.innerHTML = '';
-                
-     var frag = document.createDocumentFragment();            
-    for (var i = 0, c = words.length; i < c; i++) {    
-    	renderWord(frag, words[i], refFirst);                       
-        //renderWord(wordListDom, words[i], refFirst);        
-    }
-    wordListDom.appendChild(frag);
-    wordListJQObj.trigger('create');
-    
-    //$('.mybuttonknown_ref').on('touchend', function () { 
-    $('.mybuttonknown_ref').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, true, true);
-        });
-    
-        $('.mybuttonunknown_ref').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, false, true); 
-        });
-    
-        $('.mybuttonknown_tra').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, true, false);
-        });
-    
-        $('.mybuttonunknown_tra').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, false, false); 
-        });
-        
-        $('.mybuttonunknown_tra').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, false, false); 
-        });
-                                        
-};*/            
-
 var displayWordsList = function(words){                
     var divNbWordsDom = document.getElementById("nbWordsDiv");    
     divNbWordsDom.innerHTML = "<h4>There are " + words.length + " words in my lexicon.</h4>";
@@ -86,7 +38,7 @@ var displayWordsList = function(words){
     $('.mybuttonedit_ref').on('click', function () { 
             var ref = $(this).attr('ref'); 
             
-            var wordToEdit = window.myEngine._lexicon.getWord(ref);
+            var wordToEdit = window.myEngine.getMyLexicon().getWord(ref);
             if (wordToEdit != null && typeof(wordToEdit) != 'undefined')
             {
                 $('#existingReferenceId').val(wordToEdit.getReferenceValue());
@@ -147,56 +99,6 @@ var displaySearchWordsList = function(words){
         });
 };   
 
-/*var displayAssessment = function(words){                
-    console.log('display assessment - nb words:' + words.length);
-                                                
-    //var assessmentWordsListDom = document.getElementById("assessmentWordsList");
-    var assessmentWordsListJQObj = $("#assessmentWordsList");
-    assessmentWordsListJQObj.empty();    
-    //assessmentWordsListDom.innerHTML = '';
-                
-    var frag = document.createDocumentFragment();            
-    for (var i = 0, c = words.length; i < c; i++) {
-        var w = words[i];
-        var assessReference = !w.isReferenceBetterKnown();
-    	renderWord(frag, w, assessReference);                           
-    }
-    //assessmentWordsListDom.appendChild(frag);
-    //assessmentWordsListJQObj.trigger('create'); 
-    assessmentWordsListJQObj.append(frag);    
-    assessmentWordsListJQObj.trigger('create');
-    assessmentWordsListJQObj.listview('refresh');
-    
-    //$('.mybuttonknown_ref').on('touchend', function () { 
-    $('.mybuttonknown_ref').on('click', function () { 
-            var ref = $(this).attr('ref');             
-            setAnswerByRef(ref, true, true);
-            var parent = $(this).parent().parent().parent();
-            parent.addClass("ui-screen-hidden");
-        });
-            
-        $('.mybuttonunknown_ref').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, false, true); 
-            var parent = $(this).parent().parent().parent();
-            parent.addClass("ui-screen-hidden");
-        });
-    
-        $('.mybuttonknown_tra').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, true, false);
-            var parent = $(this).parent().parent().parent();
-            parent.addClass("ui-screen-hidden");
-        });
-    
-        $('.mybuttonunknown_tra').on('click', function () { 
-            var ref = $(this).attr('ref'); 
-            setAnswerByRef(ref, false, false); 
-            var parent = $(this).parent().parent().parent();
-            parent.addClass("ui-screen-hidden");
-        });                               
-};*/
-
 
 var displayWordListForRevision = function(wordsListJQObj, words, isFromMyPersonalLexicon){                
     console.log('display assessment - nb words:' + words.length);
@@ -249,7 +151,7 @@ var myWordsRevision = function(words){
         
         $('.mybutton_display_mylexicon_stats').on('click', function () { 
             
-            var words = window.myEngine._lexicon.getWords();
+            var words = window.myEngine.getMyLexicon().getWords();
             var nbAnsweredWords = 0;
             var nbRefAnswered = 0;
             var globalRefKnowledge = 0;
@@ -425,11 +327,11 @@ function addWord(reference, translation, pronunciation){
         pronunciation = '';
     }
     
-    var rank = window.myEngine._lexicon.getNbWords() + 1;
+    var rank = window.myEngine.getMyLexicon().getNbWords() + 1;
     var wordObj = new Word(reference,translation,pronunciation,-1,-1,rank,false);
     
-    window.myEngine._lexicon.addWord(wordObj);
-    window.myEngine._localStorageEngine.saveLexicon(window.myEngine._lexicon, 
+    window.myEngine.getMyLexicon().addWord(wordObj);
+    window.myEngine._localStorageEngine.saveLexicon(window.myEngine.getMyLexicon(), 
         function(){                    
             console.log('Lexicon saved');
             var wordListJQObj = $("#wordslist");
@@ -438,7 +340,7 @@ function addWord(reference, translation, pronunciation){
             renderWordForAdministration(frag, wordObj, refFirst, true);                               
             //wordListDom.appendChild(frag);
             var divNbWordsDom = document.getElementById("nbWordsDiv");
-            divNbWordsDom.innerHTML = "<h4>There are " + window.myEngine._lexicon.getWords().length + " words in my lexicon.</h4>";            
+            divNbWordsDom.innerHTML = "<h4>There are " + window.myEngine.getMyLexicon().getWords().length + " words in my lexicon.</h4>";            
             
             wordListJQObj.append(frag);
             wordListJQObj.trigger('create');
@@ -464,11 +366,11 @@ function addWordFromDictionary(reference, translation, pronunciation){
         pronunciation = '';
     }
     
-    var rank = window.myEngine._lexicon.getNbWords() + 1;
+    var rank = window.myEngine.getMyLexicon().getNbWords() + 1;
     var wordObj = new Word(reference,translation,pronunciation,-1,-1,rank,true);
     
-    window.myEngine._lexicon.addWord(wordObj);
-    window.myEngine._localStorageEngine.saveLexicon(window.myEngine._lexicon, 
+    window.myEngine.getMyLexicon().addWord(wordObj);
+    window.myEngine._localStorageEngine.saveLexicon(window.myEngine.getMyLexicon(), 
         function(){                    
             console.log('Lexicon saved');
             _wordsInited = false;
@@ -496,7 +398,7 @@ function editWord(existingReference, modifiedReference, modifiedTranslation, mod
     }
    
     var modifiedWord = new Word(modifiedReference,modifiedTranslation,modifiedPronunciation,-1,-1);
-    var wordEdited = window.myEngine._lexicon.editWord(existingReference,modifiedWord);
+    var wordEdited = window.myEngine.getMyLexicon().editWord(existingReference,modifiedWord);
     if (wordEdited){
         // we remove the existing list item
         var liIdentifier = '#li_' + existingReference;
@@ -519,7 +421,7 @@ function editWord(existingReference, modifiedReference, modifiedTranslation, mod
         wordListJQObj.trigger('create');
         wordListJQObj.listview('refresh');
         
-        window.myEngine._localStorageEngine.saveLexicon(window.myEngine._lexicon, 
+        window.myEngine._localStorageEngine.saveLexicon(window.myEngine.getMyLexicon(), 
             function(){                    
                 console.log('Word modified and lexicon saved');
                 var html = 'Word saved in my lexicon';            
@@ -727,148 +629,5 @@ function renderWordForAdministration(wordListDom, w, isFromDico) {
     wordListDom.appendChild(li);
 };
 
-
-/*function renderWordForAdministration(wordListDom, w) {
-    var li = document.createElement("li");
-    li.setAttribute("data-icon", "info");            
-    
-    var lastUpdateDate = w.getLastUpdateDate();
-                year = lastUpdateDate.getFullYear();
-                month = lastUpdateDate.getMonth();
-                
-                d = lastUpdateDate.getDate();                                
-                h = lastUpdateDate.getHours();
-                if(h<10)
-                {
-                    h = "0"+h;
-                }
-                m = lastUpdateDate.getMinutes();
-                if(m<10)
-                {
-                    m = "0"+m;
-                }
-                s = lastUpdateDate.getSeconds();
-                if(s<10)
-                {
-                    s = "0"+s;
-                }
-                result = ''+months[month]+' '+d+' '+year+' '+h+':'+m+':'+s;
-                
-    var div = document.createElement("div");
-    div.innerHTML = "<h4>" + w._reference + " - K: " + ((w.getBestKnowledgeValue()+w.getWorseKnowledgeValue())/2) + " - " + result + "</h4>";
-    li.appendChild(div);
-    
-    /*var ref = document.createElement("a");
-    ref.setAttribute("href", "#popupAddWord");
-    ref.setAttribute("data-rel", "popup");
-    ref.innerHTML = w._reference;
-    li.appendChild(ref);*/
- /*   
-    wordListDom.appendChild(li);
-};*/    
-    
-/*function renderWordStr(w, refFirst) {
-	
-        var htmlStr = "<li data-role=\"list-divider\" role=\"heading\" data-iconpos=\"right\" data-shadow=\"false\" data-corners=\"false\" data-inset=\"false\" data-theme=\"d\" data-divider-theme=\"d\">";
-	htmlStr += "<div data-role=\"collapsible\" data-theme=\"d\">";
-        
-        if (refFirst){
-            htmlStr += "<h4>" + w._reference + " - knowledge: " + ((w.getBestKnowledgeValue()+w.getWorseKnowledgeValue())/2) + " - timestamp: " + w.getLastUpdateDate() + "</h4>";                             
-        } 
-        else{    
-            htmlStr += "<h4>" + w._translation + " - knowledge: " + ((w.getBestKnowledgeValue()+w.getWorseKnowledgeValue())/2) + " - timestamp: " + w.getLastUpdateDate() + "</h4>";                    
-        }
-        htmlStr += "<div data-role=\"collapsible\" data-theme=\"d\">\n";
-        htmlStr += "<h4>" + w._translation + "</h4>\n<p>" + w._prononciation + "</p>\n";
-        htmlStr += "</div>\n";
-        
-        htmlStr += "<div data-theme=\"d\">\n";                    
-        htmlStr += "<input type=\"button\" data-theme=\"d\" value=\"I know it!\" onclick=\"setAnswer(w, true, refFirst);\"/>\n";        
-        htmlStr += "<input type=\"button\" data-theme=\"d\" value=\"I don't know this word :(\" onclick=\"setAnswer(w, false, refFirst);\"/>\n";
-        htmlStr += "</div>\n";        
-        htmlStr += "</div>\n";    
-        htmlStr += "</li>\n";
-        
-        return htmlStr;
-};*/
-
-function handleSocialShare()
-{
-    $('#select-choice-share option:selected').each(function()
-    {
-        //text = "Flash vs HTML5 Trendanalyse";
-        //url ="http://www.sebastianviereck.de/flash-html5-trendanalyse/#.ULTEkYb9n2A";
-        suject = 'backup my lexicon';
-        content = window.myEngine._lexicon.getJSONformat();
-        //content = 'hello';
-    
-        shareService = $(this).val();
-        switch (shareService) {
-            /*case "facebook":
-                shareFacebookLike(url);
-                break;
-            case "twitter":
-                shareTwitter(url, text);
-                break;*/
-            case "email":
-                shareEmail(suject, content);
-                break;
-            default:
-
-        }
-    });
-}
-
-function shareEmail(subject, body)
-{
-    body = encodeURI(body);    
-    window.location = "mailto:&subject=" + subject + "&body=" + body;
-}
-
-function save(a, filename, content) {
-    
-   /* $('#out_export').html('Exporting dictionary');   
-                var mypop = $( "#exportPopup" );
-                mypop.popup( "open" );*/
-                
-    
-    
-        /*contentType =  'data:application/octet-stream;';
-        uriContent = contentType + encodeURIComponent(content);
-        a.setAttribute('href', uriContent);
-        a.setAttribute('download', filename);*/
-        //content = 'col1,col2,col3\nval1,val2,val3';
-        //filename = "somedata.csv";
-        //filename = "test.txt";
-        //contentType =  'data:application/csv;charset=utf-8;';        
-        //contentType =  'data:application/octet-stream;';
-        /*contentType =  'text/plain;charset=utf-8';
-        uriContent = contentType + encodeURIComponent(content);
-        a.setAttribute('href', uriContent);
-        a.setAttribute('download', filename);*/
-    
-    //var content = window.myEngine._lexicon.getJSONformat();
-    //content = 'salut les amis';
-    //var content = 'col1,col2,col3\nval1,val2,val3';
-    /*
-    var blob = new Blob([content], {
-        //type: "data:application/octet-stream;"
-        type: "text/plain;charset=utf-8;"
-        //type: "data:application/csv;charset=utf-8;"
-    });
-    saveAs(blob, "thing.txt");
-    //saveAs(blob, "somedata.csv");*/
-    
-    //mypop.fadeOut(4000);
-    
-    
-/*    var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "hello_world.txt");*/
-    //window.plugin.email.open();
-    var body = window.myEngine._lexicon.getTxtFormat();
-    body = encodeURI(body);
-    var tst = "%5B%7B%22_ref%22:%22%D7%9C%D7%94%D7%A4%D7%92%D7%99%D7%9F%22,%22_tra%22:%22manifester%22,%22_pro%22:%22%22,%22_ref_kw_lev%22:-1,%22_tra_kw_lev%22:-1,%22_rank%22:1,%22_imp%22:false%7D,%7B%22_ref%22:%22%D7%91%D7%99%D7%99%D7%A0%D7%AA%D7%99%D7%9D%22,%22_tra%22:%22en%20attendant%22,%22_pro%22:%22%22,%22_ref_kw_lev%22:-1";
-    window.location = "mailto:?subject=test&body=" + body;
- }
       
       

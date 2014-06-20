@@ -1,33 +1,27 @@
+// object representing a word
 function Word(reference,translation,pronunciation,reference_knowledge_level,translation_knowledge_level,rank,isImportedFromDictionary,last_reference_update_date,last_translation_update_date) {        
+        // reference word
         this._ref = reference;        
+        // translation
         this._tra = translation;
+        // pronunciation
         this._pro = pronunciation;
+        // knowledge level of the reference
         this._ref_kw_lev = reference_knowledge_level;
-        this._tra_kw_lev = translation_knowledge_level;
-        
-        /*if (last_reference_update_date == null || typeof(last_reference_update_date) == 'undefined'){
-            this._last_ref_update_date = new Date();
-        }
-        else{
-            this._last_ref_update_date = last_reference_update_date;
-        }
-                
-        if (last_translation_update_date == null || typeof(last_translation_update_date) == 'undefined'){
-            this._last_tra_update_date = new Date();
-        }
-        else{
-            this._last_tra_update_date = last_translation_update_date;
-        }*/
-        this._last_ref_update_date = last_reference_update_date;
+        // knowledge level of the translation
+        this._tra_kw_lev = translation_knowledge_level;        
+        // last revision date on the reference
+        this._last_ref_update_date = last_reference_update_date;        
+        // last revision date on the translation
         this._last_tra_update_date = last_translation_update_date;
-                
+        // rank of the word (added position) --> not really used for the time now        
         if (rank == null || typeof(rank) == 'undefined'){
             this._rank = -1;
         }
         else{
             this._rank = rank;
         }
-        
+        // indicates if the word has been imported from the dictionay
         if (isImportedFromDictionary == null || typeof(isImportedFromDictionary) == 'undefined'){
             this._imp = false;
         }

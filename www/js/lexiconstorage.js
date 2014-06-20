@@ -10,7 +10,7 @@
             fctDone(myLexicon);                      
         }*/
      
-        this.getLexicon = function(fctDone) {            
+        this.getMyLexicon = function(fctDone) {            
             this.getLexiconById('my_lexicon', fctDone);                    
         } 
         

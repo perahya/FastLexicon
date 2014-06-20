@@ -19,6 +19,7 @@
         <script type="text/javascript" src="js/libs/jquery.mobile-1.4.2.min.js"></script>        
         <script type="text/javascript" src="js/libs/hashtable.js"></script>
         <script type="text/javascript" src="js/all_hebrew_words.js"></script>
+        <script type="text/javascript" src="js/default_hebrew_words.js"></script>
         <script type="text/javascript" src="js/datamodel.js"></script>
         <script type="text/javascript" src="js/lexiconstorage.js"></script>
         <script type="text/javascript" src="js/wordslist.js"></script>
@@ -43,11 +44,6 @@
                             Training
                         </a>
                     </li>                    
-                    <!--<li data-theme="d">
-                        <a href="#check_from_all_hebrew_words">
-                            Dictionary Revision
-                        </a>
-                    </li>-->
                     <li data-theme="d">
                         <a href="#mysearch">
                             Search in dictionary
@@ -69,28 +65,12 @@
             </div>
             <div data-role="footer" data-theme="d" data-position="fixed">     
                 <div style="padding:0px 10px;">  
-                <div data-role="popup" id="exportPopup" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-			<div style="padding:10px 20px;">
-                            <pre id="out_export"></pre>
-			</div>                    
-                </div>    
-                <!--<input id="mainsearchfield" type="search" name="search-mini" value="" data-mini="true" />-->
-              <!--  <label for="select-choice-share">Share</label>
-                <select name="select-choice-share" id="select-choice-share" data-icon="forward" data-mini="true" data-iconpos="left" onchange="handleSocialShare()">
-                     <option value="no">Share it</option>
-                        <!--<option value="facebook">Post this on Facebook</option>
-                        <option value="twitter">Tweet this</option>-->
-              <!--       <option value="email">Email this</option>
-                </select> -->
-               
-              <!--<a href="#" onclick="save(this, 'test.txt', 'Hello World!');">download</a>-->
-              <!--<a data-role="button" href="#" data-icon="save" data-iconpos="left" onclick="save(this, 'test.txt', 'Hello World!');">Export</a>-->
-                <!--<form id="exportform">		
-		<input type="submit" value="Export"/>
-                </form>-->
-
-                <!-- <a href="data:application/csv;charset=utf-8,Col1%2CCol2%2CCol3%0AVal1%2CVal2%2CVal3%0AVal11%2CVal22%2CVal33%0AVal111%2CVal222%2CVal333" download="somedata.csv">Example</a> -->
+                    <div data-role="popup" id="exportPopup" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
+                        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+                            <div style="padding:10px 20px;">
+                                <pre id="out_export"></pre>
+                            </div>                    
+                    </div>                   
                 </div>
             </div>
         </div>

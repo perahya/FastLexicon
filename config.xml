@@ -3,8 +3,10 @@
     <name>Fast2Lexicon</name>
     <description>Personal lexicon helping to learn quickly hebrew words.</description>
     <author email="perahya@hotmail.com" href="">BPA</author>
-    <access origin="*"/>
+    <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
     <content src="index.html"/>
 </widget>

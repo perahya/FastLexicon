@@ -149,8 +149,7 @@ var myWordsRevision = function(words){
             parent.addClass("ui-screen-hidden");
         });         
         
-        $('.mybutton_display_train_again').on('click', function () { 
-            myWordsRevision(window.myEngine.getMyLexicon().getExamWordsList(-1, 40)); 
+        $('.mybutton_display_train_again').on('click', function () {            
         });
         
         $('.mybutton_display_mylexicon_stats').on('click', function () { 

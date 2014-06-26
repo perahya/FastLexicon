@@ -231,6 +231,17 @@ function Word(reference,translation,pronunciation,reference_knowledge_level,tran
                 this._imp = val;                
             }
         };
+        
+        this.hasSameDefinitionValues = function(word) {                                     
+            if (word == null || typeof(word) == 'undefined'){
+                return false;
+            }
+            else{
+                return ( (this.getReferenceValue() == word.getReferenceValue()) && 
+                         (this.getTranslationValue() == word.getTranslationValue()) &&
+                         (this.getPronunciationValue() == word.getPronunciationValue()) );
+            }
+        };
 };
 
 function Lexicon(lexicon_id) {
@@ -295,7 +306,12 @@ function Lexicon(lexicon_id) {
                 if (existing_word == null || typeof(existing_word) == 'undefined') {                                    
                     this._wordsH.setItem(word.getReferenceValue(), word);            
                     return true;
-                }    
+                }
+                else if (existing_word.hasSameDefinitionValues(word) == false){
+                    this._wordsH.removeItem(word.getReferenceValue());
+                    this._wordsH.setItem(word.getReferenceValue(), word);
+                    return true;
+                }
             }
             return false;
         };

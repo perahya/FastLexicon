@@ -1,290 +1,72 @@
-<!DOCTYPE html>
-<html> 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-        <title>My Lexicon</title>
-
-        <link rel="stylesheet" href="./css/jquery.mobile-1.4.2.min.css"/>
-        <link rel="stylesheet" href="./css/mystyle.css"/>
-
-        <script type="text/javascript" src="js/libs/jquery-2.0.0.min.js"></script>
-        <script>
-            $(document).bind("mobileinit", function() {
-                $.mobile.defaultPageTransition = 'none';
-                $.mobile.defaultDialogTransition = 'none';
-                $.mobile.useFastClick = true;
-            });
-        </script>
-        <script type="text/javascript" src="js/libs/jquery.mobile-1.4.2.min.js"></script>        
-        <script type="text/javascript" src="js/libs/hashtable.js"></script>
-        <script type="text/javascript" src="js/all_hebrew_words.js"></script>
-        <script type="text/javascript" src="js/default_hebrew_words.js"></script>
-        <script type="text/javascript" src="js/datamodel.js"></script>
-        <script type="text/javascript" src="js/lexiconstorage.js"></script>
-        <script type="text/javascript" src="js/wordslist.js"></script>
-        <script type="text/javascript" src="js/myengine.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>        
-    </head> 
-    <body> 
-        <div data-dom-cache="false" data-role="page" id="index" >
-            <div data-role="header" data-theme="d">
-
-                <h1>My Lexicon</h1>
-            </div>
-            <div data-role="content"  style="padding:0.5em;">
-                <ul data-role="listview" data-divider-theme="d" data-inset="true">
-                    <!--<li data-theme="d">
-                        <a href="#mywords">
-                            Administration
-                        </a>
-                    </li>-->
-                    <li data-theme="d">
-                        <a href="#testme">
-                            Training
-                        </a>
-                    </li>                    
-                    <!--<li data-theme="d">
-                        <a href="#mysearch">
-                            Search in dictionary
-                        </a>
-                    </li>-->
-                    <!--<li data-theme="d">
-                        <a href="#excelsheet">
-                            Load Words List
-                        </a>
-                    </li>-->
-                    <li data-theme="c">
-                        <a href="#about">
-                            About
-                        </a>
-                    </li>
-                </ul>
-
-
-            </div>
-            <div data-role="footer" data-theme="d" data-position="fixed">     
-                <div style="padding:0px 10px;">  
-                    <div data-role="popup" id="exportPopup" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-                            <div style="padding:10px 20px;">
-                                <pre id="out_export"></pre>
-                            </div>                    
-                    </div>                   
-                </div>
-            </div>
-        </div>
-        
-        
-        <!-- My Words Page -->
-        <div data-dom-cache="false" data-role="page" id="mywords">
-            <div data-role="header" data-theme="d">
-                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
-                   class="ui-btn-right">
-                    Home
-                </a>
-                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
-                   data-iconpos="left" class="ui-btn-left">
-                    Back
-                </a>
-                <h1 id="header">Administration</h1>
-            </div>
-            <div data-role="content" id="wordsResultsList">                
-                <!-- popup add word -->
-                <div data-role="popup" id="popupAddWord" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-                    <form action="#mywords">
-			<div style="padding:10px 20px;">
-                            <h3>Please enter the new word information</h3>
-                            <label for="referenceId" class="ui-hidden-accessible">Reference:</label>
-                            <input type="text" name="reference" id="referenceId" value="" placeholder="Reference" data-theme="d" />
-
-                            <label for="translationId" class="ui-hidden-accessible">Translation:</label>
-                            <input type="text" name="translation" id="translationId" value="" placeholder="Translation" data-theme="d" />
-                            
-                            <label for="pronunciationId" class="ui-hidden-accessible">Pronunciation:</label>
-                            <input type="text" name="pronunciation" id="pronunciationId" value="" placeholder="Pronunciation" data-theme="d" />
-                            
-                            <!--<button data-theme="d" data-rel="back" onclick="addWord($('#referenceId').val(),$('#translationId').val(),$('#pronunciationId').val());">Save</button>-->
-                            <a href="#" data-rel="back" data-icon="check" data-theme="d" data-role="button" onclick="addWord($('#referenceId').val(),$('#translationId').val(),$('#pronunciationId').val());">Save</a>
-			</div>
-                    </form>
-                </div>
-                
-                <!-- popup edit word -->
-                <div data-role="popup" id="popupEditWord" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-                    <form action="#mywords">
-			<div style="padding:10px 20px;">
-                            <h3>Edit Word Information</h3>
-                            <label for="modifiedReferenceId" class="ui-hidden-accessible">Reference:</label>
-                            <input type="text" name="reference" id="modifiedReferenceId" value="" placeholder="Reference" data-theme="d" />
-
-                            <label for="modifiedTranslationId" class="ui-hidden-accessible">Translation:</label>
-                            <input type="text" name="translation" id="modifiedTranslationId" value="" placeholder="Translation" data-theme="d" />
-                            
-                            <label for="modifiedPronunciationId" class="ui-hidden-accessible">Pronunciation:</label>
-                            <input type="text" name="pronunciation" id="modifiedPronunciationId" value="" placeholder="Pronunciation" data-theme="d" />
-                            <input type="hidden" name="existingReference" id="existingReferenceId" value=""/>
-                                                        
-                            <a href="#" data-rel="back" data-icon="check" data-theme="d" data-role="button" onclick="editWord($('#existingReferenceId').val(),$('#modifiedReferenceId').val(),$('#modifiedTranslationId').val(),$('#modifiedPronunciationId').val());">Save</a>
-			</div>
-                    </form>
-                </div>
-                
-                <!-- popup message -->
-                <div data-role="popup" id="popupAdministrationDisplayMessage" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-			<div style="padding:10px 20px;">
-                            <pre id="out_administration"></pre>
-			</div>                    
-                </div>
-                
-                <div id="nbWordsDiv"><h4>Computing words list...</h4></div>
-                <ul id="wordslist" style="padding:0px 16px;" data-role="listview" class="ui-listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search words...">
-                </ul>
-            </div>              
-            <!--<div data-role="footer" data-theme="a" data-position="fixed" >       
-                <a href="#popupAddWord" style="padding:10px 20px;" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Add Word</a>
-            </div>-->
-            <div data-role="footer" data-theme="a" class="ui-bar" data-position="fixed">
-                <a href="#popupAddWord" data-role="button" data-icon="plus" data-rel="popup" data-position-to="window" data-inline="true" class="mybuttonadd_ref">Add Word</a>
-            </div>
-        </div>                
-
-        <!-- Revision Page -->
-        <div data-dom-cache="false" data-role="page" id="testme">
-            <div data-role="header" data-theme="d">
-                <!--<a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
-                   class="ui-btn-right">
-                    Home
-                </a>-->
-                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
-                   data-iconpos="left" class="ui-btn-left">
-                    Back
-                </a>
-                <h1 id="header">Training</h1>
-            </div>
-            <div data-role="content" id="assessmentContent">
-                <!-- popup display statistics -->
-                <div data-role="popup" id="popupDisplayMyLexiconStatistics" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>                    
-			<div style="padding:10px 20px;">
-                            <h3>Knowledge Statistics</h3>
-                            <pre id="out_stats_mylexicon"></pre>
-			</div>                    
-                </div>
-                
-                <p>You can check your knowledge on this words selection. They have been selected based on your knowledge and their last access date.</p>
-                <br>
-                <ul id="assessmentWordsList" style="padding:0px 16px;" data-role="listview" class="ui-listview">
-                </ul>
-            </div>
-            <!--<div data-role="footer" data-theme="a" data-position="fixed" >       
-                <a href="index.html" style="padding:10px 20px;" data-position-to="window" data-role="button" data-icon="check" data-iconpos="left"
-                   class="ui-btn-left">End Quiz</a>                
-            </div>-->
-            <div data-role="footer" data-theme="a" class="ui-bar" data-position="fixed">
-                <!--<a href="index.html" data-role="button" data-icon="check">End Quiz</a>-->
-                <a href="#popupDisplayMyLexiconStatistics" data-role="button" data-icon="check" data-rel="popup" data-position-to="window" data-inline="true" class="mybutton_display_mylexicon_stats">Statistics</a>
-                <!--<a href="#about" data-role="button" data-icon="refresh" data-iconpos="left" data-position-to="window" data-inline="true" style="margin-right : 40px;" class="mybutton_display_train_again">Train Again</a>-->
-            </div>
-        </div>                
-        
-        <!-- excel sheet Page -->
-        <!--<div data-dom-cache="false" data-role="page" id="excelsheet">
-            <div data-role="header" data-theme="d">
-                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
-                   class="ui-btn-right">
-                    Home
-                </a>
-                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
-                   data-iconpos="left" class="ui-btn-left">
-                    Back
-                </a>
-                <h1 id="header">Feed Words List</h1>
-            </div>
-            <div data-role="content" id="assessmentContent">                                
-                <p>You can paste your words list from excel and feed your lexicon.</p>
-                <br>                
-                <span class="ui-btn fileinput-button">
-                    <input id="uploadInput" type="file" name="excel-file" data-role="none"/>
-                </span>        
-                <p><input type="button" value="Load in database" onclick="readSelectedFile();"/></p>
-                <pre id="out"></pre>
-            </div>
-        </div>-->
-        
-        
-        <!-- Search Page -->
-        <div data-dom-cache="false" data-role="page" id="mysearch">
-            <div data-role="header" data-theme="d">
-                <a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
-                   class="ui-btn-right">
-                    Home
-                </a>
-                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
-                   data-iconpos="left" class="ui-btn-left">
-                    Back
-                </a>
-                <h1 id="header">Search Words</h1>
-            </div>
-            <div data-role="content" id="searchWordsResultsList">     
-                <!-- popup edit word -->
-                <!--<div data-role="popup" id="popupEditWord" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-                    <form action="#mysearch">
-			<div style="padding:10px 20px;">
-                            <h3>Edit Word Information</h3>
-                            <label for="modifiedReferenceId" class="ui-hidden-accessible">Reference:</label>
-                            <input type="text" name="reference" id="modifiedReferenceId" value="" placeholder="Reference" data-theme="d" />
-
-                            <label for="modifiedTranslationId" class="ui-hidden-accessible">Translation:</label>
-                            <input type="text" name="translation" id="modifiedTranslationId" value="" placeholder="Translation" data-theme="d" />
-                            
-                            <label for="modifiedPronunciationId" class="ui-hidden-accessible">Pronunciation:</label>
-                            <input type="text" name="pronunciation" id="modifiedPronunciationId" value="" placeholder="Pronunciation" data-theme="d" />
-                            <input type="hidden" name="existingReference" id="existingReferenceId" value=""/>
-                                                        
-                            <a href="#" data-rel="back" data-icon="check" data-theme="d" data-role="button" onclick="editWord($('#existingReferenceId').val(),$('#modifiedReferenceId').val(),$('#modifiedTranslationId').val(),$('#modifiedPronunciationId').val());">Save</a>
-			</div>
-                    </form>
-                </div>-->
-                <!-- popup message -->
-                <div data-role="popup" id="popupDictionaryDisplayMessage" data-theme="a" class="ui-corner-all" data-overlay-theme="a">
-                    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-			<div style="padding:10px 20px;">
-                            <pre id="out_dictionary"></pre>
-			</div>                    
-                </div>
-                <input id="mysearchfield" type="search" value="" />
-                <br>
-                <ul id="searchwordslist" style="padding:0px 16px;" data-role="listview" class="ui-listview" data-filter="false" data-filter-reveal="true" data-filter-placeholder="Search words...">
-                </ul>
-            </div>                      
-            <div data-role="footer" data-theme="a" class="ui-bar" data-position="fixed">                
-            </div>
-        </div>
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.2.min.js"></script>
+    <script defer="defer">
+      function writeMessage(message) {
+        text.setText(message);
+        layer.draw();
+      }
       
+      var stage = new Kinetic.Stage({
+        container: 'container',
+        width: 578,
+        height: 200
+      });
       
-        <div data-dom-cache="false" data-role="page" id="about">
-            <div data-role="header" data-theme="d">
-                <!--<a data-role="button" href="index.html" data-icon="home" data-iconpos="left"
-                   class="ui-btn-right">
-                    Home
-                </a>-->
-                <a data-role="button" data-rel="back" href="#page1" data-icon="arrow-l"
-                   data-iconpos="left" class="ui-btn-left">
-                    Back
-                </a>
-                <h1 >About</h1></div>
-            <div data-role="content" id="aboutContent">
-                Hebrew lexicon containing a predefined words list.<br> 
-                You can self assess by clicking on the training option.<br><br> 
-                Training sessions will adjust based on your knowledge level and will help you to quickly
-                revise needed words.<br><br>
-                In future versions of the application you will be able to add new words to the revision list.
-            </div>             
-        </div>                
-    </body>
+      var layer = new Kinetic.Layer();
+
+      var text = new Kinetic.Text({
+        x: 10,
+        y: 10,
+        fontFamily: 'Calibri',
+        fontSize: 24,
+        text: '',
+        fill: 'black'
+      });
+
+      var numEvents = 0;
+
+      var circle = new Kinetic.Circle({
+        x: stage.width()/2,
+        y: stage.height()/2 + 10,
+        radius: 70,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 4
+      });
+
+      /*
+       * mousedown and touchstart are desktop and
+       * mobile equivalents so they are often times
+       * used together
+       */
+      circle.on('mousedown touchstart', function() {
+        writeMessage('Mousedown or touchstart');
+      });
+      /*
+       * mouseup and touchend are desktop and
+       * mobile equivalents so they are often times
+       * used together
+       */
+      circle.on('mouseup touchend', function() {
+        writeMessage('Mouseup or touchend');
+      });
+
+      layer.add(circle);
+      layer.add(text);
+      stage.add(layer);
+
+    </script>
+  </body>
 </html>

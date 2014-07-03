@@ -35,7 +35,7 @@ function Word(reference,translation,pronunciation,reference_knowledge_level,tran
         };
         
         this.isKnowledgeValueIdenticalForReferenceAndTranslation = function() {                                                            
-            return (this.getReferenceKnowledgeValue() === this.getTranslationKnowledgeValue());            
+            return (this.getReferenceKnowledgeValue() == this.getTranslationKnowledgeValue());            
         };
         
         this.getBestKnowledgeValue = function() {                    

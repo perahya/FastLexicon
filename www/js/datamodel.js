@@ -34,6 +34,10 @@ function Word(reference,translation,pronunciation,reference_knowledge_level,tran
             return (this.getReferenceKnowledgeValue() > this.getTranslationKnowledgeValue());            
         };
         
+        this.isKnowledgeValueIdenticalForReferenceAndTranslation = function() {                                                            
+            return (this.getReferenceKnowledgeValue() === this.getTranslationKnowledgeValue());            
+        };
+        
         this.getBestKnowledgeValue = function() {                    
             var ref = this.getReferenceKnowledgeValue();
             var tra = this.getTranslationKnowledgeValue();

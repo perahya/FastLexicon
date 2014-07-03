@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <title>Demo</title>
   <link rel="stylesheet" href="css/idangerous.swiper.css">
+  
+  <script type="text/javascript" src="js/libs/hashtable.js"></script>
+  <script type="text/javascript" src="js/all_hebrew_words.js"></script>
+  <script type="text/javascript" src="js/default_hebrew_words.js"></script>
+  <script type="text/javascript" src="js/datamodel.js"></script>
+  <script type="text/javascript" src="js/lexiconstorage.js"></script>  
+  <script type="text/javascript" src="js/myengine.js"></script>  
   <meta name="viewport" content="width=device-width">
   <style>
 /* Demo Styles */
@@ -49,8 +56,66 @@ body {
   color: #fff;
   text-align: center;
   position: relative;
-  z-index: 10;
-  
+  z-index: 10;  
+}
+.swiper-parent1 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent2 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent3 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent4 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent5 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent6 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
 }
 .red-slide {
   background: #ca4040;
@@ -85,6 +150,35 @@ body {
   font-style: italic;
   font-size: 42px;
 }
+
+.buttoncontainer {
+    height: 100%; 
+    width:100%; 
+    font-size: 0;
+}
+.buttonknown, .buttonunknown{
+    display: inline-block; 
+    *display: inline; 
+    zoom: 1; 
+    vertical-align: top; 
+    font-style: italic;
+    font-size: 22px;
+    color: #fff;
+    font-weight:bold;
+}
+.buttonknown {
+    width: 50%; 
+    background: green;
+}
+.buttonunknown {
+    width: 50%; 
+    background: red;
+}
+
+a { 
+    color: white;     
+} 
+
   </style>
 </head>
 <body>
@@ -93,37 +187,34 @@ body {
   </div>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide red-slide">
-        <div class="title">Slide 1</div>
-      </div>
-      <div class="swiper-slide blue-slide">
-        <div class="title">Slide 2</div>
-      </div>
-      <div class="swiper-slide orange-slide">
-        <div class="title">Slide 3</div>
-      </div>
-      <div class="swiper-slide green-slide">
-        <div class="title">Slide 4</div>
-      </div>
-      <div class="swiper-slide pink-slide">
-        <div class="title">Slide 5</div>
-      </div>
-      <div class="swiper-slide red-slide">
-        <div class="title">Slide 6</div>
-      </div>
-      <div class="swiper-slide blue-slide">
-        <div class="title">Slide 7</div>
-      </div>
-      <div class="swiper-slide orange-slide">
-        <div class="title">Slide 8</div>
-      </div>
+      
+      
+     <!--<div class="swiper-slide">
+        <div class="swiper-parent">          
+          <div class="swiper-wrapper">
+            <div class="swiper-slide green-slide"><div class="title">jaloux</div></div>
+            <div class="swiper-slide blue-slide"><div class="title">קנאי</div></div>                        
+          </div>
+        </div>
+     </div>            -->
+           
     </div>
   </div>
   <script src="js/libs/jquery-1.10.1.min.js"></script>
   <script src="js/libs/idangerous.swiper.min.js"></script>
   <script>
+      
+      
+  var _maxDisplayedWords = 6;      
+  var mySwiper;    
   var holdPosition = 0;
-  var mySwiper = new Swiper('.swiper-container',{
+  var _words_to_assess;
+  var _swiperparentsH = new HashTable({});
+  var _swiperparents = new Array();
+      
+  window.myEngine = new MainEngine();
+  window.myEngine.init(function() {
+      mySwiper = new Swiper('.swiper-container',{
     slidesPerView:'auto',
     mode:'vertical',
     watchActiveIndex: true,
@@ -134,46 +225,235 @@ body {
       holdPosition = pos;
     },
     onTouchEnd: function(){
-      if (holdPosition>100) {
+      if (holdPosition>100 && mySwiper.slides.length < 4) {
         // Hold Swiper in required position
-        mySwiper.setWrapperTranslate(0,100,0)
+        mySwiper.setWrapperTranslate(0,100,0);
 
         //Dissalow futher interactions
-        mySwiper.params.onlyExternal=true
+        mySwiper.params.onlyExternal=true;
 
         //Show loader
         $('.preloader').addClass('visible');
 
         //Load slides
-        loadNewSlides();
+        //loadNewSlides();
+        
+        initTest();
       }
-    }
-  })
+    }/*,
+    onSlideClick: function(swiper){
+        var clickedSlide = swiper.clickedSlide;
+        //alert(clickedSlide.html());
+        //swiper.activeIndex = clickedSlide.index();
+        var swiperparent = _swiperparents[clickedSlide.index()];
+        swiperparent.swipeNext();        
+    }*/
+  });
+      
+      _words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, 40);
+      initTest();
+  });        
+  
+  function updateWordeKnowledge(word_reference, isCorrect, isReference, swiperParentId){
+    window.myEngine.getMyLexicon().updateWordKnowledgeByReference(word_reference, isCorrect, isReference);
+    window.myEngine._localStorageEngine.saveLexicon(window.myEngine.getMyLexicon(), function(){                    
+        console.log('Lexicon saved');
+        //alert('word knowledge updated for "' + word_reference + '" -> ' + isCorrect);                       
+    });    
+    var index = _swiperparents.indexOf(swiperParentId);
+    mySwiper.removeSlide(index);
+    _swiperparents.splice(index, 1);
+    _swiperparentsH.removeItem(swiperParentId);    
+    addNextWordToTest();
+  }   
+      
   var slideNumber = 0;
-  function loadNewSlides() {
+  function loadNewSlide(word, assessReference) {
+       var swiperparentIndex = null;
+       for (var i = 0; i < _maxDisplayedWords; i++) 
+       {
+           var index = i + 1;
+           var swiperParentId = "swiper-parent" + index;
+           var swip = _swiperparentsH.getItem(swiperParentId);
+           if (swip == null || swip == 'undefined'){
+               swiperparentIndex = index;
+               break;
+           }
+       }
+       if (swiperparentIndex == null){
+           return;
+       }
+                       
+      /*var len = _swiperparents.length;
+      if (len >= _maxDisplayedWords){
+          return;
+      }
+      
+      var swiperparentIndex = len + 1;*/
+      
+          
     /* 
     Probably you should do some Ajax Request here
     But we will just use setTimeout
     */
-    setTimeout(function(){
+    //setTimeout(function(){
       //Prepend new slide
       var colors = ['red','blue','green','orange','pink'];
       var color = colors[Math.floor(Math.random()*colors.length)];
-      mySwiper.prependSlide('<div class="title">New slide '+slideNumber+'</div>', 'swiper-slide '+color+'-slide')
+      var color2 = colors[Math.floor(Math.random()*colors.length)];
+      //mySwiper.prependSlide("<div class='title'>"+_default_hebrew_words[slideNumber][1]+"</div>", 'swiper-slide '+color+'-slide')
+      
+      //mySwiper.prependSlide( mySwiper.createSlide("<div class='swiper-parent'><div class='swiper-wrapper'><div class='swiper-slide green-slide'><div class='title'>" + _default_hebrew_words[slideNumber][1] + "</div></div><div class='swiper-slide blue-slide'><div class='title'>" + _default_hebrew_words[slideNumber][0] + "</div></div></div></div>") )
+      
+      //mySwiper.prependSlide( mySwiper.createSlide("<div class='title'>"+_default_hebrew_words[slideNumber][1]+"</div>", 'swiper-slide '+color+'-slide') )
+
+        //var slide = mySwiper.createSlide("<div class='title'>"+_default_hebrew_words[slideNumber][1]+"</div>", 'swiper-slide '+color+'-slide')        
+        
+        //var existingSlide = mySwiper.slides[0];
+        //alert(existingSlide.html());
+        var displayedWord;
+        var hiddenWord;
+        if (assessReference){
+            displayedWord = word.getReferenceValue();
+            hiddenWord = word.getTranslationValue();
+        }
+        else{
+            displayedWord = word.getTranslationValue();
+            hiddenWord = word.getReferenceValue();
+        }
+                
+        var slide = mySwiper.createSlide("<div class='title'>"+displayedWord+"</div>", 'swiper-slide '+color+'-slide');
+        //slide.html("<div class='swiper-parent'><div class='swiper-wrapper'><div class='swiper-slide green-slide'><div class='title'>" + _default_hebrew_words[slideNumber][1] + "</div></div><div class='swiper-slide blue-slide'><div class='title'>" + _default_hebrew_words[slideNumber][0] + "</div></div></div></div>");                
+        
+        //slide.html("<div class='swiper-parent" + swiperparentIndex + "'><div class='swiper-wrapper' style='width:3360px; height:100px; transition: 0s; -webkit-transition: 0s; -webkit-transform: translate3d(0px, 0px, 0px);'><div class='swiper-slide " + color + "-slide swiper-slide-visible swiper-slide-active' style='width:840px; height:100px;'><div class='title'>" + displayedWord + "</div></div><div class='swiper-slide " + color2 + "-slide' style='width:840px; height:100px;'><div class='title'>" + hiddenWord + "</div></div><div class='swiper-slide " + color + "-slide' style='width:420px; height:100px;'><div class='title'>" + word.getPronunciationValue() + "</div></div><div class='swiper-slide green-slide' style='width:840px; height:100px;'><div class='title'>I know it!</div></div><div class='swiper-slide red-slide' style='width:420px; height:100px;'><div class='title'>I don' know this word :(</div></div></div></div>");
+        
+        var swiperParentId = "swiper-parent" + index;
+        
+        var nbMaxChar = 18;
+        var marquee_ref_start = "";
+        var marquee_ref_end = "";
+        var n = displayedWord.length;
+        if (n > nbMaxChar){
+            marquee_ref_start = "<marquee>";
+            marquee_ref_end = "</marquee>";
+        }
+        var marquee_tra_start = "";
+        var marquee_tra_end = "";
+        var n = hiddenWord.length;
+        if (n > nbMaxChar){
+            marquee_tra_start = "<marquee>";
+            marquee_tra_end = "</marquee>";
+        }
+        var marquee_pro_start = "";
+        var marquee_pro_end = "";
+        var n = word.getPronunciationValue().length;
+        if (n > nbMaxChar){
+            marquee_pro_start = "<marquee>";
+            marquee_pro_end = "</marquee>";
+        }
+                        
+        //slide.html("<div class='swiper-parent" + swiperparentIndex + "'><div class='swiper-wrapper' style='width:3360px; height:100px; transition: 0s; -webkit-transition: 0s; -webkit-transform: translate3d(0px, 0px, 0px);'><div class='swiper-slide " + color + "-slide swiper-slide-visible swiper-slide-active' style='width:840px; height:100px;'><div class='title'>" + marquee_ref_start + displayedWord + marquee_ref_end + "</div></div><div class='swiper-slide " + color2 + "-slide' style='width:840px; height:100px;'><div class='title'>" + marquee_tra_start + hiddenWord + marquee_tra_end + "</div></div><div class='swiper-slide " + color + "-slide' style='width:420px; height:100px;'><div class='title'>" + marquee_pro_start + word.getPronunciationValue() + marquee_pro_end + "</div></div><div class='swiper-slide green-slide' style='width:840px; height:100px;'><table style='width:100%;'><tr><td style='width:50%'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", true, " + assessReference + ", \"" + swiperParentId + "\");' class='button'>I know it!</a></td><td style='width:50%; background-color:red;'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", false, " + assessReference + ", \"" + swiperParentId + "\");' class='button'>Remind me later</a></td></tr></table></div></div></div>");
+        
+        var buttonsHtml = "<div class='buttoncontainer'><div class='buttonknown'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", true, " + assessReference + ", \"" + swiperParentId + "\");'>I know it!</a></div><div class='buttonunknown'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", false, " + assessReference + ", \"" + swiperParentId + "\");'>Remind me later</a></div></div>";
+        
+        slide.html("<div class='swiper-parent" + swiperparentIndex + "'><div class='swiper-wrapper' style='width:3360px; height:100px; transition: 0s; -webkit-transition: 0s; -webkit-transform: translate3d(0px, 0px, 0px);'><div class='swiper-slide " + color + "-slide swiper-slide-visible swiper-slide-active' style='width:840px; height:100px;'><div class='title'>" + marquee_ref_start + displayedWord + marquee_ref_end + "</div></div><div class='swiper-slide " + color2 + "-slide' style='width:840px; height:100px;'><div class='title'>" + marquee_tra_start + hiddenWord + marquee_tra_end + "</div></div><div class='swiper-slide " + color + "-slide' style='width:420px; height:100px;'><div class='title'>" + marquee_pro_start + word.getPronunciationValue() + marquee_pro_end + "</div></div><div class='swiper-slide green-slide' style='width:840px; height:100px;'>" + buttonsHtml + "</div></div></div>");
+        mySwiper.appendSlide(slide);
+
+                        
+        
+        var swiperparent = new Swiper('.' + swiperParentId,{
+            mode: 'horizontal',
+            slidesPerView: 1,
+            loop: true/*,     
+    onSlideNext: function(swiper){
+        alert('slided next!');
+        }*/});
+        _swiperparentsH.setItem(swiperParentId, swiperparent);
+        _swiperparents.push(swiperParentId);
+        
+        //mySwiper.reInit();                
+
+      
+      //mySwiper.prependSlide("<div class='swiper-parent'><div class='swiper-wrapper'><div class='swiper-slide green-slide'><div class='title'>" + _default_hebrew_words[slideNumber][1] + "</div></div><div class='swiper-slide blue-slide'><div class='title'>" + _default_hebrew_words[slideNumber][0] + "</div></div></div></div>", 'swiper-slide '+color+'-slide')
 
       //Release interactions and set wrapper
-      mySwiper.setWrapperTranslate(0,0,0)
+      mySwiper.setWrapperTranslate(0,0,0);
       mySwiper.params.onlyExternal=false;
 
       //Update active slide
-      mySwiper.updateActiveSlide(0)
+      mySwiper.updateActiveSlide(0);
+      
+      //existingSlide = mySwiper.slides[0];
+       //alert(existingSlide.html());
 
       //Hide loader
-      $('.preloader').removeClass('visible')
-    },1000)
+      $('.preloader').removeClass('visible');
+    //},1000);
 
     slideNumber++;
+  };         
+  
+  function addWordToTest(w){    
+      if (w == null || w == 'undefined'){
+          return;
+      }
+      var assessReference = true;
+      if (w.isKnowledgeValueIdenticalForReferenceAndTranslation()){
+          var randomValue = Math.random();
+          var choice = Math.round(randomValue);
+          assessReference = (choice == 0);
+      }
+      else{
+          assessReference = !w.isReferenceBetterKnown();
+      }
+      
+      loadNewSlide(w, assessReference);    
   }
+  
+  function addNextWordToTest(){
+      if (_words_to_assess == null || _words_to_assess.length == 0)
+      {
+        //_words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, 40);
+        return;
+      }
+      if (_words_to_assess != null && _words_to_assess != 'undefined' && _words_to_assess.length > 0){
+          var w = _words_to_assess[0];
+          addWordToTest(w);           
+          if (_words_to_assess.length > 1){
+              _words_to_assess = _words_to_assess.slice(1);
+          }
+          else{
+              _words_to_assess = null;
+          }
+          
+      } 
+  }
+  
+  function initTest() {
+      if (_words_to_assess == null || _words_to_assess.length < _maxDisplayedWords)
+      {
+        _words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, 40);
+      }
+      if (_words_to_assess != null && _words_to_assess != 'undefined' && _words_to_assess.length > 0){
+          var i = 0;
+          for (var c = _words_to_assess.length; i < c && i < _maxDisplayedWords; i++) {
+            var w = _words_to_assess[i];
+            addWordToTest(w);
+        }
+        if (i < _words_to_assess.length){
+          _words_to_assess = _words_to_assess.slice(i);
+        }
+        else{
+          _words_to_assess = null;
+        }
+    }
+  }
+  
+  function wordClicked(ref) {
+      alert(ref + ' clicked');
+      return false;
+  }
+     
   </script>
 </body>
 </html>

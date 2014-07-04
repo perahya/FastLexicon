@@ -50,6 +50,29 @@ body {
   top: 0;
   opacity: 1;
 }
+.statistics {
+  position: absolute;
+  left: 0;
+  top: -550px;
+  z-index: 12;
+  color: #fff;
+  text-align: center;
+  line-height: 100px;
+  height: 500px;
+  width: 100%;
+  opacity: 0;
+  font-size: 25px;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+  background: rgba(0,0,0,0.1);
+}
+.statistics.visible {
+  top: 50px;
+  opacity: 1;
+}
 .swiper-container {
   width: 100%;
   height: 100%;
@@ -185,6 +208,8 @@ a {
   <div class="preloader">
     Loading...
   </div>
+  <div class="statistics">    
+  </div>
   <div class="swiper-container">
     <div class="swiper-wrapper">                     
     </div>
@@ -195,7 +220,7 @@ a {
       
       
   var _maxDisplayedWords = 6;      
-  var _NB_WORDS_CHECKED_PER_SESSION = 40;
+  var _NB_WORDS_CHECKED_PER_SESSION = 6;
   var mySwiper;    
   var holdPosition = 0;
   var _words_to_assess;
@@ -414,7 +439,7 @@ a {
   
   function addNextWordToTest(){
       if (_swiperparents.length == 0 && (_words_to_assess == null || _words_to_assess.length == 0)){        
-        displaySummary();
+        displayStatistics();
         return;
       }              
       
@@ -451,18 +476,14 @@ a {
     }
   }
   
-function displaySummary() {
+function playAgain() {
     var preloader = $('.preloader');
-    preloader.html("Train again !");
-    var swipercontainer = $('.swiper-container');
-    swipercontainer.removeClass('visible');
+    var statisticscontainer = $('.statistics');    
+    var swipercontainer = $('.swiper-container');    
     
-    // Hold Swiper in required position
-    mySwiper.setWrapperTranslate(0,100,0);
-    //Dissalow futher interactions
-    mySwiper.params.onlyExternal=true;
-    
+    statisticscontainer.removeClass('visible');   
     preloader.addClass('visible');
+    
     setTimeout(function(){
         initTest();        
         // Hold Swiper in required position
@@ -471,11 +492,104 @@ function displaySummary() {
         mySwiper.params.onlyExternal=false;
         
         preloader.removeClass('visible');
-        swipercontainer.addClass('visible');
-        preloader.html("Loading...");
+        swipercontainer.addClass('visible');        
     },2000);
   }
-     
+function displayStatistics() {
+    var statisticscontainer = $('.statistics');   
+    
+    var html = "<div>Voici les stats !<br>" + computeStatistics()+ "</div><div class='title blue-slide'><a href='javascript:playAgain();'>Continue Training</a></div>";
+    statisticscontainer.html(html);
+    
+    var swipercontainer = $('.swiper-container');
+    swipercontainer.removeClass('visible');
+    
+    // Hold Swiper in required position
+    mySwiper.setWrapperTranslate(0,600,0);
+    //Dissalow futher interactions
+    mySwiper.params.onlyExternal=true;
+    
+    statisticscontainer.addClass('visible');
+    /*setTimeout(function(){
+        initTest();        
+        // Hold Swiper in required position
+        mySwiper.setWrapperTranslate(0,0,0);
+        //Dissalow futher interactions
+        mySwiper.params.onlyExternal=false;
+        
+        statisticscontainer.removeClass('visible');
+        swipercontainer.addClass('visible');        
+    },3000);*/
+  }
+  
+  function computeStatistics(){             
+            var words = window.myEngine._my_lexicon.getWords();
+            var nbAnsweredWords = 0;
+            var nbRefAnswered = 0;
+            var globalRefKnowledge = 0;
+            var averageRefKnowledge = 0;
+            var nbTransAnswered = 0;
+            var globalTransKnowledge = 0;
+            var averageTransKnowledge = 0;
+            for (var i = 0, c = words.length; i < c; i++) {    
+                w = words[i];
+                
+                var refAlreadyAnswered = w.isReferenceAlreadyAnswered();
+                if (refAlreadyAnswered)
+                {
+                    nbAnsweredWords++;
+                }
+                
+                nbRefAnswered++;
+                var refK = w.getReferenceKnowledgeValue();
+                if (refK >= 1)
+                {
+                   refK = 1;
+                }
+                else
+                {
+                   refK = 0;
+                }
+                globalRefKnowledge += refK;
+                
+                
+                var transAlreadyAnswered = w.isTranslationAlreadyAnswered();
+                if (transAlreadyAnswered)
+                {
+                    if (refAlreadyAnswered == false)
+                    {
+                        nbAnsweredWords++;
+                    }
+                }
+                
+                nbTransAnswered++;
+                var traK = w.getTranslationKnowledgeValue();
+                if (traK >= 1)
+                {
+                   traK = 1;
+                }
+                else
+                {
+                    traK = 0;
+                }
+                globalTransKnowledge += traK;                                                             
+            }
+            averageRefKnowledge = globalRefKnowledge/nbRefAnswered;
+            averageRefKnowledge = Math.round(averageRefKnowledge * 100);
+            averageTransKnowledge = globalTransKnowledge/nbTransAnswered;
+            averageTransKnowledge = Math.round(averageTransKnowledge * 100);
+                        
+            var html = nbAnsweredWords + ' answered words over ' + words.length;
+            if (nbRefAnswered > 0){
+                html += '<br>Average reference knowledge: ' + averageRefKnowledge + ' %';
+            }
+            if (nbTransAnswered > 0){
+                html += '<br>Average translated knowledge: ' + averageTransKnowledge + ' %';
+            }
+            
+            return html;
+        }
+  
   </script>
 </body>
 </html>

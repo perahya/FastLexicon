@@ -186,18 +186,7 @@ a {
     Loading...
   </div>
   <div class="swiper-container">
-    <div class="swiper-wrapper">
-      
-      
-     <!--<div class="swiper-slide">
-        <div class="swiper-parent">          
-          <div class="swiper-wrapper">
-            <div class="swiper-slide green-slide"><div class="title">jaloux</div></div>
-            <div class="swiper-slide blue-slide"><div class="title">קנאי</div></div>                        
-          </div>
-        </div>
-     </div>            -->
-           
+    <div class="swiper-wrapper">                     
     </div>
   </div>
   <script src="js/libs/jquery-1.10.1.min.js"></script>
@@ -206,6 +195,7 @@ a {
       
       
   var _maxDisplayedWords = 6;      
+  var _NB_WORDS_CHECKED_PER_SESSION = 40;
   var mySwiper;    
   var holdPosition = 0;
   var _words_to_assess;
@@ -225,7 +215,7 @@ a {
       holdPosition = pos;
     },
     onTouchEnd: function(){
-      if (holdPosition>100 && mySwiper.slides.length < 4) {
+      if (holdPosition>100 /*&& mySwiper.slides.length < (_maxDisplayedWords-1)*/) {
         // Hold Swiper in required position
         mySwiper.setWrapperTranslate(0,100,0);
 
@@ -237,8 +227,17 @@ a {
 
         //Load slides
         //loadNewSlides();
-        
-        initTest();
+        setTimeout(function(){
+            initTest();            
+            // Hold Swiper in required position
+            mySwiper.setWrapperTranslate(0,0,0);
+            //Release interactions and set wrapper      
+            mySwiper.params.onlyExternal=false;
+            //Update active slide
+            mySwiper.updateActiveSlide(0);
+            //Hide loader
+            $('.preloader').removeClass('visible');            
+        },1000);
       }
     }/*,
     onSlideClick: function(swiper){
@@ -250,7 +249,7 @@ a {
     }*/
   });
       
-      _words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, 40);
+      _words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, _NB_WORDS_CHECKED_PER_SESSION);
       initTest();
   });        
   
@@ -329,27 +328,30 @@ a {
         
         var swiperParentId = "swiper-parent" + index;
         
-        var nbMaxChar = 18;
+        var nbMaxChar = 16;
+        var marqueespeed = 10;
+        var marqueestart = "<marquee  scrollamount='" + marqueespeed + "'>";
+        var marqueeend = "</marquee>";
         var marquee_ref_start = "";
         var marquee_ref_end = "";
         var n = displayedWord.length;
         if (n > nbMaxChar){
-            marquee_ref_start = "<marquee>";
-            marquee_ref_end = "</marquee>";
+            marquee_ref_start = marqueestart;
+            marquee_ref_end = marqueeend;
         }
         var marquee_tra_start = "";
         var marquee_tra_end = "";
         n = hiddenWord.length;
         if (n > nbMaxChar){
-            marquee_tra_start = "<marquee>";
-            marquee_tra_end = "</marquee>";
+            marquee_tra_start = marqueestart;
+            marquee_tra_end = marqueeend;
         }
         var marquee_pro_start = "";
         var marquee_pro_end = "";
         n = word.getPronunciationValue().length;
         if (n > nbMaxChar){
-            marquee_pro_start = "<marquee>";
-            marquee_pro_end = "</marquee>";
+            marquee_pro_start = marqueestart;
+            marquee_pro_end = marqueeend;
         }
                         
         //slide.html("<div class='swiper-parent" + swiperparentIndex + "'><div class='swiper-wrapper' style='width:3360px; height:100px; transition: 0s; -webkit-transition: 0s; -webkit-transform: translate3d(0px, 0px, 0px);'><div class='swiper-slide " + color + "-slide swiper-slide-visible swiper-slide-active' style='width:840px; height:100px;'><div class='title'>" + marquee_ref_start + displayedWord + marquee_ref_end + "</div></div><div class='swiper-slide " + color2 + "-slide' style='width:840px; height:100px;'><div class='title'>" + marquee_tra_start + hiddenWord + marquee_tra_end + "</div></div><div class='swiper-slide " + color + "-slide' style='width:420px; height:100px;'><div class='title'>" + marquee_pro_start + word.getPronunciationValue() + marquee_pro_end + "</div></div><div class='swiper-slide green-slide' style='width:840px; height:100px;'><table style='width:100%;'><tr><td style='width:50%'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", true, " + assessReference + ", \"" + swiperParentId + "\");' class='button'>I know it!</a></td><td style='width:50%; background-color:red;'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", false, " + assessReference + ", \"" + swiperParentId + "\");' class='button'>Remind me later</a></td></tr></table></div></div></div>");
@@ -377,8 +379,8 @@ a {
       //mySwiper.prependSlide("<div class='swiper-parent'><div class='swiper-wrapper'><div class='swiper-slide green-slide'><div class='title'>" + _default_hebrew_words[slideNumber][1] + "</div></div><div class='swiper-slide blue-slide'><div class='title'>" + _default_hebrew_words[slideNumber][0] + "</div></div></div></div>", 'swiper-slide '+color+'-slide')
 
       //Release interactions and set wrapper
-      mySwiper.setWrapperTranslate(0,0,0);
-      mySwiper.params.onlyExternal=false;
+      //mySwiper.setWrapperTranslate(0,0,0);
+      //mySwiper.params.onlyExternal=false;
 
       //Update active slide
       mySwiper.updateActiveSlide(0);
@@ -387,7 +389,7 @@ a {
        //alert(existingSlide.html());
 
       //Hide loader
-      $('.preloader').removeClass('visible');
+      //$('.preloader').removeClass('visible');
     //},1000);
 
     slideNumber++;
@@ -411,11 +413,11 @@ a {
   }
   
   function addNextWordToTest(){
-      if (_words_to_assess == null || _words_to_assess.length == 0)
-      {
-        //_words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, 40);
+      if (_swiperparents.length == 0 && (_words_to_assess == null || _words_to_assess.length == 0)){        
+        displaySummary();
         return;
-      }
+      }              
+      
       if (_words_to_assess != null && _words_to_assess != 'undefined' && _words_to_assess.length > 0){
           var w = _words_to_assess[0];
           addWordToTest(w);           
@@ -432,7 +434,7 @@ a {
   function initTest() {
       if (_words_to_assess == null || _words_to_assess.length < _maxDisplayedWords)
       {
-        _words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, 40);
+        _words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, _NB_WORDS_CHECKED_PER_SESSION);
       }
       if (_words_to_assess != null && _words_to_assess != 'undefined' && _words_to_assess.length > 0){
           var i = 0;
@@ -449,9 +451,29 @@ a {
     }
   }
   
-  function wordClicked(ref) {
-      alert(ref + ' clicked');
-      return false;
+function displaySummary() {
+    var preloader = $('.preloader');
+    preloader.html("Train again !");
+    var swipercontainer = $('.swiper-container');
+    swipercontainer.removeClass('visible');
+    
+    // Hold Swiper in required position
+    mySwiper.setWrapperTranslate(0,100,0);
+    //Dissalow futher interactions
+    mySwiper.params.onlyExternal=true;
+    
+    preloader.addClass('visible');
+    setTimeout(function(){
+        initTest();        
+        // Hold Swiper in required position
+        mySwiper.setWrapperTranslate(0,0,0);
+        //Dissalow futher interactions
+        mySwiper.params.onlyExternal=false;
+        
+        preloader.removeClass('visible');
+        swipercontainer.addClass('visible');
+        preloader.html("Loading...");
+    },2000);
   }
      
   </script>

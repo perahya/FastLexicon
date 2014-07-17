@@ -16,7 +16,8 @@
             var nbNewWordsAdded = 0;
             for (var i = 0, c = _default_hebrew_words.length; i < c; i++) {    
                 var w = _default_hebrew_words[i];                                       
-                var rank = i+1;         
+                var rank = i+1;
+         
 		var wordObj = new Word(w[1],w[0],w[2],-1,-1,rank,false);
 		var newWordAdded = window.myEngine._my_lexicon.addWord(wordObj);
                 if (newWordAdded)

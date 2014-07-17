@@ -53,12 +53,12 @@ body {
 .statistics {
   position: absolute;
   left: 0;
-  top: -550px;
+  top: -600px;
   z-index: 12;
   color: #fff;
   text-align: center;
   line-height: 100px;
-  height: 500px;
+  height: 600px;
   width: 100%;
   opacity: 0;
   font-size: 25px;
@@ -70,7 +70,7 @@ body {
   background: rgba(0,0,0,0.1);
 }
 .statistics.visible {
-  top: 50px;
+  top: 0px;
   opacity: 1;
 }
 .swiper-container {
@@ -503,7 +503,7 @@ function playAgain() {
 function displayStatistics() {
     var statisticscontainer = $('.statistics');   
     
-    var html = "<div>Voici les stats !<br>" + computeStatistics()+ "</div><div class='title blue-slide'><a href='javascript:playAgain();'>Continue Training</a></div>";
+    var html = "<div>Here are the stats !<br>" + computeStatistics()+ "</div><div class='title blue-slide'><a href='javascript:playAgain();'>Continue Training</a></div>";
     statisticscontainer.html(html);
     
     var swipercontainer = $('.swiper-container');
@@ -584,12 +584,12 @@ function displayStatistics() {
             averageTransKnowledge = globalTransKnowledge/nbTransAnswered;
             averageTransKnowledge = Math.round(averageTransKnowledge * 100);
                         
-            var html = nbAnsweredWords + ' answered words over ' + words.length;
+            var html = nbAnsweredWords + '/' + words.length + ' answered words<br>';
             if (nbRefAnswered > 0){
-                html += 'Average reference knowledge: ' + averageRefKnowledge + ' %';
+                html += 'Hebrew to French knowledge: ' + averageRefKnowledge + ' %<br>';
             }
             if (nbTransAnswered > 0){
-                html += 'Average translated knowledge: ' + averageTransKnowledge + ' %';
+                html += 'French to Hebrew knowledge: ' + averageTransKnowledge + ' %<br>';
             }
             
             return html;

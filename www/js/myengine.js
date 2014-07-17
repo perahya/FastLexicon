@@ -1,6 +1,6 @@
  function MainEngine() {       
      this._my_lexicon;
-     this._all_hebrew_words_lexicon;
+     //this._all_hebrew_words_lexicon;
      this._localStorageEngine;
                
      this.init = function(fctDone) {      
@@ -16,6 +16,10 @@
             var nbNewWordsAdded = 0;
             for (var i = 0, c = _default_hebrew_words.length; i < c; i++) {    
                 var w = _default_hebrew_words[i];                       
+                /*if (i == 859)
+                {
+                    console.log("je l'ai !");
+                }*/
                 var rank = i+1;
          
 		var wordObj = new Word(w[1],w[0],w[2],-1,-1,rank,false);
@@ -34,13 +38,13 @@
             }
 
             // initialization of the dictionary
-            window.myEngine._all_hebrew_words_lexicon = new Lexicon(window.myEngine._localStorageEngine._all_hebrew_words_lexicon_id);
+            /*window.myEngine._all_hebrew_words_lexicon = new Lexicon(window.myEngine._localStorageEngine._all_hebrew_words_lexicon_id);
             for (var i = 0, c = _all_hebrew_words.length; i < c; i++) {
-                var w = _all_hebrew_words[i];
+                var w = _all_hebrew_words[i];                
                 var rank = i+1;
                 var wordObj = new Word(w[0],w[1],w[2],-1,-1,rank,true);
                 window.myEngine._all_hebrew_words_lexicon.addWord(wordObj);
-            }
+            }*/
             fctDone();
         });
     };        

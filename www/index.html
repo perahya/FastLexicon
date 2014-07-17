@@ -220,7 +220,7 @@ a {
       
       
   var _maxDisplayedWords = 6;      
-  var _NB_WORDS_CHECKED_PER_SESSION = 40;
+  var _NB_WORDS_CHECKED_PER_SESSION = 10;
   var mySwiper;    
   var holdPosition = 0;
   var _words_to_assess;
@@ -585,11 +585,12 @@ function displayStatistics() {
             averageTransKnowledge = Math.round(averageTransKnowledge * 100);
                         
             var html = nbAnsweredWords + '/' + words.length + ' answered words<br>';
+            html += 'Average knowledge:<br>';
             if (nbRefAnswered > 0){
-                html += 'Hebrew to French knowledge: ' + averageRefKnowledge + ' %<br>';
+                html += 'Hebrew to French &#8594; ' + averageRefKnowledge + '%<br>';
             }
             if (nbTransAnswered > 0){
-                html += 'French to Hebrew knowledge: ' + averageTransKnowledge + ' %<br>';
+                html += 'French to Hebrew &#8594; ' + averageTransKnowledge + '%<br>';
             }
             
             return html;

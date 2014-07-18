@@ -867,4 +867,11 @@ var _default_hebrew_words = [["manifester","להפגין","léhafguîne"],
 ["tirer (avec une arme)","לירות","lirôte"],
 ["citoyen","אזרח","ézrâkh"],
 ["civil","אזרחי","ézrâkhî"],
-["considération (déférence)","התחשבות","hitkhachvoûte"]];		
+["considération (déférence)","התחשבות","hitkhachvoûte"],
+["le lendemain","למחרת","lémakharâte"],
+["couper","לחתוך","lakhtôkh"],
+["opération (chirurgicale)","ניתוח","nitoû'akh"],
+["opération militaire","מבצע צבאי","mivtsâ tsva'î"],
+["opinion publique","דעת קהל","dâ'ate kahâle"],
+["tu résouds","אתה פותר","atâ potere"],
+["il a résolu","הוא פתר","hou patare"]];		

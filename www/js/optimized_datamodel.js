@@ -72,18 +72,18 @@ function WordDefinition(id, origin, reference, translation, pronunciation, diffi
 
 // object representing the knowledge on a word
 function WordKnowledge(id, reference_knowledge_level, translation_knowledge_level, last_reference_update_date, last_translation_update_date, nb_reference_success, nb_reference_fail, nb_translation_success, nb_translation_fail) {        
-        // word id
-        this._id = id;        
-        // knowledge level of the reference
-        this._ref_kw_lev = reference_knowledge_level;
-        // knowledge level of the translation
-        this._tra_kw_lev = translation_knowledge_level;        
-        // last revision date on the reference
-        this._last_ref_update_date = last_reference_update_date;        
-        // last revision date on the translation
-        this._last_tra_update_date = last_translation_update_date;
-        
-        this._nb_ref_succ = nb_reference_success;
+    // word id
+    this._id = id;        
+    // knowledge level of the reference
+    this._ref_kw_lev = reference_knowledge_level;
+    // knowledge level of the translation
+    this._tra_kw_lev = translation_knowledge_level;        
+    // last revision date on the reference
+    this._last_ref_update_date = last_reference_update_date;        
+    // last revision date on the translation
+    this._last_tra_update_date = last_translation_update_date;
+    // number of time the reference was well answered    
+    this._nb_ref_succ = nb_reference_success;
         
         
         this.isReferenceBetterKnown = function() {                                                            

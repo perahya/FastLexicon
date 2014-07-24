@@ -12,6 +12,11 @@ function WordDefinition(id, origin, reference, translation, pronunciation, diffi
     this._pro = pronunciation;
     // difficulty level 
     this._difficulty_level = difficulty_level;
+    
+    // definition id is the pair value composed by the id and the origin
+    this.getDefinitionId = function() {                                                 
+        return this.getOrigin() + '_' + this.getId();
+    };
         
     this.getId = function() {                                                 
         return this._id;
@@ -71,9 +76,9 @@ function WordDefinition(id, origin, reference, translation, pronunciation, diffi
 };
 
 // object representing the knowledge on a word
-function WordKnowledge(id, reference_knowledge_level, translation_knowledge_level, last_reference_update_date, last_translation_update_date, nb_reference_success, nb_reference_fail, nb_translation_success, nb_translation_fail) {        
-    // word id
-    this._id = id;        
+function WordKnowledge(definition_id, reference_knowledge_level, translation_knowledge_level, last_reference_update_date, last_translation_update_date, nb_reference_success, nb_reference_fail, nb_translation_success, nb_translation_fail) {        
+    // word definition id
+    this._definition_id = definition_id;        
     // knowledge level of the reference
     this._ref_kw_lev = reference_knowledge_level;
     // knowledge level of the translation

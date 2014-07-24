@@ -84,224 +84,169 @@ function WordKnowledge(id, reference_knowledge_level, translation_knowledge_leve
     this._last_tra_update_date = last_translation_update_date;
     // number of time the reference was well answered    
     this._nb_ref_succ = nb_reference_success;
+    // number of time the reference was not correctly answered    
+    this._nb_ref_fail = nb_reference_fail;
+    // number of time the translation was well answered    
+    this._nb_tra_succ = nb_translation_success;
+    // number of time the translation was not correctly answered    
+    this._nb_tra_fail = nb_translation_fail;    
         
+    this.isReferenceBetterKnown = function() {                                                            
+        return (this.getReferenceKnowledgeValue() > this.getTranslationKnowledgeValue());            
+    };
         
-        this.isReferenceBetterKnown = function() {                                                            
-            return (this.getReferenceKnowledgeValue() > this.getTranslationKnowledgeValue());            
-        };
+    this.isKnowledgeValueIdenticalForReferenceAndTranslation = function() {                                                            
+        return (this.getReferenceKnowledgeValue() == this.getTranslationKnowledgeValue());            
+    };
         
-        this.isKnowledgeValueIdenticalForReferenceAndTranslation = function() {                                                            
-            return (this.getReferenceKnowledgeValue() == this.getTranslationKnowledgeValue());            
-        };
-        
-        this.getBestKnowledgeValue = function() {                    
-            var ref = this.getReferenceKnowledgeValue();
-            var tra = this.getTranslationKnowledgeValue();
+    this.getBestKnowledgeValue = function() {                    
+        var ref = this.getReferenceKnowledgeValue();
+        var tra = this.getTranslationKnowledgeValue();
             
-            if (ref > tra){
-                return ref;
-            }
-            else{
-                return tra;
-            }
-        };
+        if (ref > tra){
+            return ref;
+        }
+        else{
+            return tra;
+        }
+    };
         
-        this.getWorseKnowledgeValue = function() { 
-            var ref = this.getReferenceKnowledgeValue();
-            var tra = this.getTranslationKnowledgeValue();
-            if (ref < tra){
-                return ref;
-            }
-            else{
-                return tra;
-            }
-        };
+    this.getWorseKnowledgeValue = function() { 
+        var ref = this.getReferenceKnowledgeValue();
+        var tra = this.getTranslationKnowledgeValue();
+        if (ref < tra){
+            return ref;
+        }
+        else{
+            return tra;
+        }
+    };
+                
+    this.getReferenceKnowledgeValue = function() {                                     
+        if (this._ref_kw_lev == null || typeof(this._ref_kw_lev) == 'undefined'){
+            this._ref_kw_lev = -1;                
+        }
+          
+        return this._ref_kw_lev;
+    };
         
-        this.getReferenceValue = function() {                                                 
-            return this._ref;
-        };
+    this.setReferenceKnowledgeValue = function(val) {                                     
+        if (val != null && typeof(val) != 'undefined' && val >= -1){
+            this._ref_kw_lev = val;                
+        }
+    };
         
-        this.hasReferenceValue = function() {                                                 
-            var ref = this.getReferenceValue();
-            return (ref != null && ref != 'undefined' && ref.length > 0);
-        };
-        
-        this.getTranslationValue = function() {                                                 
-            return this._tra;
-        };
-        
-        this.hasTranslationValue = function() {                                                 
-            var trans = this.getTranslationValue();
-            return (trans != null && trans != 'undefined' && trans.length > 0);
-        };
-        
-        this.getPronunciationValue = function() {                                                 
-            return this._pro;
-        };
-        
-        this.hasPronunciationValue = function() {                                                 
-            var pronunciation = this.getPronunciationValue();
-            return (pronunciation != null && pronunciation != 'undefined' && pronunciation.length > 0);
-        };
-        
-        this.getReferenceKnowledgeValue = function() {                                     
-            if (this._ref_kw_lev == null || typeof(this._ref_kw_lev) == 'undefined'){
-                this._ref_kw_lev = -1;                
-            }
+    this.getTranslationKnowledgeValue = function() {                                     
+        if (this._tra_kw_lev == null || typeof(this._tra_kw_lev) == 'undefined'){
+            this._tra_kw_lev = -1;                
+        }
             
-            return this._ref_kw_lev;
-        };
+        return this._tra_kw_lev;
+    };
         
-        this.setReferenceKnowledgeValue = function(val) {                                     
-            if (val != null && typeof(val) != 'undefined' && val >= -1){
-                this._ref_kw_lev = val;                
-            }
-        };
+    this.setTranslationKnowledgeValue = function(val) {                                     
+        if (val != null && typeof(val) != 'undefined' && val >= -1){
+            this._tra_kw_lev = val;                
+        }
+    };
         
-        this.getTranslationKnowledgeValue = function() {                                     
-            if (this._tra_kw_lev == null || typeof(this._tra_kw_lev) == 'undefined'){
-                this._tra_kw_lev = -1;                
-            }
-            
-            return this._tra_kw_lev;
-        };
+    this.hasReferenceUpdateDate = function() {                                     
+        var updateDate = this.getLastReferenceUpdateDate();
+        return (updateDate != null && updateDate != 'undefined');
+    };
         
-        this.setTranslationKnowledgeValue = function(val) {                                     
-            if (val != null && typeof(val) != 'undefined' && val >= -1){
-                this._tra_kw_lev = val;                
-            }
-        };
+    this.hasTranslationUpdateDate = function() {                                     
+        var updateDate = this.getLastTranslationUpdateDate();
+        return (updateDate != null && updateDate != 'undefined');
+    };
         
-        this.hasReferenceUpdateDate = function() {                                     
-            var updateDate = this.getLastReferenceUpdateDate();
-            return (updateDate != null && updateDate != 'undefined');
-        };
+    this.getLastReferenceUpdateDate = function() {                                     
+        return this._last_ref_update_date;
+    };
         
-        this.hasTranslationUpdateDate = function() {                                     
-            var updateDate = this.getLastTranslationUpdateDate();
-            return (updateDate != null && updateDate != 'undefined');
-        };
+    this.getLastTranslationUpdateDate = function() {                                     
+        return this._last_tra_update_date;
+    };
         
-        this.getLastReferenceUpdateDate = function() {                                     
-            return this._last_ref_update_date;
-        };
-        
-        this.getLastTranslationUpdateDate = function() {                                     
-            return this._last_tra_update_date;
-        };
-        
-        this.updateKnowledge = function(isKnown, isReference) {        
-            if (isKnown != null && typeof(isKnown) != 'undefined' 
-                    && isReference != null && typeof(isReference) != 'undefined') {                                
-                if (isReference){
-                    var refKnowledge = this.getReferenceKnowledgeValue();
-                    if (isKnown){                        
-                        if (refKnowledge == -1){
-                            // case where the word was answered for the first time
-                            refKnowledge = 1;
-                        }
-                        else{
-                            refKnowledge += 1;    
-                        }                                                                   
+    this.updateKnowledge = function(isKnown, isReference) {        
+        if (isKnown != null && typeof(isKnown) != 'undefined' 
+            && isReference != null && typeof(isReference) != 'undefined') {                                
+            if (isReference){
+                var refKnowledge = this.getReferenceKnowledgeValue();
+                if (isKnown){                        
+                    if (refKnowledge == -1){
+                        // case where the word was answered for the first time
+                        refKnowledge = 1;
                     }
                     else{
-                        refKnowledge = 0;                        
-                    }
-                    this.setReferenceKnowledgeValue(refKnowledge);
-                    var d = new Date();
-                    this._last_ref_update_date = d;
-                    if (isKnown == false && this.isTranslationAlreadyAnswered()){
-                        // in case of error for reference check we downgrade also the translation knowledge value
-                        this.setTranslationKnowledgeValue(0);
-                        this._last_tra_update_date = d;
-                    }                        
-                }
-                else{        
-                    var transKnowledge = this.getTranslationKnowledgeValue();
-                    if (isKnown){
-                        if (transKnowledge == -1){
-                            transKnowledge = 1;   
-                        }
-                        else{
-                            transKnowledge += 1;    
-                        }                                        
-                    }
-                    else{
-                        transKnowledge = 0;
-                    }
-                    this.setTranslationKnowledgeValue(transKnowledge);
-                    var d = new Date();
-                    this._last_tra_update_date = d;
-                    if (isKnown == false && this.isReferenceAlreadyAnswered()){
-                        // in case of error for translation check we downgrade also the reference knowledge value
-                        this.setReferenceKnowledgeValue(0);
-                        this._last_ref_update_date = d;
-                    }
-                }                
-            }        
-        };
-        
-        this.isReferenceAlreadyAnswered = function() {                                                             
-            return (this.getReferenceKnowledgeValue() >= 0);
-        };                
-        
-        this.isTranslationAlreadyAnswered = function() {                                                             
-            return (this.getTranslationKnowledgeValue() >= 0);
-        };
-        
-        this.getLastUpdateDate = function() {                    
-            if ((this.hasTranslationUpdateDate() == false) && (this.hasReferenceUpdateDate() == false)){
-                return;
-            }
-            else{
-                if (this.hasReferenceUpdateDate() == false){
-                    return new Date(this.getLastTranslationUpdateDate());
+                        refKnowledge += 1;    
+                    }                                                                   
                 }
                 else{
-                    var tradDate = new Date(this.getLastTranslationUpdateDate());
-                    var refDate = new Date(this.getLastReferenceUpdateDate());
-                    if (tradDate > refDate){
-                        return tradDate;
+                    refKnowledge = 0;                        
+                }
+                this.setReferenceKnowledgeValue(refKnowledge);
+                var d = new Date();
+                this._last_ref_update_date = d;
+                if (isKnown == false && this.isTranslationAlreadyAnswered()){
+                    // in case of error for reference check we downgrade also the translation knowledge value
+                    this.setTranslationKnowledgeValue(0);
+                    this._last_tra_update_date = d;
+                }                        
+            }
+            else{        
+                var transKnowledge = this.getTranslationKnowledgeValue();
+                if (isKnown){
+                    if (transKnowledge == -1){
+                        transKnowledge = 1;   
                     }
                     else{
-                        return refDate;
-                    }
+                        transKnowledge += 1;    
+                    }                                        
                 }
-            }
-            
-            
-        };
+                else{
+                    transKnowledge = 0;
+                }
+                this.setTranslationKnowledgeValue(transKnowledge);
+                var d = new Date();
+                this._last_tra_update_date = d;
+                if (isKnown == false && this.isReferenceAlreadyAnswered()){
+                    // in case of error for translation check we downgrade also the reference knowledge value
+                    this.setReferenceKnowledgeValue(0);
+                    this._last_ref_update_date = d;
+                }
+            }                
+        }        
+    };
         
-        this.getRank = function() {                                                             
-            return this._rank;
-        };
+    this.isReferenceAlreadyAnswered = function() {                                                             
+        return (this.getReferenceKnowledgeValue() >= 0);
+    };                
         
-        this.setRank = function(val) {                                     
-            if (val != null && typeof(val) != 'undefined'){
-                this._rank = val;                
-            }
-        };
+    this.isTranslationAlreadyAnswered = function() {                                                             
+        return (this.getTranslationKnowledgeValue() >= 0);
+    };
         
-        this.isImportedFromDictionary = function() {                                                             
-            return this._imp;
-        };
-        
-        this.setDictionaryImportValue = function(val) {                                     
-            if (val != null && typeof(val) != 'undefined'){
-                this._imp = val;                
-            }
-        };
-        
-        this.hasSameDefinitionValues = function(word) {                                     
-            if (word == null || typeof(word) == 'undefined'){
-                return false;
+    this.getLastUpdateDate = function() {                    
+        if ((this.hasTranslationUpdateDate() == false) && (this.hasReferenceUpdateDate() == false)){
+            return;
+        }
+        else{
+            if (this.hasReferenceUpdateDate() == false){
+                return new Date(this.getLastTranslationUpdateDate());
             }
             else{
-                return ( (this.getReferenceValue() == word.getReferenceValue()) && 
-                         (this.getTranslationValue() == word.getTranslationValue()) &&
-                         (this.getPronunciationValue() == word.getPronunciationValue()) );
+                var tradDate = new Date(this.getLastTranslationUpdateDate());
+                var refDate = new Date(this.getLastReferenceUpdateDate());
+                if (tradDate > refDate){
+                    return tradDate;
+                }
+                else{
+                    return refDate;
+                }
             }
-        };
+        }                        
+    };             
 };
 
 // object representing a word

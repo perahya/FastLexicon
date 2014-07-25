@@ -259,10 +259,10 @@ function LexiconKnowledge() {
         //this._words = words;
         this._wordsKnowledgeH = new HashTable({});
                 
-        this.initWords = function(words) {                            
+        this.addWords = function(words) {                            
             if (words == null || typeof(words) != 'undefined'){
-                if (this._wordsH == null || typeof(this._wordsH) == 'undefined'){
-                    this._wordsH = new HashTable({});
+                if (this._wordsKnowledgeH == null || typeof(this._wordsKnowledgeH) == 'undefined'){
+                    this._wordsKnowledgeH = new HashTable({});
                 }
                 for (var i = 0, c = words.length; i < c; i++) {    
                     var w = words[i];
@@ -272,23 +272,19 @@ function LexiconKnowledge() {
         };
         
         this.initFromLexicon = function(lexicon) {                            
-            if (lexicon != null && typeof(lexicon) != 'undefined' && 
-                lexicon._lexicon_id != null && typeof(lexicon._lexicon_id) != 'undefined' &&
-                lexicon._lexicon_id.length > 0){
+            if (lexicon != null && typeof(lexicon) != 'undefined'){
                 if (lexicon._wordsH != null && typeof(lexicon._wordsH) != 'undefined'){
-                    this._wordsH = new HashTable({});    
-                    this._lexicon_id = lexicon._lexicon_id;
+                    this._wordsKnowledgeH = new HashTable({});                        
                     if ( (typeof(lexicon._lastComputedExamList) != 'undefined') && 
                             (lexicon._lastComputedExamList != null) ){
                         this._lastComputedExamList = new Date(lexicon._lastComputedExamList);
                     }
-                        
-                    var item = lexicon._wordsH.items;                                        
+    
+                    var item = lexicon._wordsKnowledgeH.items;                                        
                     for (var p in item) {
                         if (item.hasOwnProperty(p)) {
                             var w = item[p];
-                            var newW = new Word(w._ref,w._tra,w._pro,w._ref_kw_lev,
-                                w._tra_kw_lev,w._rank,w._imp,w._last_ref_update_date,w._last_tra_update_date);                           
+                            var newW = new WordKnowledge(w._definition_id, w._ref_kw_lev, w._tra_kw_lev, w._last_ref_update_date, w._last_tra_update_date, w._nb_ref_succ, w._nb_ref_fail, w._nb_tra_succ, w._nb_tra_fail);                           
                             this.addWord(newW);
                         }
                     }                                      

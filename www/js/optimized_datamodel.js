@@ -368,28 +368,25 @@ function LexiconKnowledge() {
         }        
     };                  
         
-        this.getWords = function() {        
-            return this._wordsKnowledgeH.values();
-        };                      
+    this.getWords = function() {        
+        return this._wordsKnowledgeH.values();
+    };                      
         
-        this.getNbWords = function() {        
-            return this.getWords().length;
-        };
+    this.getNbWords = function() {        
+        return this.getWords().length;
+    };
                   
                
-    this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {        
-        var assess_list = new Array();                         
+    this.getExamWordsIdList = function(minimum_knowledge_level, nb_words_max) {        
+        var assess_list = new Array();             
+        var words = this.getWords();
         if (minimum_knowledge_level == null || typeof(minimum_knowledge_level) == 'undefined' ||
-            minimum_knowledge_level < 0){
-            assess_list = new Array();
-            var words = this.getWords();
+            minimum_knowledge_level < 0){                        
             for (var i = 0, c = words.length; i < c; i++) {    
                 w = words[i];                    
                 assess_list.push(w);                                    
             }
-        }else{            
-            assess_list = new Array();
-            var words = this.getWords();
+        }else{                                    
             for (var i = 0, c = words.length; i < c; i++) {    
                 w = words[i];
                 if (w.getWorseKnowledgeValue() < minimum_knowledge_level){
@@ -546,21 +543,11 @@ function LexiconKnowledge() {
             }
         };        
         
-        this.getJSONformat = function() {        
-            var words =  this.getWords();
-            var res = JSON.stringify(words);            
-            return res;
-        };
-        
-        this.getTxtFormat = function() {        
-            var words =  this.getWords();
-            var res;
-            for (var i = 0, c = 34; i < c; i++) {    
-                var w = words[i];
-                res += w.getReferenceValue() + "\t" + w.getTranslationValue() + "\t" + w.getPronunciationValue() + "\n";
-            }
-            return res;
-        };
+    this.getJSONformat = function() {        
+        var words =  this.getWords();
+        var res = JSON.stringify(words);            
+        return res;
+    };               
 };
 
 

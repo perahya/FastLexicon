@@ -81,20 +81,47 @@ function WordKnowledge(definition_id, reference_knowledge_level, translation_kno
     this._definition_id = definition_id;        
     // knowledge level of the reference
     this._ref_kw_lev = reference_knowledge_level;
+    if (this._ref_kw_lev == null || this._ref_kw_lev == 'undefined'){
+        this._ref_kw_lev = -1;
+    }
     // knowledge level of the translation
-    this._tra_kw_lev = translation_knowledge_level;        
+    this._tra_kw_lev = translation_knowledge_level;
+    if (this._tra_kw_lev == null || this._tra_kw_lev == 'undefined'){
+        this._tra_kw_lev = -1;
+    }
     // last revision date on the reference
     this._last_ref_update_date = last_reference_update_date;        
     // last revision date on the translation
     this._last_tra_update_date = last_translation_update_date;
     // number of time the reference was well answered    
     this._nb_ref_succ = nb_reference_success;
+    if (this._nb_ref_succ == null || this._nb_ref_succ == 'undefined'){
+        this._nb_ref_succ = 0;
+    }
     // number of time the reference was not correctly answered    
     this._nb_ref_fail = nb_reference_fail;
+    if (this._nb_ref_fail == null || this._nb_ref_fail == 'undefined'){
+        this._nb_ref_fail = 0;
+    }
     // number of time the translation was well answered    
     this._nb_tra_succ = nb_translation_success;
+    if (this._nb_tra_succ == null || this._nb_tra_succ == 'undefined'){
+        this._nb_tra_succ = 0;
+    }
     // number of time the translation was not correctly answered    
-    this._nb_tra_fail = nb_translation_fail;    
+    this._nb_tra_fail = nb_translation_fail;  
+    if (this._nb_tra_fail == null || this._nb_tra_fail == 'undefined'){
+        this._nb_tra_fail = 0;
+    }
+    
+    this.getDefinitionId = function() {                                                 
+        return this._definition_id;
+    };
+    
+    this.hasDefinitionId = function() {                                                 
+        var id = this.getDefinitionId();
+        return (id != null && id != 'undefined' && id.length > 0);
+    };
         
     this.isReferenceBetterKnown = function() {                                                            
         return (this.getReferenceKnowledgeValue() > this.getTranslationKnowledgeValue());            
@@ -254,148 +281,101 @@ function WordKnowledge(definition_id, reference_knowledge_level, translation_kno
     };             
 };
 
+// knowledge statistics on a selection of words
 function LexiconKnowledge() {
-        this._lastComputedExamList;
-        //this._words = words;
-        this._wordsKnowledgeH = new HashTable({});
-                
-        this.addWords = function(words) {                            
-            if (words == null || typeof(words) != 'undefined'){
-                if (this._wordsKnowledgeH == null || typeof(this._wordsKnowledgeH) == 'undefined'){
-                    this._wordsKnowledgeH = new HashTable({});
-                }
-                for (var i = 0, c = words.length; i < c; i++) {    
-                    var w = words[i];
-                    this.addWord(w);                
-                }
-            }
-        };
-        
-        this.initFromLexicon = function(lexicon) {                            
-            if (lexicon != null && typeof(lexicon) != 'undefined'){
-                if (lexicon._wordsH != null && typeof(lexicon._wordsH) != 'undefined'){
-                    this._wordsKnowledgeH = new HashTable({});                        
-                    if ( (typeof(lexicon._lastComputedExamList) != 'undefined') && 
-                            (lexicon._lastComputedExamList != null) ){
-                        this._lastComputedExamList = new Date(lexicon._lastComputedExamList);
-                    }
+    this._lastComputedExamList;
     
-                    var item = lexicon._wordsKnowledgeH.items;                                        
-                    for (var p in item) {
-                        if (item.hasOwnProperty(p)) {
-                            var w = item[p];
-                            var newW = new WordKnowledge(w._definition_id, w._ref_kw_lev, w._tra_kw_lev, w._last_ref_update_date, w._last_tra_update_date, w._nb_ref_succ, w._nb_ref_fail, w._nb_tra_succ, w._nb_tra_fail);                           
-                            this.addWord(newW);
-                        }
-                    }                                      
-                }
-            }
-        };
-        
-        this.getWord = function(wordReference) {        
-            if (wordReference != null && typeof(wordReference) != 'undefined' && wordReference.length > 0) {
-                var existing_word = this._wordsH.getItem(wordReference);
-                return existing_word;
-            }
-            else{
-                return 'undefined';
-            }            
-        };
-        
-        this.addWord = function(word) {        
-            if (word != null && typeof(word) != 'undefined' && word.hasReferenceValue()) {
-                var existing_word = this._wordsH.getItem(word.getReferenceValue());
-                if (existing_word == null || typeof(existing_word) == 'undefined') {                                    
-                    this._wordsH.setItem(word.getReferenceValue(), word);            
-                    return true;
-                }
-                else if (existing_word.hasSameDefinitionValues(word) == false){
-                    this._wordsH.removeItem(word.getReferenceValue());
-                    this._wordsH.setItem(word.getReferenceValue(), word);
-                    return true;
-                }
-            }
-            return false;
-        };
-        
-        this.editWord = function(existingReference, modifiedWord) {        
-            if (existingReference != null && typeof(existingReference) != 'undefined' && existingReference.length > 0 &&
-                modifiedWord != null && typeof(modifiedWord) != 'undefined' && modifiedWord.hasReferenceValue()
-                && modifiedWord.hasTranslationValue()) {
-                var existing_word = this._wordsH.getItem(existingReference);
-                if (existing_word != null && typeof(existing_word) != 'undefined') {
-                    this._wordsH.removeItem(existingReference);
-                    modifiedWord.setRank(existing_word.getRank());
-                    modifiedWord.setDictionaryImportValue(existing_word.isImportedFromDictionary());
-                }
-                this._wordsH.setItem(modifiedWord.getReferenceValue(), modifiedWord);
-                return true;                
-            }
-            return false;
-        };
-        
-        
-        
-        this.updateWordKnowledge = function(word, isKnown, isReference) {        
-            if (word != null && typeof(word) != 'undefined' && isKnown != null && typeof(isKnown) != 'undefined' 
-                    && isReference != null && typeof(isReference) != 'undefined') {
+    this._wordsKnowledgeH = new HashTable({});
                 
-                word.updateKnowledge(isKnown, isReference);                                
-                this._wordsH.setItem(word.getReferenceValue(), word);               
-            }        
-        };
+    this.addNewWords = function(words) {                            
+        if (words == null || typeof(words) != 'undefined'){
+            if (this._wordsKnowledgeH == null || typeof(this._wordsKnowledgeH) == 'undefined'){
+                this._wordsKnowledgeH = new HashTable({});
+            }
+            for (var i = 0, c = words.length; i < c; i++) {    
+                var w = words[i];                    
+                this.addNewWord(w.getDefinitionId());                
+            }
+        }
+    };
         
-        this.updateWordKnowledgeByReference = function(word_reference, isKnown, isReference) {        
-            if (word_reference != null && typeof(word_reference) != 'undefined' && isKnown != null && typeof(isKnown) != 'undefined' 
-                    && isReference != null && typeof(isReference) != 'undefined') {                
+    this.initFromKnowledgeLexicon = function(knowledge_lexicon) {                            
+        if (knowledge_lexicon != null && typeof(knowledge_lexicon) != 'undefined'){
+            if (knowledge_lexicon._wordsKnowledgeH != null && typeof(knowledge_lexicon._wordsKnowledgeH) != 'undefined'){
+                this._wordsKnowledgeH = new HashTable({});                        
+                if ( (typeof(knowledge_lexicon._lastComputedExamList) != 'undefined') && 
+                   (knowledge_lexicon._lastComputedExamList != null) ){
+                    this._lastComputedExamList = new Date(knowledge_lexicon._lastComputedExamList);
+                }
+    
+                var items = knowledge_lexicon._wordsKnowledgeH.items;                                        
+                for (var p in items) {
+                    if (items.hasOwnProperty(p)) {
+                        var w = items[p];
+                        var newW = new WordKnowledge(w._definition_id, w._ref_kw_lev, w._tra_kw_lev, w._last_ref_update_date, w._last_tra_update_date, w._nb_ref_succ, w._nb_ref_fail, w._nb_tra_succ, w._nb_tra_fail);                           
+                        this.addWord(newW);
+                    }
+                }                                      
+            }
+        }
+    };
+        
+    this.getWord = function(definition_id) {        
+        if (definition_id != null && typeof(definition_id) != 'undefined' && definition_id.length > 0) {
+            var existing_word = this._wordsKnowledgeH.getItem(definition_id);
+            return existing_word;
+        }
+        else{
+            return 'undefined';
+        }            
+    };
+        
+    this.addNewWord = function(definition_id) {        
+        if (definition_id != null && typeof(definition_id) != 'undefined') {                
+            var existing_word_knowledge = this._wordsKnowledgeH.getItem(definition_id);
+            if (existing_word_knowledge == null || typeof(existing_word_knowledge) == 'undefined') {   
+                var word_knowledge = new WordKnowledge(definition_id);
+                this._wordsKnowledgeH.setItem(definition_id, word_knowledge);            
+                return true;
+            }                
+        }
+        return false;
+    };
+        
+    this.addWord = function(word_knowledge) {        
+        if (word_knowledge != null && typeof(word_knowledge) != 'undefined' && word_knowledge.hasDefinitionId()) { 
+            var definition_id = word_knowledge.hasDefinitionId();
+            var existing_word_knowledge = this._wordsKnowledgeH.getItem(definition_id);
+            if (existing_word_knowledge == null || typeof(existing_word_knowledge) == 'undefined') {                       
+                this._wordsKnowledgeH.setItem(definition_id, word_knowledge);            
+                return true;
+            }                
+        }
+        return false;
+    };                                
+        
+    this.updateWordKnowledge = function(definition_id, isKnown, isReference) {        
+        if (definition_id != null && typeof(definition_id) != 'undefined' && isKnown != null && typeof(isKnown) != 'undefined' 
+                && isReference != null && typeof(isReference) != 'undefined') {
+               
+            var word_knowledge = this._wordsKnowledgeH.getItem(definition_id);
+            if (word_knowledge == null || typeof(word_knowledge) == 'undefined') {
+                word_knowledge = new WordKnowledge(definition_id);
+            }
                 
-                var existing_word = this._wordsH.getItem(word_reference);
-                if (existing_word != null && typeof(existing_word) != 'undefined') {                                                        
-                    this.updateWordKnowledge(existing_word, isKnown, isReference) ;
-                }                                
-            }        
-        };        
+            word_knowledge.updateKnowledge(isKnown, isReference);                                
+            this._wordsKnowledgeH.setItem(definition_id, word_knowledge);               
+        }        
+    };                  
         
         this.getWords = function() {        
-            return this._wordsH.values();
-        };      
-        
-        this.searchWords = function(searchStr) {        
-            if (searchStr != null && typeof(searchStr) != 'undefined' && searchStr.length > 1){
-                var words = this.getWords();                
-                var regex = new RegExp(searchStr,"gi");
-                var resultArray  = $.grep(words, function(item){                    
-                    return (regex.test(item.getReferenceValue()) || regex.test(item.getTranslationValue()));
-                });
-
-                return resultArray;
-            }
-            else{
-                return new Array();
-            }
-        };
+            return this._wordsKnowledgeH.values();
+        };                      
         
         this.getNbWords = function() {        
             return this.getWords().length;
         };
-        
-        this.getOrderedWords = function() {        
-            var orderedwords = this._wordsH.values();
-            
-            orderedwords.sort(function(a,b){
-                if (a.getTranslationValue() < b.getTranslationValue()){
-                    return -1;
-                }
-                else if (a.getTranslationValue() > b.getTranslationValue()){
-                    return 1;
-                }
-                else{
-                    return 0;
-                }
-            });
-            
-            return orderedwords;
-        };                  
+                  
                
     this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {        
         var assess_list = new Array();                         

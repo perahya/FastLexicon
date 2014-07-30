@@ -410,7 +410,7 @@ function LexiconKnowledge() {
             var key = computeWordKey(word_id, lexicon_origin);
             var word_knowledge = this._wordsKnowledgeH.getItem(key);
             if (word_knowledge == null || typeof(word_knowledge) == 'undefined') {
-                word_knowledge = new WordKnowledge(key);
+                word_knowledge = new WordKnowledge(word_id, lexicon_origin);
             }
                 
             word_knowledge.updateKnowledge(isKnown, isReference);                                
@@ -621,9 +621,9 @@ function LexiconDefinition(lexicon_id) {
             }
         };
                         
-        this.getWord = function(word_id) {        
-            if (word_id != null && typeof(word_id) != 'undefined' && word_id.length > 0) {
-                var existing_word = this._wordsH.getItem(word_id);
+        this.getWord = function(key) {        
+            if (key != null && typeof(key) != 'undefined' && key.length > 0) {
+                var existing_word = this._wordsH.getItem(key);
                 return existing_word;
             }
             else{
@@ -631,9 +631,9 @@ function LexiconDefinition(lexicon_id) {
             }            
         };
         
-        this.addWord = function(word) {        
-            if (word != null && typeof(word) != 'undefined' && word.hasReferenceValue()) {
-                var existing_word = this._wordsH.getItem(word.getReferenceValue());
+        this.addWordObj = function(word_definition) {        
+            if (word_definition != null && typeof(word_definition) != 'undefined' && word_definition.hasKey()) {
+                var existing_word = this._wordsH.getItem(word_definition.getKey());
                 if (existing_word == null || typeof(existing_word) == 'undefined') {                                    
                     this._wordsH.setItem(word.getReferenceValue(), word);            
                     return true;

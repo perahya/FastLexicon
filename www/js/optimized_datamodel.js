@@ -1,38 +1,55 @@
+this.computeWordKey = function(word_id, lexicon_origin) {
+    // key used to store/retrieve the word
+    var key = lexicon_origin + "_" + word_id;
+    return key;
+};
+
 // object representing a word definition
-function WordDefinition(id, origin, reference, translation, pronunciation, difficulty_level) {        
+function WordDefinition(word_id, lexicon_origin, reference, translation, pronunciation, difficulty_level) {        
     // word id
-    this._id = id;
+    this._id = word_id;
+    
     // origin of the word (from which list does it come from ?)
-    this._origin = origin;
+    this._origin = lexicon_origin;
+    
     // reference word
-    this._ref = reference;        
+    this._ref = reference;   
+    
     // translation
     this._tra = translation;
+    
     // pronunciation
     this._pro = pronunciation;
+    
     // difficulty level 
     this._difficulty_level = difficulty_level;
     
-    // definition id is the pair value composed by the id and the origin
-    this.getDefinitionId = function() {                                                 
-        return this.getOrigin() + '_' + this.getId();
+    this.getKey = function() {
+        // key used to store/retrieve the word
+        var key = computeWordKey(this.getWordId(), this.getLexiconOrigin());
+        return key;
+    };
+    
+    this.hasKey = function() {                                                 
+        var key = this.getKey();
+        return (key != null && key != 'undefined' && key.length > 0);
     };
         
-    this.getId = function() {                                                 
+    this.getWordId = function() {                                                 
         return this._id;
     };
         
-    this.hasId = function() {                                                 
-        var id = this.getId();
+    this.hasWordId = function() {                                                 
+        var id = this.getWordId();
         return (id != null && id != 'undefined' && id.length > 0);
     };
         
-    this.getOrigin = function() {                                                 
+    this.getLexiconOrigin = function() {                                                 
         return this._origin;
     };
         
-    this.hasOrigin = function() {                                                 
-        var ori = this.getOrigin();
+    this.hasLexiconOrigin = function() {                                                 
+        var ori = this.getLexiconOrigin();
         return (ori != null && ori != 'undefined' && ori.length > 0);
     };
         
@@ -76,51 +93,83 @@ function WordDefinition(id, origin, reference, translation, pronunciation, diffi
 };
 
 // object representing the knowledge on a word
-function WordKnowledge(definition_id, reference_knowledge_level, translation_knowledge_level, last_reference_update_date, last_translation_update_date, nb_reference_success, nb_reference_fail, nb_translation_success, nb_translation_fail) {        
-    // word definition id
-    this._definition_id = definition_id;        
+function WordKnowledge(word_id, lexicon_origin, reference_knowledge_level, translation_knowledge_level, last_reference_update_date, last_translation_update_date, nb_reference_success, nb_reference_fail, nb_translation_success, nb_translation_fail) {        
+    // word id
+    this._id = word_id;
+    
+    // origin of the word (from which list does it come from ?)
+    this._origin = lexicon_origin;        
+        
+    
     // knowledge level of the reference
     this._ref_kw_lev = reference_knowledge_level;
     if (this._ref_kw_lev == null || this._ref_kw_lev == 'undefined'){
         this._ref_kw_lev = -1;
     }
+    
     // knowledge level of the translation
     this._tra_kw_lev = translation_knowledge_level;
     if (this._tra_kw_lev == null || this._tra_kw_lev == 'undefined'){
         this._tra_kw_lev = -1;
     }
+    
     // last revision date on the reference
-    this._last_ref_update_date = last_reference_update_date;        
+    this._last_ref_update_date = last_reference_update_date; 
+    
     // last revision date on the translation
     this._last_tra_update_date = last_translation_update_date;
+    
     // number of time the reference was well answered    
     this._nb_ref_succ = nb_reference_success;
     if (this._nb_ref_succ == null || this._nb_ref_succ == 'undefined'){
         this._nb_ref_succ = 0;
     }
+    
     // number of time the reference was not correctly answered    
     this._nb_ref_fail = nb_reference_fail;
     if (this._nb_ref_fail == null || this._nb_ref_fail == 'undefined'){
         this._nb_ref_fail = 0;
     }
+    
     // number of time the translation was well answered    
     this._nb_tra_succ = nb_translation_success;
     if (this._nb_tra_succ == null || this._nb_tra_succ == 'undefined'){
         this._nb_tra_succ = 0;
     }
+    
     // number of time the translation was not correctly answered    
     this._nb_tra_fail = nb_translation_fail;  
     if (this._nb_tra_fail == null || this._nb_tra_fail == 'undefined'){
         this._nb_tra_fail = 0;
     }
-    
-    this.getDefinitionId = function() {                                                 
-        return this._definition_id;
+        
+    this.getKey = function() {
+        // key used to store/retrieve the word
+        var key = computeWordKey(this.getWordId(), this.getLexiconOrigin());
+        return key;
     };
     
-    this.hasDefinitionId = function() {                                                 
-        var id = this.getDefinitionId();
+    this.hasKey = function() {                                                 
+        var key = this.getKey();
+        return (key != null && key != 'undefined' && key.length > 0);
+    };
+    
+    this.getWordId = function() {                                                 
+        return this._id;
+    };
+        
+    this.hasWordId = function() {                                                 
+        var id = this.getWordId();
         return (id != null && id != 'undefined' && id.length > 0);
+    };
+        
+    this.getLexiconOrigin = function() {                                                 
+        return this._origin;
+    };
+        
+    this.hasLexiconOrigin = function() {                                                 
+        var ori = this.getLexiconOrigin();
+        return (ori != null && ori != 'undefined' && ori.length > 0);
     };
         
     this.isReferenceBetterKnown = function() {                                                            
@@ -294,11 +343,11 @@ function LexiconKnowledge() {
             }
             for (var i = 0, c = words.length; i < c; i++) {    
                 var w = words[i];                    
-                this.addNewWord(w.getDefinitionId());                
+                this.addNewWord(w.getWordId(), w.getLexiconOrigin());
             }
         }
     };
-        
+                
     this.initFromKnowledgeLexicon = function(knowledge_lexicon) {                            
         if (knowledge_lexicon != null && typeof(knowledge_lexicon) != 'undefined'){
             if (knowledge_lexicon._wordsKnowledgeH != null && typeof(knowledge_lexicon._wordsKnowledgeH) != 'undefined'){
@@ -312,17 +361,17 @@ function LexiconKnowledge() {
                 for (var p in items) {
                     if (items.hasOwnProperty(p)) {
                         var w = items[p];
-                        var newW = new WordKnowledge(w._definition_id, w._ref_kw_lev, w._tra_kw_lev, w._last_ref_update_date, w._last_tra_update_date, w._nb_ref_succ, w._nb_ref_fail, w._nb_tra_succ, w._nb_tra_fail);                           
-                        this.addWord(newW);
+                        var newW = new WordKnowledge(w._id, w._origin, w._ref_kw_lev, w._tra_kw_lev, w._last_ref_update_date, w._last_tra_update_date, w._nb_ref_succ, w._nb_ref_fail, w._nb_tra_succ, w._nb_tra_fail);                           
+                        this.addWordObj(newW);
                     }
                 }                                      
             }
         }
     };
         
-    this.getWord = function(definition_id) {        
-        if (definition_id != null && typeof(definition_id) != 'undefined' && definition_id.length > 0) {
-            var existing_word = this._wordsKnowledgeH.getItem(definition_id);
+    this.getWord = function(key) {        
+        if (key != null && typeof(key) != 'undefined' && key.length > 0) {
+            var existing_word = this._wordsKnowledgeH.getItem(key);
             return existing_word;
         }
         else{
@@ -330,41 +379,42 @@ function LexiconKnowledge() {
         }            
     };
         
-    this.addNewWord = function(definition_id) {        
-        if (definition_id != null && typeof(definition_id) != 'undefined') {                
-            var existing_word_knowledge = this._wordsKnowledgeH.getItem(definition_id);
+    this.addNewWord = function(word_id, lexicon_origin) {        
+        if (word_id != null && typeof(word_id) != 'undefined' && lexicon_origin != null && typeof(lexicon_origin) != 'undefined') {                        
+            var key = computeWordKey(word_id, lexicon_origin);
+            var existing_word_knowledge = this._wordsKnowledgeH.getItem(key);
             if (existing_word_knowledge == null || typeof(existing_word_knowledge) == 'undefined') {   
-                var word_knowledge = new WordKnowledge(definition_id);
-                this._wordsKnowledgeH.setItem(definition_id, word_knowledge);            
+                var new_word_knowledge = new WordKnowledge(word_id, lexicon_origin);
+                this._wordsKnowledgeH.setItem(key, new_word_knowledge);            
                 return true;
             }                
         }
         return false;
     };
         
-    this.addWord = function(word_knowledge) {        
-        if (word_knowledge != null && typeof(word_knowledge) != 'undefined' && word_knowledge.hasDefinitionId()) { 
-            var definition_id = word_knowledge.hasDefinitionId();
-            var existing_word_knowledge = this._wordsKnowledgeH.getItem(definition_id);
+    this.addWordObj = function(word_knowledge) {        
+        if (word_knowledge != null && typeof(word_knowledge) != 'undefined' && word_knowledge.hasKey()) { 
+            var key = word_knowledge.getKey();
+            var existing_word_knowledge = this._wordsKnowledgeH.getItem(key);
             if (existing_word_knowledge == null || typeof(existing_word_knowledge) == 'undefined') {                       
-                this._wordsKnowledgeH.setItem(definition_id, word_knowledge);            
+                this._wordsKnowledgeH.setItem(key, word_knowledge);            
                 return true;
             }                
         }
         return false;
     };                                
         
-    this.updateWordKnowledge = function(definition_id, isKnown, isReference) {        
-        if (definition_id != null && typeof(definition_id) != 'undefined' && isKnown != null && typeof(isKnown) != 'undefined' 
-                && isReference != null && typeof(isReference) != 'undefined') {
-               
-            var word_knowledge = this._wordsKnowledgeH.getItem(definition_id);
+    this.updateWordKnowledge = function(word_id, lexicon_origin, isKnown, isReference) {        
+        if (word_id != null && typeof(word_id) != 'undefined' && lexicon_origin != null && typeof(lexicon_origin) != 'undefined' && 
+                isKnown != null && typeof(isKnown) != 'undefined' && isReference != null && typeof(isReference) != 'undefined') {               
+            var key = computeWordKey(word_id, lexicon_origin);
+            var word_knowledge = this._wordsKnowledgeH.getItem(key);
             if (word_knowledge == null || typeof(word_knowledge) == 'undefined') {
-                word_knowledge = new WordKnowledge(definition_id);
+                word_knowledge = new WordKnowledge(key);
             }
                 
             word_knowledge.updateKnowledge(isKnown, isReference);                                
-            this._wordsKnowledgeH.setItem(definition_id, word_knowledge);               
+            this._wordsKnowledgeH.setItem(key, word_knowledge);               
         }        
     };                  
         
@@ -552,9 +602,7 @@ function LexiconKnowledge() {
 
 
 
-function Lexicon(lexicon_id) {
-        this._lastComputedExamList;
-        //this._words = words;
+function LexiconDefinition(lexicon_id) {        
         this._wordsH = new HashTable({});
         if (lexicon_id != null && typeof(lexicon_id) != 'undefined')
         {
@@ -572,35 +620,10 @@ function Lexicon(lexicon_id) {
                 }
             }
         };
-        
-        this.initFromLexicon = function(lexicon) {                            
-            if (lexicon != null && typeof(lexicon) != 'undefined' && 
-                lexicon._lexicon_id != null && typeof(lexicon._lexicon_id) != 'undefined' &&
-                lexicon._lexicon_id.length > 0){
-                if (lexicon._wordsH != null && typeof(lexicon._wordsH) != 'undefined'){
-                    this._wordsH = new HashTable({});    
-                    this._lexicon_id = lexicon._lexicon_id;
-                    if ( (typeof(lexicon._lastComputedExamList) != 'undefined') && 
-                            (lexicon._lastComputedExamList != null) ){
-                        this._lastComputedExamList = new Date(lexicon._lastComputedExamList);
-                    }
                         
-                    var item = lexicon._wordsH.items;                                        
-                    for (var p in item) {
-                        if (item.hasOwnProperty(p)) {
-                            var w = item[p];
-                            var newW = new Word(w._ref,w._tra,w._pro,w._ref_kw_lev,
-                                w._tra_kw_lev,w._rank,w._imp,w._last_ref_update_date,w._last_tra_update_date);                           
-                            this.addWord(newW);
-                        }
-                    }                                      
-                }
-            }
-        };
-        
-        this.getWord = function(wordReference) {        
-            if (wordReference != null && typeof(wordReference) != 'undefined' && wordReference.length > 0) {
-                var existing_word = this._wordsH.getItem(wordReference);
+        this.getWord = function(word_id) {        
+            if (word_id != null && typeof(word_id) != 'undefined' && word_id.length > 0) {
+                var existing_word = this._wordsH.getItem(word_id);
                 return existing_word;
             }
             else{

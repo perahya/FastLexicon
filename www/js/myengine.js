@@ -1,5 +1,6 @@
  function MainEngine() {       
      this._my_lexicon;
+     this._words_definition_list;
      //this._all_hebrew_words_lexicon;
      this._localStorageEngine;
                
@@ -7,9 +8,10 @@
          // we first try to load the personal lexicon from the local storage
         this._localStorageEngine = new LexiconLocalStorage();
         this._localStorageEngine.getMyLexicon(function(lexicon) {                
-            var new_lexicon = new Lexicon(window.myEngine._localStorageEngine._my_lexicon_id);
+            //var new_lexicon = new Lexicon(window.myEngine._localStorageEngine._my_lexicon_id);
+            var new_lexicon = new LexiconKnowledge(window.myEngine._localStorageEngine._my_lexicon_id);            
                                 
-            new_lexicon.initFromLexicon(lexicon);                
+            new_lexicon.initFromKnowledgeLexicon(lexicon);                
             window.myEngine._my_lexicon = new_lexicon;
                                                                             
             // we update the personal lexicon with new words from the default hebrew words list
@@ -19,7 +21,8 @@
                 var rank = i+1;
          
 		var wordObj = new Word(w[1],w[0],w[2],-1,-1,rank,false);
-		var newWordAdded = window.myEngine._my_lexicon.addWord(wordObj);
+                var wordDefinition = new WordDefinition(w[0], _default_hebrew_words_id, w[1], w[2], w[3], 1)
+		var newWordAdded = window.myEngine._my_lexicon.addNewWord(w[0]);
                 if (newWordAdded)
                 {                                            
                     nbNewWordsAdded++;

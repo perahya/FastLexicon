@@ -1,3 +1,4 @@
+var _default_hebrew_words_id = "bpa";
 var _default_hebrew_words = [["manifester","להפגין","léhafguîne"],
 ["en attendant","ביינתים","béyinatâyime"],
 ["j'en ai marre","נמאס לי","nimasse li"],

@@ -281,7 +281,7 @@ a {
   
   function updateWordKnowledge(word_id, word_origin, isCorrect, isReference, swiperParentId){
     var wordIdUnescaped = word_id;
-    refUnescaped = refUnescaped.replace("#", "'");  
+    wordIdUnescaped = wordIdUnescaped.replace("#", "'");  
     window.myEngine.getMyLexicon().updateWordKnowledge(wordIdUnescaped, word_origin, isCorrect, isReference);
     window.myEngine._localStorageEngine.saveLexicon(window.myEngine.getMyLexicon(), function(){                    
         console.log('Lexicon saved');
@@ -341,12 +341,12 @@ a {
         var displayedWord;
         var hiddenWord;
         if (assessReference){
-            displayedWord = word.getReferenceValue();
-            hiddenWord = word.getTranslationValue();
+            displayedWord = word.getReferenceValue() + " - " + word.getAverageKnowledgeValue();
+            hiddenWord = word.getTranslationValue() + " - " + word.getAverageKnowledgeValue();
         }
         else{
-            displayedWord = word.getTranslationValue();
-            hiddenWord = word.getReferenceValue();
+            displayedWord = word.getTranslationValue() + " - " + word.getAverageKnowledgeValue();
+            hiddenWord = word.getReferenceValue() + " - " + word.getAverageKnowledgeValue();
         }
                 
         var slide = mySwiper.createSlide("<div class='title'>"+displayedWord+"</div>", 'swiper-slide '+color+'-slide');

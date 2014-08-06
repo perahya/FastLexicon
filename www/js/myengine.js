@@ -65,11 +65,12 @@
         var assess_list = new Array();
         var tmp_assess_list = this.getMyLexicon.getExamWordsList(minimum_knowledge_level, nb_words_max);
         for (var i = 0, c = tmp_assess_list.length; i < c; i++) {
-            var w = tmp_assess_list[i];
+            var wordKnowledgeObj = tmp_assess_list[i];
             
-            var wordDef = this._words_definition_list.getWord(w.getKey());
-            if (wordDef != 'undefined' && wordDef != null){
-                assess_list.push(wordDef);
+            var wordDefinitionObj = this._words_definition_list.getWord(wordKnowledgeObj.getKey());
+            if (wordDefinitionObj != 'undefined' && wordDefinitionObj != null){
+                var wordToAssess = new WordToAssess(wordDefinitionObj, wordKnowledgeObj);
+                assess_list.push(wordToAssess);
             }
         }
         return assess_list;

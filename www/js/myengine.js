@@ -63,7 +63,7 @@
     
     this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {
         var assess_list = new Array();
-        var tmp_assess_list = this.getMyLexicon.getExamWordsList(minimum_knowledge_level, nb_words_max);
+        var tmp_assess_list = this.getMyLexicon().getExamWordsList(minimum_knowledge_level, nb_words_max);
         for (var i = 0, c = tmp_assess_list.length; i < c; i++) {
             var wordKnowledgeObj = tmp_assess_list[i];
             

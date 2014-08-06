@@ -279,8 +279,8 @@ a {
       initTest();
   });        
   
-  function updateWordeKnowledge(word_reference, isCorrect, isReference, swiperParentId){
-    var refUnescaped = word_reference;
+  function updateWordeKnowledge(word_key, isCorrect, isReference, swiperParentId){
+    var refUnescaped = word_key;
     refUnescaped = refUnescaped.replace("#", "'");  
     window.myEngine.getMyLexicon().updateWordKnowledgeByReference(refUnescaped, isCorrect, isReference);
     window.myEngine._localStorageEngine.saveLexicon(window.myEngine.getMyLexicon(), function(){                    
@@ -384,7 +384,7 @@ a {
                         
         //slide.html("<div class='swiper-parent" + swiperparentIndex + "'><div class='swiper-wrapper' style='width:3360px; height:100px; transition: 0s; -webkit-transition: 0s; -webkit-transform: translate3d(0px, 0px, 0px);'><div class='swiper-slide " + color + "-slide swiper-slide-visible swiper-slide-active' style='width:840px; height:100px;'><div class='title'>" + marquee_ref_start + displayedWord + marquee_ref_end + "</div></div><div class='swiper-slide " + color2 + "-slide' style='width:840px; height:100px;'><div class='title'>" + marquee_tra_start + hiddenWord + marquee_tra_end + "</div></div><div class='swiper-slide " + color + "-slide' style='width:420px; height:100px;'><div class='title'>" + marquee_pro_start + word.getPronunciationValue() + marquee_pro_end + "</div></div><div class='swiper-slide green-slide' style='width:840px; height:100px;'><table style='width:100%;'><tr><td style='width:50%'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", true, " + assessReference + ", \"" + swiperParentId + "\");' class='button'>I know it!</a></td><td style='width:50%; background-color:red;'><a href='javascript:updateWordeKnowledge(\"" + word.getReferenceValue() + "\", false, " + assessReference + ", \"" + swiperParentId + "\");' class='button'>Remind me later</a></td></tr></table></div></div></div>");
         
-        var refEscaped = word.getReferenceValue();
+        var refEscaped = word.getKey();
         refEscaped = refEscaped.replace("'", "#");         
         
         var buttonsHtml = "<div class='buttoncontainer'><div class='buttonknown'><a href='javascript:updateWordeKnowledge(\"" + refEscaped + "\", true, " + assessReference + ", \"" + swiperParentId + "\");'>I know it!</a></div><div class='buttonunknown'><a href='javascript:updateWordeKnowledge(\"" + refEscaped + "\", false, " + assessReference + ", \"" + swiperParentId + "\");'>Remind me later</a></div></div>";
@@ -465,7 +465,7 @@ a {
   function initTest() {
       if (_words_to_assess == null || _words_to_assess.length < _maxDisplayedWords)
       {
-        _words_to_assess = window.myEngine.getMyLexicon().getExamWordsList(-1, _NB_WORDS_CHECKED_PER_SESSION);
+        _words_to_assess = window.myEngine.getExamWordsList(-1, _NB_WORDS_CHECKED_PER_SESSION);
       }
       if (_words_to_assess != null && _words_to_assess != 'undefined' && _words_to_assess.length > 0){
           var i = 0;

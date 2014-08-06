@@ -330,6 +330,138 @@ function WordKnowledge(word_id, lexicon_origin, reference_knowledge_level, trans
     };             
 };
 
+function WordToAssess(word_definition, word_knowledge) {        
+    // word definition object
+    this._definition = word_definition;
+    
+    // word knowledge object
+    this._knowledge = word_knowledge;       
+    
+    this.getWordDefinitionObj = function() {        
+        return this._definition;
+    };
+    
+    this.getWordKnowledgeObj = function() {        
+        return this._knowledge;
+    };
+        
+    this.getKey = function() {        
+        return this._definition.getKey();
+    };
+    
+    this.hasKey = function() {                                                 
+        return this._definition.hasKey();
+    };
+    
+    this.getWordId = function() {                                                 
+        return this._definition.getWordId();
+    };
+        
+    this.hasWordId = function() {                                                 
+        return this._definition.hasWordId();
+    };
+        
+    this.getLexiconOrigin = function() {                                                 
+        return this._definition.getLexiconOrigin();
+    };
+        
+    this.hasLexiconOrigin = function() {                                                 
+        return this._definition.hasLexiconOrigin();
+    };
+    
+    this.getReferenceValue = function() {                                                 
+        return this._definition.getReferenceValue();
+    };
+        
+    this.hasReferenceValue = function() {                                                 
+        return this._definition.hasReferenceValue();
+    };
+        
+    this.getTranslationValue = function() {                                                 
+        return this._definition.getTranslationValue();
+    };
+        
+    this.hasTranslationValue = function() {                                                 
+        return this._definition.hasTranslationValue();
+    };
+        
+    this.getPronunciationValue = function() {                                                 
+        return this._definition.getPronunciationValue();
+    };
+        
+    this.hasPronunciationValue = function() {                                                 
+        return this._definition.hasPronunciationValue();
+    };                
+        
+    this.hasSameDefinitionValues = function(word) {                                     
+        return this._definition.hasSameDefinitionValues();
+    };
+        
+    this.isReferenceBetterKnown = function() {                                                            
+        return this._knowledge.isReferenceBetterKnown();            
+    };
+        
+    this.isKnowledgeValueIdenticalForReferenceAndTranslation = function() {                                                            
+        return this._knowledge.isKnowledgeValueIdenticalForReferenceAndTranslation();            
+    };
+        
+    this.getBestKnowledgeValue = function() {                    
+        return this._knowledge.getBestKnowledgeValue();
+    };
+        
+    this.getWorseKnowledgeValue = function() { 
+        return this._knowledge.getWorseKnowledgeValue();
+    };
+                
+    this.getReferenceKnowledgeValue = function() {                                     
+        return this._knowledge.getReferenceKnowledgeValue();
+    };
+        
+    this.setReferenceKnowledgeValue = function(val) {                                     
+        return this._knowledge.setReferenceKnowledgeValue(val);
+    };
+        
+    this.getTranslationKnowledgeValue = function() {                                     
+        return this._knowledge.getTranslationKnowledgeValue();
+    };
+        
+    this.setTranslationKnowledgeValue = function(val) {                                     
+        return this._knowledge.setTranslationKnowledgeValue(val);
+    };
+        
+    this.hasReferenceUpdateDate = function() {                                     
+         return this._knowledge.hasReferenceUpdateDate();
+    };
+        
+    this.hasTranslationUpdateDate = function() {                                     
+        return this._knowledge.hasTranslationUpdateDate();
+    };
+        
+    this.getLastReferenceUpdateDate = function() {                                     
+        return this._knowledge.getLastReferenceUpdateDate();
+    };
+        
+    this.getLastTranslationUpdateDate = function() {                                     
+        return this._knowledge.getLastTranslationUpdateDate();
+    };
+        
+    this.updateKnowledge = function(isKnown, isReference) {        
+        return this._knowledge.updateKnowledge(isKnown, isReference);        
+    };
+        
+    this.isReferenceAlreadyAnswered = function() {                                                             
+        return this._knowledge.isReferenceAlreadyAnswered();
+    };                
+        
+    this.isTranslationAlreadyAnswered = function() {                                                             
+        return this._knowledge.isTranslationAlreadyAnswered();
+    };
+        
+    this.getLastUpdateDate = function() {                    
+        return this._knowledge.getLastUpdateDate();            
+    };             
+};
+
 // knowledge statistics on a selection of words
 function LexiconKnowledge() {
     this._lastComputedExamList;

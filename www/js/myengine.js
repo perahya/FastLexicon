@@ -24,14 +24,11 @@
             window.myEngine._my_lexicon = new_lexicon;
                                                                             
             // we update the personal lexicon with new words from the default hebrew words list
-            /*var nbNewWordsAdded = 0;
-            for (var i = 0, c = _default_hebrew_words.length; i < c; i++) {    
-                var w = _default_hebrew_words[i];                                       
-                var rank = i+1;
-         
-		var wordObj = new Word(w[1],w[0],w[2],-1,-1,rank,false);
-                var wordDefinition = new WordDefinition(w[0], _default_hebrew_words_id, w[1], w[2], w[3], 1)
-		var newWordAdded = window.myEngine._my_lexicon.addNewWord(w[0]);
+            var nbNewWordsAdded = 0;
+            var wordsDefinitionTab = window.myEngine._words_definition_list.getWords();
+            for (var i = 0, c = wordsDefinitionTab.length; i < c; i++) {    
+                var wordDefinitionObj = wordsDefinitionTab[i];                                                            		
+		var newWordAdded = window.myEngine._my_lexicon.addNewWord(wordDefinitionObj.getWordId(), wordDefinitionObj.getLexiconOrigin());
                 if (newWordAdded)
                 {                                            
                     nbNewWordsAdded++;
@@ -43,7 +40,7 @@
                 window.myEngine._localStorageEngine.saveLexicon(window.myEngine._my_lexicon, function(){                    
                     console.log(nbNewWordsAdded + ' new words added, Lexicon saved');
                 });
-            }*/
+            }
 
             // initialization of the dictionary
             /*window.myEngine._all_hebrew_words_lexicon = new Lexicon(window.myEngine._localStorageEngine._all_hebrew_words_lexicon_id);

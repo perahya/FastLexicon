@@ -10,17 +10,15 @@
         for (var i = 0, c = _default_hebrew_words.length; i < c; i++) {
             var w = _default_hebrew_words[i];                                                                
             var wordDefinition = new WordDefinition(w[0], _default_hebrew_words_id, w[2], w[1], w[3], 1);
-            var newWordAdded = this._words_definition_list.addNewWord(wordDefinition);                
+            this._words_definition_list.addWordObj(wordDefinition);                
         }
         
          // then we try to load the personal lexicon from the local storage
         this._localStorageEngine = new LexiconLocalStorage();
         this._localStorageEngine.getMyLexicon(function(lexicon) {
-            
-            
-            
+                                    
             //var new_lexicon = new Lexicon(window.myEngine._localStorageEngine._my_lexicon_id);
-            var new_lexicon = new LexiconKnowledge(window.myEngine._localStorageEngine._my_lexicon_id);            
+            var new_lexicon = new LexiconKnowledge();            
                                 
             new_lexicon.initFromKnowledgeLexicon(lexicon);                
             window.myEngine._my_lexicon = new_lexicon;

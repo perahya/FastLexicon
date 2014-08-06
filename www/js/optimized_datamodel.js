@@ -899,16 +899,6 @@ function LexiconDefinition(lexicon_id) {
             var words =  this.getWords();
             var res = JSON.stringify(words);            
             return res;
-        };
-        
-        this.getTxtFormat = function() {        
-            var words =  this.getWords();
-            var res;
-            for (var i = 0, c = 34; i < c; i++) {    
-                var w = words[i];
-                res += w.getReferenceValue() + "\t" + w.getTranslationValue() + "\t" + w.getPronunciationValue() + "\n";
-            }
-            return res;
-        };
+        };                
 };
         

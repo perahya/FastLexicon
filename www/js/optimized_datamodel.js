@@ -604,7 +604,7 @@ function LexiconKnowledge() {
                         tmpArray.push(w);
                     }
                     else{
-                        console.log('word bypassed:' + w.getReferenceValue());
+                        console.log('word bypassed:' + w.getKey());
                     }
                 }
                 assess_list = tmpArray;

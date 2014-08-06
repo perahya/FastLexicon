@@ -635,12 +635,12 @@ function LexiconDefinition(lexicon_id) {
             if (word_definition != null && typeof(word_definition) != 'undefined' && word_definition.hasKey()) {
                 var existing_word = this._wordsH.getItem(word_definition.getKey());
                 if (existing_word == null || typeof(existing_word) == 'undefined') {                                    
-                    this._wordsH.setItem(word.getReferenceValue(), word);            
+                    this._wordsH.setItem(word_definition.getKey(), word_definition);            
                     return true;
                 }
-                else if (existing_word.hasSameDefinitionValues(word) == false){
-                    this._wordsH.removeItem(word.getReferenceValue());
-                    this._wordsH.setItem(word.getReferenceValue(), word);
+                else if (existing_word.hasSameDefinitionValues(word_definition) == false){
+                    this._wordsH.removeItem(word_definition.getKey());
+                    this._wordsH.setItem(word_definition.getKey(), word_definition);
                     return true;
                 }
             }

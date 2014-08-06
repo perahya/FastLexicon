@@ -4,10 +4,21 @@
      //this._all_hebrew_words_lexicon;
      this._localStorageEngine;
                
-     this.init = function(fctDone) {      
-         // we first try to load the personal lexicon from the local storage
+     this.init = function(fctDone) {     
+        // first we initialize the words definition list
+        this._words_definition_list = LexiconDefinition(_default_hebrew_words_id);
+        for (var i = 0, c = _default_hebrew_words.length; i < c; i++) {
+            var w = _default_hebrew_words[i];                                                                
+            var wordDefinition = new WordDefinition(w[0], _default_hebrew_words_id, w[2], w[1], w[3], 1);
+            var newWordAdded = this._words_definition_list.addNewWord(wordDefinition);                
+        }
+        
+         // then we try to load the personal lexicon from the local storage
         this._localStorageEngine = new LexiconLocalStorage();
-        this._localStorageEngine.getMyLexicon(function(lexicon) {                
+        this._localStorageEngine.getMyLexicon(function(lexicon) {
+            
+            
+            
             //var new_lexicon = new Lexicon(window.myEngine._localStorageEngine._my_lexicon_id);
             var new_lexicon = new LexiconKnowledge(window.myEngine._localStorageEngine._my_lexicon_id);            
                                 
@@ -15,7 +26,7 @@
             window.myEngine._my_lexicon = new_lexicon;
                                                                             
             // we update the personal lexicon with new words from the default hebrew words list
-            var nbNewWordsAdded = 0;
+            /*var nbNewWordsAdded = 0;
             for (var i = 0, c = _default_hebrew_words.length; i < c; i++) {    
                 var w = _default_hebrew_words[i];                                       
                 var rank = i+1;
@@ -34,7 +45,7 @@
                 window.myEngine._localStorageEngine.saveLexicon(window.myEngine._my_lexicon, function(){                    
                     console.log(nbNewWordsAdded + ' new words added, Lexicon saved');
                 });
-            }
+            }*/
 
             // initialization of the dictionary
             /*window.myEngine._all_hebrew_words_lexicon = new Lexicon(window.myEngine._localStorageEngine._all_hebrew_words_lexicon_id);

@@ -60,4 +60,18 @@
     this.getMyLexicon = function() {
         return this._my_lexicon;
     };
+    
+    this.getExamWordsIdList = function(minimum_knowledge_level, nb_words_max) {
+        var assess_list = new Array();
+        var tmp_assess_list = this.getMyLexicon.getExamWordsList(minimum_knowledge_level, nb_words_max);
+        for (var i = 0, c = tmp_assess_list.length; i < c; i++) {
+            var w = tmp_assess_list[i];
+            
+            var wordDef = this._words_definition_list.getWord(w.getKey());
+            if (wordDef != 'undefined' && wordDef != null){
+                assess_list.push(wordDef);
+            }
+        }
+        return assess_list;
+    }
 };

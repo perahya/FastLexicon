@@ -202,6 +202,14 @@ function WordKnowledge(word_id, lexicon_origin, reference_knowledge_level, trans
             return tra;
         }
     };
+    
+    this.getAverageKnowledgeValue = function() {                    
+        var ref = this.getReferenceKnowledgeValue();
+        var tra = this.getTranslationKnowledgeValue();
+            
+        var average = (ref + tra)/2;    
+        return average;
+    };
                 
     this.getReferenceKnowledgeValue = function() {                                     
         if (this._ref_kw_lev == null || typeof(this._ref_kw_lev) == 'undefined'){
@@ -411,6 +419,10 @@ function WordToAssess(word_definition, word_knowledge) {
         
     this.getWorseKnowledgeValue = function() { 
         return this._knowledge.getWorseKnowledgeValue();
+    };
+    
+    this.getAverageKnowledgeValue = function() {                    
+        return this._knowledge.getAverageKnowledgeValue();
     };
                 
     this.getReferenceKnowledgeValue = function() {                                     

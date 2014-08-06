@@ -559,7 +559,7 @@ function LexiconKnowledge() {
     };
                   
                
-    this.getExamWordsIdList = function(minimum_knowledge_level, nb_words_max) {        
+    this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {        
         var assess_list = new Array();             
         var words = this.getWords();
         if (minimum_knowledge_level == null || typeof(minimum_knowledge_level) == 'undefined' ||

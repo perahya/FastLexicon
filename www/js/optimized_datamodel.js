@@ -616,7 +616,7 @@ function LexiconDefinition(lexicon_id) {
                 }
                 for (var i = 0, c = words.length; i < c; i++) {    
                     var w = words[i];
-                    this.addWord(w);                
+                    this.addWordObj(w);                
                 }
             }
         };
@@ -647,7 +647,7 @@ function LexiconDefinition(lexicon_id) {
             return false;
         };
         
-        this.editWord = function(existingReference, modifiedWord) {        
+        /*this.editWord = function(existingReference, modifiedWord) {        
             if (existingReference != null && typeof(existingReference) != 'undefined' && existingReference.length > 0 &&
                 modifiedWord != null && typeof(modifiedWord) != 'undefined' && modifiedWord.hasReferenceValue()
                 && modifiedWord.hasTranslationValue()) {
@@ -661,29 +661,7 @@ function LexiconDefinition(lexicon_id) {
                 return true;                
             }
             return false;
-        };
-        
-        
-        
-        this.updateWordKnowledge = function(word, isKnown, isReference) {        
-            if (word != null && typeof(word) != 'undefined' && isKnown != null && typeof(isKnown) != 'undefined' 
-                    && isReference != null && typeof(isReference) != 'undefined') {
-                
-                word.updateKnowledge(isKnown, isReference);                                
-                this._wordsH.setItem(word.getReferenceValue(), word);               
-            }        
-        };
-        
-        this.updateWordKnowledgeByReference = function(word_reference, isKnown, isReference) {        
-            if (word_reference != null && typeof(word_reference) != 'undefined' && isKnown != null && typeof(isKnown) != 'undefined' 
-                    && isReference != null && typeof(isReference) != 'undefined') {                
-                
-                var existing_word = this._wordsH.getItem(word_reference);
-                if (existing_word != null && typeof(existing_word) != 'undefined') {                                                        
-                    this.updateWordKnowledge(existing_word, isKnown, isReference) ;
-                }                                
-            }        
-        };        
+        };*/                               
         
         this.getWords = function() {        
             return this._wordsH.values();
@@ -724,176 +702,7 @@ function LexiconDefinition(lexicon_id) {
             });
             
             return orderedwords;
-        };                  
-               
-    this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {        
-        var assess_list = new Array();                         
-        if (minimum_knowledge_level == null || typeof(minimum_knowledge_level) == 'undefined' ||
-            minimum_knowledge_level < 0){
-            assess_list = new Array();
-            var words = this.getWords();
-            for (var i = 0, c = words.length; i < c; i++) {    
-                w = words[i];                    
-                assess_list.push(w);                                    
-            }
-        }else{            
-            assess_list = new Array();
-            var words = this.getWords();
-            for (var i = 0, c = words.length; i < c; i++) {    
-                w = words[i];
-                if (w.getWorseKnowledgeValue() < minimum_knowledge_level){
-                    assess_list.push(w);
-                }                
-            }
-        }
-        
-        if (this._lastComputedExamList != 'undefined' && this._lastComputedExamList != null)
-        {
-            var now = new Date();
-            var diff = now.getTime() - this._lastComputedExamList.getTime();
-            // convert to minutes
-            diff = Math.round((diff/1000)/60);
-            if (diff < 60){            
-                var tmpArray = new Array();
-                for (var i = 0, c = assess_list.length; i < c; i++) {    
-                    w = assess_list[i];
-                    if ( (typeof(w.getLastUpdateDate()) == 'undefined') || 
-                         (w.getLastUpdateDate() < this._lastComputedExamList) ){
-                        tmpArray.push(w);
-                    }
-                    else{
-                        console.log('word bypassed:' + w.getReferenceValue());
-                    }
-                }
-                assess_list = tmpArray;
-            }
-        }
-            
-        assess_list.sort(function(a, b){      
-            if (a.getWorseKnowledgeValue() < b.getWorseKnowledgeValue()){
-                return -1;
-            }
-            else{
-                if (a.getWorseKnowledgeValue() > b.getWorseKnowledgeValue()){
-                    return 1;
-                }
-                else{
-                    if (a.getBestKnowledgeValue() < b.getBestKnowledgeValue()){
-                        return -1;
-                    }
-                    else{
-                        if (a.getBestKnowledgeValue() > b.getBestKnowledgeValue()){
-                            return 1;
-                        }
-                        else{
-                            if (a.getWorseKnowledgeValue() < b.getWorseKnowledgeValue()){
-                                    return -1;
-                                }
-                                else{
-                                    if (a.getWorseKnowledgeValue() > b.getWorseKnowledgeValue()){
-                                        return 1;
-                                    }
-                                    else{
-                                        if (a.getBestKnowledgeValue() < b.getBestKnowledgeValue()){
-                                            return -1;
-                                        }
-                                        else{
-                                            if (a.getBestKnowledgeValue() > b.getBestKnowledgeValue()){
-                                                return 1;
-                                            }
-                                            else{
-                                                if (typeof(a.getLastUpdateDate()) == 'undefined' && 
-                                                    typeof(b.getLastUpdateDate()) == 'undefined'){
-                                                    return -1;
-                                                }  
-                                                else{
-                                                    if (typeof(a.getLastUpdateDate()) == 'undefined'){
-                                                        return -1;
-                                                    }
-                                                    else{
-                                                        if (typeof(b.getLastUpdateDate()) == 'undefined'){
-                                                            return 1;
-                                                        }else{
-                                                            if (a.getLastUpdateDate() < b.getLastUpdateDate()){
-                                                                return -1;
-                                                            }else{
-                                                                if (a.getLastUpdateDate() > b.getLastUpdateDate()){
-                                                                    return 1;
-                                                                }else{
-                                                                    return 0;
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });       
-            
-            if (nb_words_max == null || typeof(nb_words_max) == 'undefined'){
-                return assess_list;
-            }
-            else{
-                if (nb_words_max < 1 || nb_words_max > assess_list.length){
-                    return assess_list;
-                }
-                else{
-                    var nbMostOldWords = Math.round(50*nb_words_max/100);
-                    var nbMostUnknownWords = nb_words_max - nbMostOldWords;
-                    
-                    // we slect first the most unknown words
-                    var subMostUnknown = assess_list.slice(0,nbMostUnknownWords);
-                                        
-                    // then we select some words among the oldest one
-                    var oldOnes = assess_list.slice(nbMostUnknownWords,assess_list.length);
-                    oldOnes.sort(function(a,b){
-                        if (typeof(a.getLastUpdateDate()) == 'undefined' && 
-                            typeof(b.getLastUpdateDate()) == 'undefined'){
-                            return -1;
-                        }  
-                        else{
-                            if (typeof(a.getLastUpdateDate()) == 'undefined'){
-                                return 1;
-                            }
-                            else{
-                                if (typeof(b.getLastUpdateDate()) == 'undefined'){
-                                    return -1;
-                                }else{
-                                    if (a.getLastUpdateDate() < b.getLastUpdateDate()){
-                                        return -1;
-                                    }else{
-                                    if (a.getLastUpdateDate() > b.getLastUpdateDate()){
-                                        return 1;
-                                    }else{
-                                        return 0;
-                                    }
-                                }
-                            }
-                        }
-                    }});
-                    
-                    var subMostOld = oldOnes.slice(0,nbMostOldWords);
-                    
-                    // we concatenate most unknown words with most old ones
-                    var sub = subMostUnknown.concat(subMostOld);
-                    
-                    // and then we scramble the words
-                    sub.sort(function(){
-                        return Math.round(Math.random()) - 0.5;
-                    });
-                    
-                    this._lastComputedExamList = new Date();
-                    
-                    return sub;
-                }
-            }
-        };        
+        };                                             
         
         this.getJSONformat = function() {        
             var words =  this.getWords();

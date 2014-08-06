@@ -6,7 +6,7 @@
                
      this.init = function(fctDone) {     
         // first we initialize the words definition list
-        this._words_definition_list = LexiconDefinition(_default_hebrew_words_id);
+        this._words_definition_list = new LexiconDefinition(_default_hebrew_words_id);
         for (var i = 0, c = _default_hebrew_words.length; i < c; i++) {
             var w = _default_hebrew_words[i];                                                                
             var wordDefinition = new WordDefinition(w[0], _default_hebrew_words_id, w[2], w[1], w[3], 1);

@@ -341,12 +341,12 @@ a {
         var displayedWord;
         var hiddenWord;
         if (assessReference){
-            displayedWord = word.getReferenceValue() + word.getAverageKnowledgeValue();
-            hiddenWord = word.getTranslationValue() + word.getAverageKnowledgeValue();
+            displayedWord = word.getReferenceValue() + " " + word.getAverageKnowledgeValue();
+            hiddenWord = word.getTranslationValue() + " " + word.getAverageKnowledgeValue();
         }
         else{
-            displayedWord = word.getTranslationValue() + word.getAverageKnowledgeValue();
-            hiddenWord = word.getReferenceValue() + word.getAverageKnowledgeValue();
+            displayedWord = word.getTranslationValue() + " " + word.getAverageKnowledgeValue();
+            hiddenWord = word.getReferenceValue() + " " + word.getAverageKnowledgeValue();
         }
                 
         var slide = mySwiper.createSlide("<div class='title'>"+displayedWord+"</div>", 'swiper-slide '+color+'-slide');

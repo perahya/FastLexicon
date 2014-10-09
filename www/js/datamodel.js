@@ -193,6 +193,10 @@ function Word(reference,translation,pronunciation,reference_knowledge_level,tran
             return (this.getTranslationKnowledgeValue() >= 0);
         };
         
+        this.isReferenceOrTranslationAlreadyAnswered = function() {                                                             
+            return (this.isReferenceAlreadyAnswered || this.isTranslationAlreadyAnswered);
+        };
+        
         this.getLastUpdateDate = function() {                    
             if ((this.hasTranslationUpdateDate() == false) && (this.hasReferenceUpdateDate() == false)){
                 return;
@@ -400,14 +404,33 @@ function Lexicon(lexicon_id) {
         };                  
                
     this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {        
-        var assess_list = new Array();                         
+        var NB_MAX_UNKNOWN_WORDS = 100;
+        var MINIMUM_NUMBER_OF_WORDS = 100;
+        var assess_list = new Array();
+        var new_words_list = new Array();
+        var nbUnknownWords = 0;
         if (minimum_knowledge_level == null || typeof(minimum_knowledge_level) == 'undefined' ||
             minimum_knowledge_level < 0){
             assess_list = new Array();
             var words = this.getWords();
             for (var i = 0, c = words.length; i < c; i++) {    
-                w = words[i];                    
-                assess_list.push(w);                                    
+                w = words[i];
+                if (w.isReferenceOrTranslationAlreadyAnswered())
+                {                    
+                    assess_list.push(w);                                    
+                    if (w.getWorseKnowledgeValue < 1)
+                    { 
+                        nbUnknownWords++;
+                        if (nbUnknownWords >= NB_MAX_UNKNOWN_WORDS)
+                        {
+                            break;
+                        }    
+                    }
+                }
+                else
+                {
+                    new_words_list.push(w);
+                }
             }
         }else{            
             assess_list = new Array();
@@ -415,8 +438,54 @@ function Lexicon(lexicon_id) {
             for (var i = 0, c = words.length; i < c; i++) {    
                 w = words[i];
                 if (w.getWorseKnowledgeValue() < minimum_knowledge_level){
-                    assess_list.push(w);
+                    if (w.isReferenceOrTranslationAlreadyAnswered())
+                    {
+                        assess_list.push(w);
+                        if (w.getWorseKnowledgeValue < 1)
+                        {
+                            nbUnknownWords++;
+                            if (nbUnknownWords >= NB_MAX_UNKNOWN_WORDS)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        new_words_list.push(w);
+                    }
                 }                
+            }
+        }
+        
+        if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS)
+        {
+            var nbNewWordsToAdd = NB_MAX_UNKNOWN_WORDS - nbUnknownWords;
+            var newWordsListSize = new_words_list.length;
+            if (newWordsListSize < nbNewWordsToAdd)
+            {
+                assess_list = assess_list.concat(new_words_list);
+            }
+            else
+            {
+                var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                assess_list = assess_list.concat(newWordsToAdd);
+            }
+        }
+        
+        var assesListSize = assess_list.length;
+        if (assesListSize < MINIMUM_NUMBER_OF_WORDS)
+        {
+            var nbNewWordsToAdd = MINIMUM_NUMBER_OF_WORDS - assesListSize;
+            var newWordsListSize = new_words_list.length;
+            if (newWordsListSize < nbNewWordsToAdd)
+            {
+                assess_list = assess_list.concat(new_words_list);
+            }
+            else
+            {
+                var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                assess_list = assess_list.concat(newWordsToAdd);
             }
         }
         

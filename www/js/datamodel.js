@@ -404,7 +404,7 @@ function Lexicon(lexicon_id) {
         };                  
                
     this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {        
-        var NB_MAX_UNKNOWN_WORDS = 100;
+        var NB_MAX_UNKNOWN_WORDS = 30;
         var MINIMUM_NUMBER_OF_WORDS = 100;
         var assess_list = new Array();
         var new_words_list = new Array();

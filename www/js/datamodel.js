@@ -194,7 +194,7 @@ function Word(reference,translation,pronunciation,reference_knowledge_level,tran
         };
         
         this.isReferenceOrTranslationAlreadyAnswered = function() {                                                             
-            return (this.isReferenceAlreadyAnswered || this.isTranslationAlreadyAnswered);
+            return (this.isReferenceAlreadyAnswered() || this.isTranslationAlreadyAnswered());
         };
         
         this.getLastUpdateDate = function() {                    

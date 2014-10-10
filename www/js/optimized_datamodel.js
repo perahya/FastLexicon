@@ -623,6 +623,11 @@ function LexiconKnowledge() {
             }
         }
         
+        // we scramble the new words
+        new_words_list.sort(function(){
+            return Math.round(Math.random()) - 0.5;
+        });
+        
         if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS)
         {
             var nbNewWordsToAdd = NB_MAX_UNKNOWN_WORDS - nbUnknownWords;

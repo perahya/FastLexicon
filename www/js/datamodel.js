@@ -420,11 +420,7 @@ function Lexicon(lexicon_id) {
                     assess_list.push(w);                                    
                     if (w.getWorseKnowledgeValue < 1)
                     { 
-                        nbUnknownWords++;
-                        if (nbUnknownWords >= NB_MAX_UNKNOWN_WORDS)
-                        {
-                            break;
-                        }    
+                        nbUnknownWords++;                            
                     }
                 }
                 else
@@ -443,11 +439,7 @@ function Lexicon(lexicon_id) {
                         assess_list.push(w);
                         if (w.getWorseKnowledgeValue < 1)
                         {
-                            nbUnknownWords++;
-                            if (nbUnknownWords >= NB_MAX_UNKNOWN_WORDS)
-                            {
-                                break;
-                            }
+                            nbUnknownWords++;                                                    
                         }
                     }
                     else

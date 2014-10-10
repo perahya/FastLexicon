@@ -455,10 +455,12 @@ function Lexicon(lexicon_id) {
             if (newWordsListSize < nbNewWordsToAdd)
             {
                 assess_list = assess_list.concat(new_words_list);
+                new_words_list.length = 0;
             }
             else
             {
                 var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                new_words_list = new_words_list.slice(nbNewWordsToAdd,new_words_list.length);
                 assess_list = assess_list.concat(newWordsToAdd);
             }
         }
@@ -471,10 +473,12 @@ function Lexicon(lexicon_id) {
             if (newWordsListSize < nbNewWordsToAdd)
             {
                 assess_list = assess_list.concat(new_words_list);
+                new_words_list.length = 0;
             }
             else
             {
                 var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                new_words_list = new_words_list.slice(nbNewWordsToAdd,new_words_list.length);
                 assess_list = assess_list.concat(newWordsToAdd);
             }
         }

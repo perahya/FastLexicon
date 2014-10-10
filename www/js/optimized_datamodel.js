@@ -468,6 +468,10 @@ function WordToAssess(word_definition, word_knowledge) {
     this.isTranslationAlreadyAnswered = function() {                                                             
         return this._knowledge.isTranslationAlreadyAnswered();
     };
+    
+    this.isReferenceOrTranslationAlreadyAnswered = function() {                                                             
+        return (this.isReferenceAlreadyAnswered() || this.isTranslationAlreadyAnswered());
+    };
         
     this.getLastUpdateDate = function() {                    
         return this._knowledge.getLastUpdateDate();            
@@ -571,21 +575,78 @@ function LexiconKnowledge() {
     };
                   
                
-    this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {        
-        var assess_list = new Array();             
+    this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {
+        var NB_MAX_UNKNOWN_WORDS = 30;
+        var MINIMUM_NUMBER_OF_WORDS = 100;
+        var assess_list = new Array();
+        var new_words_list = new Array();
+        var nbUnknownWords = 0;
         var words = this.getWords();
         if (minimum_knowledge_level == null || typeof(minimum_knowledge_level) == 'undefined' ||
             minimum_knowledge_level < 0){                        
             for (var i = 0, c = words.length; i < c; i++) {    
                 w = words[i];                    
-                assess_list.push(w);                                    
+                if (w.isReferenceOrTranslationAlreadyAnswered())
+                {                    
+                    assess_list.push(w);                                    
+                    if (w.getWorseKnowledgeValue < 1)
+                    { 
+                        nbUnknownWords++;                            
+                    }
+                }
+                else
+                {
+                    new_words_list.push(w);
+                }                                    
             }
         }else{                                    
             for (var i = 0, c = words.length; i < c; i++) {    
                 w = words[i];
                 if (w.getWorseKnowledgeValue() < minimum_knowledge_level){
-                    assess_list.push(w);
+                    if (w.isReferenceOrTranslationAlreadyAnswered())
+                    {
+                        assess_list.push(w);
+                        if (w.getWorseKnowledgeValue < 1)
+                        {
+                            nbUnknownWords++;                                                    
+                        }
+                    }
+                    else
+                    {
+                        new_words_list.push(w);
+                    }
                 }                
+            }
+        }
+        
+        if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS)
+        {
+            var nbNewWordsToAdd = NB_MAX_UNKNOWN_WORDS - nbUnknownWords;
+            var newWordsListSize = new_words_list.length;
+            if (newWordsListSize < nbNewWordsToAdd)
+            {
+                assess_list = assess_list.concat(new_words_list);
+            }
+            else
+            {
+                var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                assess_list = assess_list.concat(newWordsToAdd);
+            }
+        }
+        
+        var assesListSize = assess_list.length;
+        if (assesListSize < MINIMUM_NUMBER_OF_WORDS)
+        {
+            var nbNewWordsToAdd = MINIMUM_NUMBER_OF_WORDS - assesListSize;
+            var newWordsListSize = new_words_list.length;
+            if (newWordsListSize < nbNewWordsToAdd)
+            {
+                assess_list = assess_list.concat(new_words_list);
+            }
+            else
+            {
+                var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                assess_list = assess_list.concat(newWordsToAdd);
             }
         }
         

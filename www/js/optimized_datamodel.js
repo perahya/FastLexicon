@@ -315,6 +315,10 @@ function WordKnowledge(word_id, lexicon_origin, reference_knowledge_level, trans
     this.isTranslationAlreadyAnswered = function() {                                                             
         return (this.getTranslationKnowledgeValue() >= 0);
     };
+    
+    this.isReferenceOrTranslationAlreadyAnswered = function() {                                                             
+        return (this.isReferenceAlreadyAnswered() || this.isTranslationAlreadyAnswered());
+    };
         
     this.getLastUpdateDate = function() {                    
         if ((this.hasTranslationUpdateDate() == false) && (this.hasReferenceUpdateDate() == false)){
@@ -469,10 +473,10 @@ function WordToAssess(word_definition, word_knowledge) {
         return this._knowledge.isTranslationAlreadyAnswered();
     };
     
-    this.isReferenceOrTranslationAlreadyAnswered = function() {                                                             
-        return (this.isReferenceAlreadyAnswered() || this.isTranslationAlreadyAnswered());
+    this.isReferenceOrTranslationAlreadyAnswered = function() { 
+        return this._knowledge.isReferenceOrTranslationAlreadyAnswered();
     };
-        
+                
     this.getLastUpdateDate = function() {                    
         return this._knowledge.getLastUpdateDate();            
     };             

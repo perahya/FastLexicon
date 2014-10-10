@@ -411,7 +411,6 @@ function Lexicon(lexicon_id) {
         var nbUnknownWords = 0;
         if (minimum_knowledge_level == null || typeof(minimum_knowledge_level) == 'undefined' ||
             minimum_knowledge_level < 0){
-            assess_list = new Array();
             var words = this.getWords();
             for (var i = 0, c = words.length; i < c; i++) {    
                 w = words[i];
@@ -429,7 +428,6 @@ function Lexicon(lexicon_id) {
                 }
             }
         }else{            
-            assess_list = new Array();
             var words = this.getWords();
             for (var i = 0, c = words.length; i < c; i++) {    
                 w = words[i];

@@ -589,11 +589,11 @@ function LexiconKnowledge() {
         if (minimum_knowledge_level == null || typeof(minimum_knowledge_level) == 'undefined' ||
             minimum_knowledge_level < 0){                        
             for (var i = 0, c = words.length; i < c; i++) {    
-                w = words[i];                    
+                w = words[i];
                 if (w.isReferenceOrTranslationAlreadyAnswered())
                 {                    
                     assess_list.push(w);                                    
-                    if (w.getWorseKnowledgeValue < 1)
+                    if (w.getWorseKnowledgeValue() < 1)
                     { 
                         nbUnknownWords++;                            
                     }
@@ -605,12 +605,12 @@ function LexiconKnowledge() {
             }
         }else{                                    
             for (var i = 0, c = words.length; i < c; i++) {    
-                w = words[i];
+                w = words[i];                
                 if (w.getWorseKnowledgeValue() < minimum_knowledge_level){
                     if (w.isReferenceOrTranslationAlreadyAnswered())
                     {
                         assess_list.push(w);
-                        if (w.getWorseKnowledgeValue < 1)
+                        if (w.getWorseKnowledgeValue() < 1)
                         {
                             nbUnknownWords++;                                                    
                         }
@@ -627,7 +627,7 @@ function LexiconKnowledge() {
         new_words_list.sort(function(){
             return Math.round(Math.random()) - 0.5;
         });
-        
+                
         if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS)
         {
             var nbNewWordsToAdd = NB_MAX_UNKNOWN_WORDS - nbUnknownWords;

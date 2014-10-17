@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.bpa.FastLexicon" version="0.1.3">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.bpa.FastLexicon" version="0.1.4">
     <name>Miloni</name>
     <description>Personal lexicon helping to quickly learn hebrew words.</description>
     <author email="perahya@hotmail.com" href="">BPA</author>

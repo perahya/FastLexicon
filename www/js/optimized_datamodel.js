@@ -627,8 +627,36 @@ function LexiconKnowledge() {
         /*new_words_list.sort(function(){
             return Math.round(Math.random()) - 0.5;
         });*/
-                
-        if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS)
+             
+        var assesListSize = assess_list.length;
+        if (assesListSize < MINIMUM_NUMBER_OF_WORDS)
+        {
+            var nbNewWordsToAdd = MINIMUM_NUMBER_OF_WORDS - assesListSize;
+            var newWordsListSize = new_words_list.length;
+            if (newWordsListSize < nbNewWordsToAdd)
+            {
+                assess_list = assess_list.concat(new_words_list);
+                new_words_list.length = 0;
+            }
+            else
+            {
+                /*var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                new_words_list = new_words_list.slice(nbNewWordsToAdd,new_words_list.length);
+                assess_list = assess_list.concat(newWordsToAdd);*/
+                var nbRecentWordsToAdd = Math.round(50*nbNewWordsToAdd/100);
+                var nbOtherWordsToAdd = nbNewWordsToAdd - nbRecentWordsToAdd;               
+                var recentWordsToAdd = new_words_list.slice((new_words_list.length-nbRecentWordsToAdd),newWordsListSize);
+                new_words_list = new_words_list.slice(0,(new_words_list.length-nbRecentWordsToAdd));
+                assess_list = assess_list.concat(recentWordsToAdd);
+                new_words_list.sort(function(){
+                    return Math.round(Math.random()) - 0.5;
+                });
+                var otherWordsToAdd = new_words_list.slice(0,nbOtherWordsToAdd);
+                new_words_list = new_words_list.slice(nbOtherWordsToAdd,new_words_list.length);
+                assess_list = assess_list.concat(otherWordsToAdd);
+            }
+        }
+        else if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS)
         {
             var nbNewWordsToAdd = NB_MAX_UNKNOWN_WORDS - nbUnknownWords;
             var newWordsListSize = new_words_list.length;
@@ -654,25 +682,7 @@ function LexiconKnowledge() {
                 new_words_list = new_words_list.slice(nbNewWordsToAdd,new_words_list.length);
                 assess_list = assess_list.concat(newWordsToAdd);*/
             }
-        }
-        
-        var assesListSize = assess_list.length;
-        if (assesListSize < MINIMUM_NUMBER_OF_WORDS)
-        {
-            var nbNewWordsToAdd = MINIMUM_NUMBER_OF_WORDS - assesListSize;
-            var newWordsListSize = new_words_list.length;
-            if (newWordsListSize < nbNewWordsToAdd)
-            {
-                assess_list = assess_list.concat(new_words_list);
-                new_words_list.length = 0;
-            }
-            else
-            {
-                var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
-                new_words_list = new_words_list.slice(nbNewWordsToAdd,new_words_list.length);
-                assess_list = assess_list.concat(newWordsToAdd);
-            }
-        }
+        }                
         
         if (this._lastComputedExamList != 'undefined' && this._lastComputedExamList != null)
         {

@@ -624,9 +624,9 @@ function LexiconKnowledge() {
         }
         
         // we scramble the new words
-        new_words_list.sort(function(){
+        /*new_words_list.sort(function(){
             return Math.round(Math.random()) - 0.5;
-        });
+        });*/
                 
         if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS)
         {
@@ -639,9 +639,20 @@ function LexiconKnowledge() {
             }
             else
             {
-                var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
+                var nbRecentWordsToAdd = Math.round(50*nbUnknownWords/100);
+                var nbOtherWordsToAdd = nbUnknownWords - nbRecentWordsToAdd;
+                var recentWordsToAdd = new_words_list.slice((new_words_list.length-nbRecentWordsToAdd),newWordsListSize);
+                new_words_list = new_words_list.slice(0,(new_words_list.length-nbRecentWordsToAdd));
+                assess_list = assess_list.concat(recentWordsToAdd);
+                new_words_list.sort(function(){
+                    return Math.round(Math.random()) - 0.5;
+                });
+                var otherWordsToAdd = new_words_list.slice(0,nbOtherWordsToAdd);
+                new_words_list = new_words_list.slice(nbOtherWordsToAdd,new_words_list.length);
+                assess_list = assess_list.concat(otherWordsToAdd);
+                /*var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
                 new_words_list = new_words_list.slice(nbNewWordsToAdd,new_words_list.length);
-                assess_list = assess_list.concat(newWordsToAdd);
+                assess_list = assess_list.concat(newWordsToAdd);*/
             }
         }
         

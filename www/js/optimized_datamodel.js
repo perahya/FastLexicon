@@ -639,8 +639,8 @@ function LexiconKnowledge() {
             }
             else
             {
-                var nbRecentWordsToAdd = Math.round(50*nbUnknownWords/100);
-                var nbOtherWordsToAdd = nbUnknownWords - nbRecentWordsToAdd;
+                var nbRecentWordsToAdd = Math.round(50*nbNewWordsToAdd/100);
+                var nbOtherWordsToAdd = nbNewWordsToAdd - nbRecentWordsToAdd;               
                 var recentWordsToAdd = new_words_list.slice((new_words_list.length-nbRecentWordsToAdd),newWordsListSize);
                 new_words_list = new_words_list.slice(0,(new_words_list.length-nbRecentWordsToAdd));
                 assess_list = assess_list.concat(recentWordsToAdd);

@@ -1371,7 +1371,7 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["לדווח","rapporter (faire un rapport)","לדווח","lédavéakh"],
 ["מחוג","aiguille du chronomètre","מחוג","makhogue"],
 ["מהומה","tumulte/chaos","מהומה","méhouma"],
-["הטיולים בוטלו","les voyages ont été annulés","הטיולים בוטלו","atioulime bitlou"],
+["הטיולים בוטלו","les voyages ont été annulés","הטיולים בוטלו","atioulime boutlou"],
 ["הפגישה מבוטלת","la réunion est annulée","הפגישה מבוטלת","apguisha mévoutélète"],
 ["פקודה","ordre/commandement/directive","פקודה","pkouda"],
 ["משמעות","signification/sens","משמעות","machmaoute"],

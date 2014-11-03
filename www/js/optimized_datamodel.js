@@ -583,7 +583,8 @@ function LexiconKnowledge() {
         var NB_MAX_UNKNOWN_WORDS = 50;
         var MINIMUM_NUMBER_OF_WORDS = 100;
         var PROPORTION_OF_MOST_RECENT_WORDS_TO_ADD = 70;
-        var PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK = 50;
+        var PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK_MAX = 50;
+        var PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK_MIN = 20;
         var assess_list = new Array();
         var new_words_list = new Array();
         var nbUnknownWords = 0;
@@ -783,8 +784,12 @@ function LexiconKnowledge() {
                     return assess_list;
                 }
                 else{
-                    var nbMostOldWords = Math.round(PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK*nb_words_max/100);
-                    var nbMostUnknownWords = nb_words_max - nbMostOldWords;
+                    var oldWordProportion = PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK_MIN;
+                    if (nbUnknownWords < NB_MAX_UNKNOWN_WORDS){
+                        oldWordProportion = PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK_MAX;
+                    }
+                    var nbMostOldWords = Math.round(oldWordProportion*nb_words_max/100);
+                    var nbMostUnknownWords = nb_words_max - nbMostOldWords;                    
                     
                     // we slect first the most unknown words
                     var subMostUnknown = assess_list.slice(0,nbMostUnknownWords);

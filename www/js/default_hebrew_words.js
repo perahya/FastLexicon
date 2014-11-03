@@ -62,7 +62,7 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["מועמד","candidat","מועמד","mou'amade"],
 ["לשחות","nager","לשחות","liskhote"],
 ["בריכה","piscine","בריכה","brékha"],
-["לחתום על","signer","לחתום על","laratome al"],
+["לחתום על","signer","לחתום על","lakhatome al"],
 ["צד","partie (négociations)","צד","tsade"],
 ["צדדים","parties (négociations)","צדדים","tsad'dime"],
 ["הסכם","pacte/traité/accord","הסכם","héskême"],

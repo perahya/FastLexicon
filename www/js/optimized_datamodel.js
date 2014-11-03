@@ -580,8 +580,10 @@ function LexiconKnowledge() {
                   
                
     this.getExamWordsList = function(minimum_knowledge_level, nb_words_max) {
-        var NB_MAX_UNKNOWN_WORDS = 30;
+        var NB_MAX_UNKNOWN_WORDS = 50;
         var MINIMUM_NUMBER_OF_WORDS = 100;
+        var PROPORTION_OF_MOST_RECENT_WORDS_TO_ADD = 70;
+        var PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK = 50;
         var assess_list = new Array();
         var new_words_list = new Array();
         var nbUnknownWords = 0;
@@ -643,7 +645,7 @@ function LexiconKnowledge() {
                 /*var newWordsToAdd = new_words_list.slice(0,nbNewWordsToAdd);
                 new_words_list = new_words_list.slice(nbNewWordsToAdd,new_words_list.length);
                 assess_list = assess_list.concat(newWordsToAdd);*/
-                var nbRecentWordsToAdd = Math.round(50*nbNewWordsToAdd/100);
+                var nbRecentWordsToAdd = Math.round(PROPORTION_OF_MOST_RECENT_WORDS_TO_ADD*nbNewWordsToAdd/100);
                 var nbOtherWordsToAdd = nbNewWordsToAdd - nbRecentWordsToAdd;               
                 var recentWordsToAdd = new_words_list.slice((new_words_list.length-nbRecentWordsToAdd),newWordsListSize);
                 new_words_list = new_words_list.slice(0,(new_words_list.length-nbRecentWordsToAdd));
@@ -667,7 +669,7 @@ function LexiconKnowledge() {
             }
             else
             {
-                var nbRecentWordsToAdd = Math.round(50*nbNewWordsToAdd/100);
+                var nbRecentWordsToAdd = Math.round(PROPORTION_OF_MOST_RECENT_WORDS_TO_ADD*nbNewWordsToAdd/100);
                 var nbOtherWordsToAdd = nbNewWordsToAdd - nbRecentWordsToAdd;               
                 var recentWordsToAdd = new_words_list.slice((new_words_list.length-nbRecentWordsToAdd),newWordsListSize);
                 new_words_list = new_words_list.slice(0,(new_words_list.length-nbRecentWordsToAdd));
@@ -781,7 +783,7 @@ function LexiconKnowledge() {
                     return assess_list;
                 }
                 else{
-                    var nbMostOldWords = Math.round(50*nb_words_max/100);
+                    var nbMostOldWords = Math.round(PROPORTION_OF_MOST_OLD_WORDS_TO_CHECK*nb_words_max/100);
                     var nbMostUnknownWords = nb_words_max - nbMostOldWords;
                     
                     // we slect first the most unknown words

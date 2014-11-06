@@ -139,6 +139,48 @@ body {
   position: relative;
   z-index: 9;  
 }
+
+.swiper-parent7 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent8 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent9 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+.swiper-parent10 {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 9;  
+}
+
+
 .red-slide {
   background: #ca4040;
 }
@@ -218,7 +260,7 @@ a {
   <script>
       
       
-  var _maxDisplayedWords = 6;      
+  var _maxDisplayedWords = 10;      
   var _NB_WORDS_CHECKED_PER_SESSION = 40;
   var mySwiper;    
   var holdPosition = 0;
@@ -239,7 +281,8 @@ a {
       holdPosition = pos;
     },
     onTouchEnd: function(){
-      if (holdPosition>100 /*&& mySwiper.slides.length < (_maxDisplayedWords-1)*/) {
+      /*
+        if (holdPosition>100) {
         // Hold Swiper in required position
         mySwiper.setWrapperTranslate(0,100,0);
 
@@ -262,7 +305,7 @@ a {
             //Hide loader
             $('.preloader').removeClass('visible');            
         },1000);
-      }
+      }*/
     }/*,
     onSlideClick: function(swiper){
         var clickedSlide = swiper.clickedSlide;

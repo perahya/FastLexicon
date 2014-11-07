@@ -3,11 +3,17 @@
     <name>Miloni</name>
     <description>Personal lexicon helping to quickly learn hebrew words.</description>
     <author email="perahya@hotmail.com" href="">BPA</author>
-    <icon src="resources/images/fastlexicon_launchIcon.png"/>
+    <icon src="resources/images/cordova_512.png"/>
     <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>
     <!--<feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/network"/>-->
     <content src="index.html"/>
+    <platform name="android">
+              <icon src="resources/images/android/cordova_android_36.png" density="ldpi" />
+              <icon src="resources/images/android/cordova_android_48.png" density="mdpi" />
+              <icon src="resources/images/android/cordova_android_72.png" density="hdpi" />
+              <icon src="resources/images/android/cordova_android_96.png" density="xhdpi" />
+     </platform>
 </widget>

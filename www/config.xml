@@ -7,25 +7,26 @@
     <!--<icon src="resources/images/cordova_512.png"/>-->
     <icon src="resources/images/ios/black_cat_ios.png" platform="ios"/>
     <icon src="resources/images/cordova_512.png" platform="android"/>
+    <gap:splash src="splash.png" />
     <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>
     <!--<feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/network"/>-->
     <content src="index.html"/>
-    <platform name="android">
+    <!--<platform name="android">
               <icon src="resources/images/android/cordova_android_36.png" density="ldpi" />
               <icon src="resources/images/android/cordova_android_48.png" density="mdpi" />
               <icon src="resources/images/android/cordova_android_72.png" density="hdpi" />
               <icon src="resources/images/android/cordova_android_96.png" density="xhdpi" />
-     </platform>
-     <platform name="ios">
+     </platform>-->
+  <!--   <platform name="ios"> -->
               <!-- iOS 7.0+ -->
               <!-- iPhone / iPod Touch  -->
-              <icon src="resources/images/ios/icon-60.png" width="57" height="57" />
-              <icon src="resources/images/ios/icon-60@2x.png" width="114" height="114" />
+  <!--            <icon src="resources/images/ios/icon-60.png" width="57" height="57" />
+              <icon src="resources/images/ios/icon-60@2x.png" width="114" height="114" /> -->
               <!-- iPad -->
-              <icon src="resources/images/ios/icon-76.png" width="72" height="72" />
+         <!--     <icon src="resources/images/ios/icon-76.png" width="72" height="72" />
               <icon src="resources/images/ios/icon-76@2x.png" width="144" height="144" />              
-     </platform>     
+     </platform>     -->
 </widget>

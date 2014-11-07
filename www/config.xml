@@ -6,7 +6,7 @@
     <!--<icon src="resources/images/ios/black_cat_ios.png"/>-->
     <!--<icon src="resources/images/cordova_512.png"/>-->
     <icon src="resources/images/ios/black_cat_ios.png" platform="ios"/>
-    <icon src="resources/images/ios/cordova_512.png" platform="android"/>
+    <icon src="resources/images/cordova_512.png" platform="android"/>
     <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>

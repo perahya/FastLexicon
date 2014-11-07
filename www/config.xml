@@ -7,7 +7,7 @@
     <!--<icon src="resources/images/cordova_512.png"/>-->
     <icon src="resources/images/ios/black_cat_ios.png" platform="ios"/>
     <icon src="resources/images/cordova_512.png" platform="android"/>
-    <gap:splash src="splash.png" />
+    <splash src="splash.png"/>
     <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>

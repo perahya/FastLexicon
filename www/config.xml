@@ -14,5 +14,4 @@
     <!--<feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/network"/>-->
     <content src="index.html"/>
-    <gap:splash src="resources/images/ios/black_cat_ios.png" gap:platform="ios"/>
 </widget>

@@ -259,8 +259,12 @@ a {
   <script src="js/libs/idangerous.swiper.min.js"></script>
   <script>
       
-      
-  var _maxDisplayedWords = 10;      
+  var width = screen.width;
+  var height = screen.height;  
+  var _maxDisplayedWords = 6;
+  if (height > 700){
+      _maxDisplayedWords = 10;
+  }
   var _NB_WORDS_CHECKED_PER_SESSION = 40;
   var mySwiper;    
   var holdPosition = 0;

@@ -246,7 +246,7 @@ a {
 
   </style>
 </head>
-<body onload="onLoad()">
+<body>
   <div class="preloader">
     Loading...
   </div>
@@ -260,11 +260,7 @@ a {
   <script src="js/libs/idangerous.swiper.min.js"></script>
   <script>    
   
-    // Wait for device API libraries to load
-    //
-    function onLoad() {
-        document.addEventListener("deviceready", onDeviceReady, false);
-    }
+    document.addEventListener("deviceready", onDeviceReady, false);
 
     // device APIs are available
     //

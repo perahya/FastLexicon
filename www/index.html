@@ -333,6 +333,7 @@ a {
       
       _words_to_assess = window.myEngine.getExamWordsList(-1, _NB_WORDS_CHECKED_PER_SESSION);
       initTest();
+      navigator.splashscreen.hide();
   });        
   
   function updateWordKnowledge(word_id, word_origin, isCorrect, isReference, swiperParentId){

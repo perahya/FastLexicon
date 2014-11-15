@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>Demo</title>
   <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <script src="js/libs/jquery-1.10.1.min.js"></script>
+  <script src="js/libs/idangerous.swiper.min.js"></script>
+  <script src="phonegap.js"></script>
   
   <script type="text/javascript" src="js/libs/hashtable.js"></script>
   <script type="text/javascript" src="js/default_hebrew_words.js"></script>
@@ -249,12 +252,12 @@ a {
     function onBodyLoad()
     {
         //if phonegap, need to toggle these
-        /* if (typeof navigator.device == "undefined"){
+         if (typeof navigator.device == "undefined"){
               document.addEventListener("deviceready", onDeviceReady, false);
          } else {
          onDeviceReady();
-         } */
-        onDeviceReady();
+         }
+        //onDeviceReady();
     }
     
     /* When this function is called, PhoneGap has been initialized and is ready to roll */
@@ -283,9 +286,7 @@ a {
   <div class="swiper-container">
     <div class="swiper-wrapper">                     
     </div>
-  </div>
-  <script src="js/libs/jquery-1.10.1.min.js"></script>
-  <script src="js/libs/idangerous.swiper.min.js"></script>
+  </div>  
   <script>         
     function alertDismissed() {
     // do something
@@ -305,7 +306,7 @@ a {
       
   width = screen.width;
   height = screen.height;  
-  //_maxDisplayedWords = 6;
+  _maxDisplayedWords = 6;
   if (height > 800){
       _maxDisplayedWords = 10;
   }

@@ -283,22 +283,31 @@ a {
     function alertDismissed() {
     // do something
     }
-
-  
+ // vars
+ var width;
+ var height;  
+ var _maxDisplayedWords = 6; 
+ var _NB_WORDS_CHECKED_PER_SESSION = 40;
+ var mySwiper;    
+ var holdPosition;
+ var _words_to_assess;
+ var _swiperparentsH;
+ var _swiperparents; 
+    
  function startMyApp() {   
       
-  var width = screen.width;
-  var height = screen.height;  
-  var _maxDisplayedWords = 6;
+  width = screen.width;
+  height = screen.height;  
+  //_maxDisplayedWords = 6;
   if (height > 800){
       _maxDisplayedWords = 10;
   }
-  var _NB_WORDS_CHECKED_PER_SESSION = 40;
-  var mySwiper;    
-  var holdPosition = 0;
-  var _words_to_assess;
-  var _swiperparentsH = new HashTable({});
-  var _swiperparents = new Array();
+  //_NB_WORDS_CHECKED_PER_SESSION = 40;
+  //var mySwiper;    
+  //var holdPosition = 0;
+  //var _words_to_assess;
+  _swiperparentsH = new HashTable({});
+  _swiperparents = new Array();
       
   window.myEngine = new MainEngine();
   window.myEngine.init(function() {

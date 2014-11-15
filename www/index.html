@@ -245,8 +245,28 @@ a {
 } 
 
   </style>
+  <script>
+    // Wait for device API libraries to load    
+    function onLoad() {
+        //document.addEventListener("deviceready", onDeviceReady, false);
+        startMyApp();
+    }
+
+    // device APIs are available    
+    function onDeviceReady() {
+        // Now safe to use device APIs        
+        /*navigator.notification.alert(
+            'You are the winner!',  // message
+            alertDismissed,         // callback
+            'Game Over',            // title
+            'Done'                  // buttonName
+        );*/
+
+        startMyApp();
+    }
+  </script>
 </head>
-<body>
+<body onload="onLoad();">
   <div class="preloader">
     Loading...
   </div>
@@ -259,23 +279,7 @@ a {
   <script src="js/libs/jquery-1.10.1.min.js"></script>
   <script src="js/libs/idangerous.swiper.min.js"></script>
   <script>    
-  
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // device APIs are available
-    //
-    function onDeviceReady() {
-        // Now safe to use device APIs        
-        /*navigator.notification.alert(
-            'You are the winner!',  // message
-            alertDismissed,         // callback
-            'Game Over',            // title
-            'Done'                  // buttonName
-        );*/
-
-        startMyApp();
-    }
-    
+          
     function alertDismissed() {
     // do something
     }

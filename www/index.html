@@ -246,7 +246,7 @@ a {
 
   </style>
 </head>
-<body>
+<body onload="onLoad()">
   <div class="preloader">
     Loading...
   </div>
@@ -259,14 +259,33 @@ a {
   <script src="js/libs/jquery-1.10.1.min.js"></script>
   <script src="js/libs/idangerous.swiper.min.js"></script>
   <script>    
-      
-  navigator.notification.alert(
-    'You are the winner!',  // message
-    alertDismissed,         // callback
-    'Game Over',            // title
-    'Done'                  // buttonName
-);
+  
+    // Wait for device API libraries to load
+    //
+    function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        // Now safe to use device APIs        
+        navigator.notification.alert(
+            'You are the winner!',  // message
+            alertDismissed,         // callback
+            'Game Over',            // title
+            'Done'                  // buttonName
+        );
+
+        startMyApp();
+    }
     
+    function alertDismissed() {
+    // do something
+    }
+
+  
+ function startMyApp() {   
       
   var width = screen.width;
   var height = screen.height;  
@@ -331,6 +350,8 @@ a {
       _words_to_assess = window.myEngine.getExamWordsList(-1, _NB_WORDS_CHECKED_PER_SESSION);
       initTest();
   });        
+  
+ }  
   
   function updateWordKnowledge(word_id, word_origin, isCorrect, isReference, swiperParentId){
     var wordIdUnescaped = word_id;
@@ -649,13 +670,6 @@ function displayStatistics() {
             
             return html;
         }
-  
-  
-  function alertDismissed() {
-    // do something
-}
-
-  
   </script>
 </body>
 </html>

@@ -10,9 +10,10 @@
     <gap:plugin name="org.apache.cordova.dialogs" version="0.2.10" />
     <icon src="resources/images/ios/black_cat_ios.png" platform="ios"/>
     <icon src="resources/images/cordova_512.png" platform="android"/>
+    <gap:splash src="splash.png" />
     <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true"/>
-    <preference name="webviewbounce" value="true"/>
+    <preference name="webviewbounce" value="true"/>    
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="5000" />
     <!--<feature name="http://api.phonegap.com/1.0/file"/>

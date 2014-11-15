@@ -6,7 +6,7 @@
     <author email="perahya@hotmail.com" href="">BPA</author>
     <!--<icon src="resources/images/ios/black_cat_ios.png"/>-->
     <!--<icon src="resources/images/cordova_512.png"/>-->
-    <gap:plugin name="org.apache.cordova.splashscreen"/>
+    <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
     <icon src="resources/images/ios/black_cat_ios.png" platform="ios"/>
     <icon src="resources/images/cordova_512.png" platform="android"/>
     <preference name="permissions" value="none"/>

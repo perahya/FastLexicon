@@ -1582,7 +1582,7 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["לכלוא","incarcérer/emprisonner","לכלוא","liklo"],
 ["כלוא","emprisonné","כלוא","kalou"],
 ["בית כלא","prison","בית כלא","bëit kélé"],
-["קנוי","kanouille","קנוי","kanouille"],
+["קנוי","acheté","קנוי","kanouille"],
 ["סחורה","marchandise","סחורה","skhora"],
 ["עיתון מקוון","journal en ligne (sur internet)","עיתון מקוון","itone makvane"],
 ["לא כל הרצוי מצוי, ולא כל המצוי רצוי","on n'obtient pas tout ce qu'on désire, et ce qu'on a obtenu n'est pas tout ce qu'on désirait","לא כל הרצוי מצוי, ולא כל המצוי רצוי","lo kol aratsouille matsouille, vélo kol amatsouille ratsouille"],

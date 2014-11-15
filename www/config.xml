@@ -15,5 +15,9 @@
     <preference name="SplashScreenDelay" value="3000" />
     <!--<feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/network"/>-->
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="ios-package" value="CDVSplashScreen" />
+    </feature>
     <content src="index.html"/>
 </widget>

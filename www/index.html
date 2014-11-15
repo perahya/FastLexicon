@@ -11,6 +11,17 @@
   <script type="text/javascript" src="js/lexiconstorage.js"></script>  
   <script type="text/javascript" src="js/myengine.js"></script>  
   <meta name="viewport" content="width=device-width">
+  
+  <script type="text/javascript" charset="utf-8">
+    // Wait for device API libraries to load
+    document.addEventListener("deviceready", onDeviceReady, false);
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        navigator.splashscreen.show();
+    }
+  </script>
+  
   <style>
 /* Demo Styles */
 html {

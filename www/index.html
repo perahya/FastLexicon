@@ -246,14 +246,20 @@ a {
 
   </style>
   <script>
-    // Wait for device API libraries to load    
-    function onLoad() {
-        //document.addEventListener("deviceready", onDeviceReady, false);
-        startMyApp();
+    function onBodyLoad()
+    {
+        //if phonegap, need to toggle these
+         if (typeof navigator.device == "undefined"){
+              document.addEventListener("deviceready", onDeviceReady, false);
+         } else {
+         onDeviceReady();
+         }
     }
-
-    // device APIs are available    
-    function onDeviceReady() {
+    
+    /* When this function is called, PhoneGap has been initialized and is ready to roll */
+    function onDeviceReady()
+    {               
+        // do your thing!
         // Now safe to use device APIs        
         /*navigator.notification.alert(
             'You are the winner!',  // message
@@ -261,12 +267,13 @@ a {
             'Game Over',            // title
             'Done'                  // buttonName
         );*/
-
+        
         startMyApp();
-    }
+    }                  
+    
   </script>
 </head>
-<body onload="onLoad();">
+<body onload="onBodyLoad;">
   <div class="preloader">
     Loading...
   </div>

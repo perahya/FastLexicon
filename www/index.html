@@ -259,6 +259,15 @@ a {
   <script src="js/libs/jquery-1.10.1.min.js"></script>
   <script src="js/libs/idangerous.swiper.min.js"></script>
   <script>    
+      
+  navigator.notification.alert(
+    'You are the winner!',  // message
+    alertDismissed,         // callback
+    'Game Over',            // title
+    'Done'                  // buttonName
+);
+    
+      
   var width = screen.width;
   var height = screen.height;  
   var _maxDisplayedWords = 6;
@@ -646,12 +655,6 @@ function displayStatistics() {
     // do something
 }
 
-navigator.notification.alert(
-    'You are the winner!',  // message
-    alertDismissed,         // callback
-    'Game Over',            // title
-    'Done'                  // buttonName
-);
   
   </script>
 </body>

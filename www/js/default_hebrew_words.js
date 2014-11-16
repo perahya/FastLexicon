@@ -231,7 +231,7 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["להספיק","suffire (réussir à temps)","להספיק","léaspik"],
 ["פתרון","solution","פתרון","pitarone"],
 ["פתרונות","solutions","פתרונות","pitronote"],
-["איזו חוצפה","quel culot !","איזו חוצפה","eizo routspa !"],
+["איזו חוצפה","quel culot !","איזו חוצפה","eizo khoutspâ !"],
 ["ישיר","direct","ישיר","yachir"],
 ["הרע במיעוטו","le moins pire","הרע במיעוטו","ara bimiyouto"],
 ["מטרה","but/objectif","מטרה","matara"],

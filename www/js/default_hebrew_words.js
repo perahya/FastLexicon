@@ -1665,7 +1665,7 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["אפליה","discrimination/favoritisme","אפליה","aflaya"],
 ["מסטול","bourré/défoncé","מסטול","mastoule"],
 ["להתמסטל","devenir bourré/défoncé","להתמסטל","léhitmastèle"],
-["ממסד","institution/bureaucratie","ממסד","misdade"],
+["ממסד","institution/bureaucratie","ממסד","mimsade"],
 ["דמות משנית","second rôle","דמות משנית","dmoute mishnite"],
 ["שוחד_1","pot de vin/dessous de table","שוחד","shokhade"],
 ["להיפגע","être blessé (physiquement ou mentalement)/être offensé","להיפגע","léhipaga"],

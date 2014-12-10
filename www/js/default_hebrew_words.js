@@ -503,8 +503,8 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["להעסיק","employer/embaucher","להעסיק","léaasik"],
 ["איכות","qualité","איכות","ékhoûte"],
 ["לצפות מראש","prévoir à l'avance/anticiper","לצפות מראש","litspote méroche"],
-["לצפות_1","regarder/observer/prévoir","לצפות (פעל)","litspote"],
-["צפייה_1","observation","צפייה (פעל)","tsfiya"],
+["לצפות_1","regarder/observer/prévoir","לצפות ","litspote"],
+["צפייה_1","observation","צפייה ","tsfiya"],
 ["להקדים","anticiper/antidater","להקדים","léhakdime"],
 ["הקדמה","introduction","הקדמה","hakdama"],
 ["הקשבה","attention/écoute","הקשבה","hakchava"],
@@ -557,7 +557,7 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["מאליו","en soi","מאליו","méélave"],
 ["ענקי","gigantesque","ענקי","anakî"],
 ["קצה","bout (extrémité)","קצה","katsê"],
-["ציפייה","attente (espoir)","ציפייה","tsipiyâ"],
+["ציפייה_2","attente/espoir/aspiration","ציפייה","tsipiyâ"],
 ["המתנה","attente","המתנה","hamtanâ"],
 ["מעש","acte (action)","מעש","mâ'asse"],
 ["ללדת","accoucher/mettre au monde","ללדת","lalédète"],
@@ -1799,5 +1799,4 @@ var _default_hebrew_words = [["להפגין","manifester","להפגין","léhaf
 ["שובב","vilain/malicieux","שובב","shovave"],
 ["מלא גועל","dégoûté","מלא גועל","malé goale"],
 ["מבוייש","honteux","מבוייש","mévouyashe"],
-["לצפות_2","s'attendre à","לצפות (פיעל)","létsapote"],
-["צפיה_2","attente/espoir/aspiration","צפיה (פיעל)","tsipiya"]];
+["לצפות_2","s'attendre à","לצפות","létsapote"]];
